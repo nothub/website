@@ -1,0 +1,21 @@
+<header>
+  <div style="position: relative">
+    <a href="https://web.archive.org/web/20210312101244/http://www.kopimi.com/kopimi/" target="_blank">
+      <img id="kopimi" alt="kopimi" src="{{ .Site.BaseURL }}kopimi.svg">
+    </a>
+  </div>
+  <table style="width:auto">
+    <tbody style="border:0">
+    <tr style="border:0">
+      <td><p id="house">_̴ı̴̴̡̡̡ ̡̡ ̡͌l̡*̡̡ ̴̡ı̴̴̡ ̡̡͡|̲̲̲͡͡͡ ̲▫̲͡ ̲̲̲͡͡π̲̲͡͡ ̲̲͡▫̲̲͡͡ ̲|̡̡̡ ̡ ̴̡ı̴̡̡ ̡͌l̡̡̡ ̡͌l̡._</p></td>
+      <td>
+        <nav>
+          {{ range .Site.Menus.main -}}
+          <a class="nav_link" href="{{ .URL }}">{{ print .Name }}</a>
+          {{ end -}}
+        </nav>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</header>

@@ -1,0 +1,25 @@
+name: '🧑‍🏭'
+on: [ push ]
+jobs:
+  ci:
+    permissions:
+      id-token: write
+      deployments: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: cachix/install-nix-action@v18
+        with:
+          nix_path: nixpkgs=channel:nixos-22.05
+      - run: nix flake check
+      - run: |
+          nix flake metadata
+          nix flake show
+      - run: nix build
+      - uses: cloudflare/pages-action@v1.1.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: "nothub"
+          directory: "result/srv/"
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

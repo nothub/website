@@ -1,0 +1,19 @@
+{{ define "main" }}
+  <article>
+    <h1>{{ .Title }}</h1>
+    {{ with .Date }}
+      <time>{{ .Format "2006-01-02" }}</time>
+    {{ end }}
+    {{ with .Params.tags }}
+      [
+      {{ range . }}
+        {{ $href := print (absURL "tags/") (urlize .) }}
+        <a href="{{ $href }}">{{ . }}</a>
+      {{ end }}
+      ]
+    {{ end }}
+    {{ .Content }}
+  </article>
+  <br>
+  <p style="text-align:center;font-weight:bold">␃</p>
+{{ end }}

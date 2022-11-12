@@ -1,0 +1,25 @@
+{{ define "main" }}
+  <ul>
+  {{ range .Pages.ByPublishDate.Reverse }}
+    <li>
+      <section>
+        <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+        {{ with .Date }}
+          <time>{{ .Format "2006-01-02" }}</time>
+        {{ end }}
+        {{ with .Params.tags }}
+          [
+          {{ range . }}
+            {{ $href := print (absURL "tags/") (urlize .) }}
+            <a href="{{ $href }}">{{ . }}</a>
+          {{ end }}
+          ]
+        {{ end }}
+        {{ with .Summary }}
+          <p>{{ . | truncate 256 }}</p>
+        {{ end }}
+      </section>
+    </li>
+  {{ end }}
+  </ul>
+{{ end }}

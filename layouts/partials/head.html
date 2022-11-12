@@ -1,0 +1,24 @@
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="data:image/png;base64,">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+  <title>{{ .Site.Title }}{{ if not .IsHome }}{{ print " | " .Title }}{{ end }}</title>
+  {{ with .Date -}}
+    <meta name="dcterms.date" content="{{ .Format "2006-01-02" }}">
+  {{ end -}}
+  {{ with .Params.description -}}
+    <meta name="description" content="{{ . }}">
+  {{ end -}}
+  {{ with .Params.tags -}}
+    <meta name="keywords" content="{{ delimit . ", " }}">
+  {{ end -}}
+  <meta name="author" content="hub">
+  <meta name="ICBM" content="52.265, 10.525">
+  {{ range .AlternativeOutputFormats -}}
+    {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+  {{ end -}}
+  <link rel="stylesheet" href="{{ .Site.BaseURL }}style.css">
+  <meta property="og:image" content="{{ .Site.BaseURL }}embed.webp">
+  <meta property="twitter:card" content="summary_large_image">
+  <meta name="generator" content="Hugo -- gohugo.io">
+</head>

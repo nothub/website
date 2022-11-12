@@ -1,0 +1,51 @@
+title: 'hub.lol'
+baseURL: 'https://hub.lol/'
+languageCode: 'en-us'
+
+author:
+  name: 'hub'
+  email: 'contact@hub.lol'
+  irc: 'hub@libera.chat'
+  discord: 'hub#6408'
+  github: 'nothub'
+  codewars: 'nothub'
+  linkedin: 'flhuebner'
+
+rssLimit: 8
+
+imaging:
+  exif:
+    disableDate: true
+    disableLatLong: true
+
+markup:
+  highlight:
+    style: 'bw'
+    tabWidth: 4
+
+permalinks:
+  posts: "/:year/:month/:day/:slug/"
+
+menu:
+  main:
+    - name: 'About'
+      url: '/'
+      weight: 1
+    - name: 'Stuff'
+      url: '/stuff/'
+      weight: 2
+    - name: 'Ramblings'
+      url: '/posts/'
+      weight: 3
+#    - name: 'RSS'
+#      url: '/posts/index.xml'
+#      weight: 4
+
+privacy:
+  twitter:
+    enableDNT: true
+    simple: true
+  vimeo:
+    enableDNT: true
+  youtube:
+    privacyEnhanced: true

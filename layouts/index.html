@@ -1,0 +1,43 @@
+{{ define "main" }}
+<table style="width: auto">
+  <tbody style="border: 0">
+  <tr style="border: 0">
+    <td style="vertical-align: center;">
+      <section style="width: 90%">
+        {{ .Content }}
+      </section>
+    </td>
+    <td style="width: auto">
+      <aside>
+        <dl>
+          {{ with .Site.Author.email }}
+            <dt>email</dt>
+            <dd><a href="mailto:{{ . }}">{{ . }}</a></dd>
+          {{ end }}
+          {{ with .Site.Author.irc }}
+            <dt>irc</dt>
+            <dd>{{ . }}</dd>
+          {{ end }}
+          {{ with .Site.Author.discord }}
+            <dt>discord</dt>
+            <dd>{{ . }}</dd>
+          {{ end }}
+          {{ with .Site.Author.github }}
+            <dt>github</dt>
+            <dd><a href="https://github.com/{{ . }}" target="_blank">{{ . }}</a></dd>
+          {{ end }}
+          {{ with .Site.Author.codewars }}
+            <dt>codewars</dt>
+            <dd><a href="https://www.codewars.com/users/{{ . }}" target="_blank">{{ . }}</a></dd>
+          {{ end }}
+          {{ with .Site.Author.linkedin }}
+            <dt>linkedin</dt>
+            <dd><a href="https://www.linkedin.com/in/{{ . }}" target="_blank">{{ . }}</a></dd>
+          {{ end }}
+        </dl>
+      </aside>
+    </td>
+  </tr>
+  </tbody>
+</table>
+{{ end }}

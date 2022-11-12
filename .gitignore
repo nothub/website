@@ -1,0 +1,6 @@
+/.idea/
+/.vscode/
+/.direnv/
+/build/
+/result
+/.hugo_build.lock
