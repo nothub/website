@@ -5,8 +5,8 @@ default: clean build tidy
 # invoked by nix stdenv derivation default installPhase
 .PHONY: install
 install:
-	mkdir -p "${out}/srv"
-	cp -vR "build/"* "${out}/srv"
+	mkdir -p "${out}/srv/http/hub.lol"
+	cp -vR "build/"* "${out}/srv/http/hub.lol"
 
 .PHONY: clean
 clean:
