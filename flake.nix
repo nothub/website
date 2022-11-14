@@ -17,7 +17,7 @@
         pkgs.stdenv.mkDerivation {
           name = "website";
           meta = with pkgs.stdenv.lib; {
-            homepage = "https://hub.lol";
+            homepage = "https://hub.lol/";
             licenses = licenses.cc-by-40;
           };
           src = nix-filter.lib {
@@ -34,6 +34,12 @@
             ];
           };
           nativeBuildInputs = with pkgs; [ hugo html-tidy ];
+          installPhase = ''
+            runHook preInstall
+            mkdir -p "$out/srv/http/hub.lol/"
+            cp -vR "work/"* "$out/srv/http/hub.lol/"
+            runHook postInstall
+          '';
           shellHook = "source <(hugo completion bash)";
         };
   };

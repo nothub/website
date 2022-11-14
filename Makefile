@@ -1,17 +1,10 @@
-# invoked by nix stdenv derivation default buildPhase
 .PHONY: default
 default: clean build tidy
-
-# invoked by nix stdenv derivation default installPhase
-.PHONY: install
-install:
-	mkdir -p "${out}/srv/http/hub.lol"
-	cp -vR "build/"* "${out}/srv/http/hub.lol"
 
 .PHONY: clean
 clean:
 	-rm -rf \
-		"build" \
+		"work" \
 		"result" \
 		".hugo_build.lock"
 
@@ -21,11 +14,11 @@ build:
 		--cleanDestinationDir \
 		--ignoreCache \
 		--verbose \
-		--destination "build"
+		--destination "work"
 
 .PHONY: tidy
 tidy:
-	find "build" \
+	find "work" \
 	    -type "f" \
 	    -iname "*.html" \
 	    -exec tidy -config "tidy.conf" {} \;
