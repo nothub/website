@@ -4,7 +4,7 @@ default: clean build tidy
 .PHONY: clean
 clean:
 	-rm -rf \
-		"work" \
+		"public" \
 		"result" \
 		".hugo_build.lock"
 
@@ -13,12 +13,11 @@ build:
 	hugo \
 		--cleanDestinationDir \
 		--ignoreCache \
-		--verbose \
-		--destination "work"
+		--verbose
 
 .PHONY: tidy
 tidy:
-	find "work" \
+	find "public" \
 	    -type "f" \
 	    -iname "*.html" \
 	    -exec tidy -config "tidy.conf" {} \;

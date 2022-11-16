@@ -1,6 +1,5 @@
 /.idea/
 /.vscode/
 /.direnv/
-/work/
-/result
+/public/
 /.hugo_build.lock
