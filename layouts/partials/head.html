@@ -15,10 +15,10 @@
   <meta name="author" content="hub">
   <meta name="ICBM" content="52.265, 10.525">
   {{ range .AlternativeOutputFormats -}}
-    {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+    {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .RelPermalink $.Site.Title | safeHTML }}
   {{ end -}}
-  <link rel="stylesheet" href="{{ .Site.BaseURL }}style.css">
-  <meta property="og:image" content="{{ .Site.BaseURL }}embed.webp">
+  <link rel="stylesheet" href="{{ .RelPermalink }}style.css">
+  <meta property="og:image" content="{{ .RelPermalink }}embed.webp">
   <meta property="twitter:card" content="summary_large_image">
   <meta name="generator" content="Hugo -- gohugo.io">
 </head>
