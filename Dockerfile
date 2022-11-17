@@ -1,3 +1,10 @@
-FROM busybox:stable-musl
+FROM nixos/nix
+
+RUN nix-channel --update  \
+ && nix-env --upgrade \
+ && nix-env --install --attr nixpkgs.darkhttpd
+
 COPY public /srv/http/hub.lol/
-CMD ["httpd", "-f", "-u", "42000:42000", "-h", "/srv/http/hub.lol/"]
+
+ENTRYPOINT ["darkhttpd", "/srv/http/hub.lol/", "--chroot", "--no-listing"]
+CMD ["--port", "8080"]
