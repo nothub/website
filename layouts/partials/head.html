@@ -17,8 +17,9 @@
   {{ range .AlternativeOutputFormats -}}
     {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .RelPermalink $.Site.Title | safeHTML }}
   {{ end -}}
-  <link rel="stylesheet" href="{{ .RelPermalink }}style.css">
-  <meta property="og:image" content="{{ .RelPermalink }}embed.webp">
+  {{ $style := resources.Get "style.css" | resources.Fingerprint "sha256" }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+  <meta property="og:image" content="/man.gif">
   <meta property="twitter:card" content="summary_large_image">
   <meta name="generator" content="Hugo -- gohugo.io">
 </head>

@@ -12,7 +12,6 @@ author:
   linkedin: 'flhuebner'
 
 rssLimit: 8
-relativeURLs: true
 
 imaging:
   exif:
@@ -38,9 +37,6 @@ menu:
     - name: 'Ramblings'
       url: '/posts/'
       weight: 3
-#    - name: 'RSS'
-#      url: '/posts/index.xml'
-#      weight: 4
 
 privacy:
   twitter:

@@ -83,7 +83,7 @@ transporters off. A strange set-up, but I'd say the graviton generator is depola
 scrapes are the leavings of natural rubber, a type of non-conductive sole used by researchers experimenting with
 electricity. The molecules must have been partly de-phased by the anyon beam.
 
-![unix spellbook](man.gif)
+![unix spellbook](/man.gif)
 
 Exceeding reaction chamber thermal limit. We have begun power-supply calibration. Force fields have been established on
 all turbo lifts and crawlways. Computer, run a level-two diagnostic on warp-drive systems. Antimatter containment
