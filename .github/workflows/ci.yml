@@ -24,8 +24,9 @@ jobs:
           key: "nix-store-${{ hashFiles(format('{0}/shell.nix', github.workspace)) }}"
 
       - name: "Import Nix store cache"
-        run: "nix-store --import < /tmp/nixcache"
         if: "steps.nix-cache.outputs.cache-hit == 'true'"
+        run: |
+          nix-store --import < /tmp/nixcache
 
       - name: 'Build website'
         run: |
@@ -33,7 +34,8 @@ jobs:
 
       - name: "Export Nix store cache"
         if: "steps.nix-cache.outputs.cache-hit != 'true'"
-        run: "nix-store --export $(find /nix/store -maxdepth 1 -name '*-*') > /tmp/nixcache"
+        run: |
+          nix-store --export $(find /nix/store -maxdepth 1 -name '*-*') > /tmp/nixcache
 
       - name: 'Publish to Cloudflare Pages'
         uses: cloudflare/pages-action@v1.1.0
