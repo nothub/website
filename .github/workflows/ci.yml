@@ -21,11 +21,9 @@ jobs:
         id: nix-cache
         with:
           path: "/tmp/nixcache"
-          key: "${{ runner.os }}-nix-${{ hashFiles('./shell.nix') }}"
-
-      - name: 'Import Nix store cache'
+          key: "${{ runner.os }}-nix-${{ hashFiles(env.GITHUB_WORKSPACE'/shell.nix') }}"
+      - run: "nix-store --import < /tmp/nixcache"
         if: "steps.nix-cache.outputs.cache-hit == 'true'"
-        run: "nix-store --import < /tmp/nixcache"
 
       - name: 'Build website'
         run: |
@@ -40,13 +38,14 @@ jobs:
           directory: "public/"
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 'Publish to Docker Hub'
+      - name: 'Build Docker image'
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - uses: docker/build-push-action@v3
+      - name: 'Publish to Docker Hub'
+        uses: docker/build-push-action@v3
         with:
           context: .
           push: true

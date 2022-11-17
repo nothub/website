@@ -1,2 +1,3 @@
-FROM nginx:1-alpine
-COPY public /usr/share/nginx/html
+FROM busybox:stable-musl
+COPY public /srv/http/hub.lol/
+CMD ["httpd", "-f", "-u", "42000:42000", "-h", "/srv/http/hub.lol/"]

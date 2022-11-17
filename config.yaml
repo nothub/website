@@ -12,6 +12,7 @@ author:
   linkedin: 'flhuebner'
 
 rssLimit: 8
+relativeURLs: true
 
 imaging:
   exif:
