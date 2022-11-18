@@ -77,6 +77,20 @@ p {
   }
 }
 
+/* hide decoration on small screens */
+
+@media only screen and (max-width: 420px) {
+  #house {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  #kopimi {
+    display: none;
+  }
+}
+
 /* links */
 
 a:active, a:link, a:visited {
