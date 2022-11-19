@@ -19,4 +19,4 @@ COPY public /srv/http/hub.lol/
 
 EXPOSE 8080
 
-CMD ["/sbin/tini", "-vv", "--", "darkhttpd", "/srv/http/hub.lol/", "--chroot", "--uid",  "4242", "--gid",  "4242", "--port", "8080"]
+CMD ["/sbin/tini", "-vv", "--", "darkhttpd", "/srv/http/hub.lol/", "--chroot", "--no-listing", "--uid",  "4242", "--gid",  "4242", "--port", "8080"]
