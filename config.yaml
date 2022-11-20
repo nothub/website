@@ -2,16 +2,6 @@ title: 'hub.lol'
 baseURL: 'https://hub.lol/'
 languageCode: 'en-us'
 
-author:
-  name: 'hub'
-  email: 'contact@hub.lol'
-  irc: 'hub@libera.chat'
-  discord: 'hub#6408'
-  mastodon: 'hub@qoto.org'
-  github: 'nothub'
-  codewars: 'nothub'
-  linkedin: 'flhuebner'
-
 rssLimit: 8
 
 imaging:
