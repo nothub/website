@@ -54,3 +54,15 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/website:latest
+
+      - name: 'Trigger deployment'
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        run: >
+          curl
+          --fail
+          --head
+          --silent
+          --location
+          --header "Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}"
+          --insecure
+          "https://watchtower.hub.lol/v1/update"
