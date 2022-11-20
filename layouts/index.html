@@ -22,17 +22,21 @@
             <dt>discord</dt>
             <dd>{{ . }}</dd>
           {{ end }}
+          {{ with .Site.Author.mastodon }}
+            <dt>mastodon</dt>
+            <dd>{{ . }}/dd>
+          {{ end }}
           {{ with .Site.Author.github }}
             <dt>github</dt>
-            <dd><a href="https://github.com/{{ . }}" target="_blank">{{ . }}</a></dd>
+            <dd><a href="https://github.com/{{ . }}" rel="me" target="_blank">{{ . }}</a></dd>
           {{ end }}
           {{ with .Site.Author.codewars }}
             <dt>codewars</dt>
-            <dd><a href="https://www.codewars.com/users/{{ . }}" target="_blank">{{ . }}</a></dd>
+            <dd><a href="https://www.codewars.com/users/{{ . }}" rel="me" target="_blank">{{ . }}</a></dd>
           {{ end }}
           {{ with .Site.Author.linkedin }}
             <dt>linkedin</dt>
-            <dd><a href="https://www.linkedin.com/in/{{ . }}" target="_blank">{{ . }}</a></dd>
+            <dd><a href="https://www.linkedin.com/in/{{ . }}" rel="me" target="_blank">{{ . }}</a></dd>
           {{ end }}
         </dl>
       </aside>
