@@ -22,12 +22,9 @@ menu:
     - name: 'About'
       url: '/'
       weight: 1
-    - name: 'Stuff'
-      url: '/stuff/'
-      weight: 2
     - name: 'Ramblings'
       url: '/posts/'
-      weight: 3
+      weight: 2
 
 privacy:
   twitter:
