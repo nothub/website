@@ -1,0 +1,20 @@
+{{ define "main" }}
+<ul>
+  <p>Some stuff I have read and learned something cool from (in no particular order):</p>
+  {{ range $.Site.Data.reads }}
+  <li>
+    <section>
+      <h3><a href="{{ .url }}">{{ .title }}</a></h3>
+      {{ with .tags }}
+        [
+        {{ range . }}
+          {{ . }}
+        {{ end }}
+        ]
+      {{ end }}
+    </section>
+  </li>
+  {{ end }}
+</ul>
+<!-- TODO: tag cloud + tag selector -->
+{{ end }}
