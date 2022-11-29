@@ -1,6 +1,5 @@
 {{ define "main" }}
-<ul>
-  <p>Some stuff I have read and learned something cool from (in no particular order):</p>
+<ul id="reads">
   {{ range $.Site.Data.reads }}
   <li>
     <section>
@@ -8,7 +7,7 @@
       {{ with .tags }}
         [
         {{ range . }}
-          {{ . }}
+          <a class="tag" href="#" onclick="select_tag(this.textContent)">{{ . }}</a>
         {{ end }}
         ]
       {{ end }}
@@ -16,5 +15,6 @@
   </li>
   {{ end }}
 </ul>
-<!-- TODO: tag cloud + tag selector -->
+{{ $readsJs := resources.Get "reads.js" | resources.Fingerprint "sha256" }}
+<script type="text/javascript" src="{{ $readsJs.RelPermalink }}"/>
 {{ end }}
