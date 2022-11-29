@@ -1,0 +1,81 @@
+---
+
+- title: "Hexing the technical interview"
+  url: "https://aphyr.com/posts/341-hexing-the-technical-interview"
+  tags: [ "jvm", "clojure", "bytecode" ]
+
+- title: "Hexagonal Grids"
+  url: "https://www.redblobgames.com/grids/hexagons"
+  tags: [ "design", "hexagons" ]
+
+- title: "Hello World under the microscope"
+  url: "https://gynvael.coldwind.pl/?lang=en&id=754"
+  tags: [ "programming", "python", "deep-dive", "windows" ]
+
+- title: "On the road to pure Go X11 GUIs"
+  url: "https://p.janouch.name/article-xgb.html"
+  tags: [ "golang", "x11" ]
+
+- title: "GNU Make Cheatsheet"
+  url: "https://gist.github.com/rueycheng/42e355d1480fd7a33ee81c866c7fdf78"
+  tags: [ "make", "cheatsheet" ]
+
+- title: "Bash Weaknesses (Things BASH is not very good at)"
+  url: "https://mywiki.wooledge.org/BashWeaknesses"
+  tags: [ "bash" ]
+
+- title: "Docker and the OCI container ecosystem"
+  url: "https://lwn.net/SubscriberLink/902049/374614a66c0367f3/"
+  tags: [ "docker", "containers" ]
+
+- title: "Posix make specifications"
+  url: "https://pubs.opengroup.org/onlinepubs/9699919799/utilities/make.html"
+  tags: [ "make", "spec" ]
+
+- title: "A Tutorial on Portable Makefiles"
+  url: "https://nullprogram.com/blog/2017/08/20/"
+  tags: [ "make" ]
+
+- title: "Prometheus Cheatsheets"
+  url: "https://blog.ruanbekker.com/cheatsheets/prometheus/"
+  tags: [ "prometheus", "monitoring", "cheatsheet" ]
+
+- title: "Redis Explained - An in-depth tutorial"
+  url: "https://architecturenotes.co/redis/"
+  tags: [ "redis", "deep-dive" ]
+
+- title: "Advanced Bash-Scripting Guide"
+  url: "https://tldp.org/LDP/abs/html/"
+  tags: [ "bash" ]
+
+- title: "Signing Git Commits with Your SSH Key"
+  url: "https://calebhearth.com/sign-git-with-ssh"
+  tags: [ "git", "ssh" ]
+
+- title: "Schedule jobs with systemd timers, a cron alternative"
+  url: "https://dev.to/bowmanjd/schedule-jobs-with-systemd-timers-a-cron-alternative-15l8"
+  tags: [ "systemd" ]
+
+- title: "systemd Shutdown Units"
+  url: "https://www.psdn.io/posts/systemd-shutdown-unit/"
+  tags: [ "systemd", "best-practices" ]
+
+- title: "pure sh bible"
+  url: "https://github.com/dylanaraps/pure-sh-bible"
+  tags: [ "shell", "by-example" ]
+
+- title: "pure bash bible"
+  url: "https://github.com/dylanaraps/pure-bash-bible"
+  tags: [ "bash", "by-example" ]
+
+- title: "50 Useful Vim Commands"
+  url: "https://vimtricks.com/p/50-useful-vim-commands/"
+  tags: [ "vim", "cheatsheet" ]
+
+- title: "Crafting Interpreters"
+  url: "https://www.craftinginterpreters.com/contents.html"
+  tags: [ "book", "programming", "language-design", "interpreters", "compilers" ]
+
+- title: "The Missing Semester of Your CS Education"
+  url: "https://missing.csail.mit.edu/"
+  tags: [ "shell", "vim", "git", "by-example" ]
