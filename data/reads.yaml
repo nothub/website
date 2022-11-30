@@ -74,8 +74,12 @@
 
 - title: "Crafting Interpreters"
   url: "https://www.craftinginterpreters.com/contents.html"
-  tags: [ "book", "programming", "language-design", "interpreters", "compilers" ]
+  tags: [ "book", "language-design", "interpreters", "compilers" ]
 
 - title: "The Missing Semester of Your CS Education"
   url: "https://missing.csail.mit.edu/"
-  tags: [ "shell", "vim", "git", "by-example" ]
+  tags: [ "by-example", "shell", "vim", "git" ]
+
+- title: "RFC1855 - Netiquette Guidelines"
+  url: "https://www.rfc-editor.org/rfc/rfc1855"
+  tags: [ "rfc", "community" ]
