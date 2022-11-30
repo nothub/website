@@ -3,24 +3,11 @@
 {{ partial "head.html" . }}
 <body>
   {{ partial "header.html" . }}
-  <button id="button_scroll_top" onclick="scroll_top()" title="top" style="position: fixed; right: 15px; top: 10px">☝</button>
   <main>
     {{ block "main" . }}{{ end }}
   </main>
   <img alt="" src="https://ipv4.games/claim?name=nothub@github" width="0" height="0" style="position: fixed; display: none">
-  <script type="text/javascript">
-    function scroll_top() {
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-    }
-    document.getElementById("button_scroll_top").style.display = "none";
-    window.onscroll = function () {
-        if (document.documentElement.scrollTop >= 10 || document.body.scrollTop >= 10) {
-            document.getElementById("button_scroll_top").style.display = "block";
-        } else {
-            document.getElementById("button_scroll_top").style.display = "none";
-        }
-    };
-  </script>
+  {{ $scrollTopJs := resources.Get "scrolltop.js" | resources.Fingerprint "sha256" }}
+  <script type="text/javascript" src="{{ $scrollTopJs.RelPermalink }}"></script>
 </body>
 </html>
