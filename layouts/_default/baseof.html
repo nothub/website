@@ -8,6 +8,6 @@
   </main>
   <img alt="" src="https://ipv4.games/claim?name=nothub@github" width="0" height="0" style="position: fixed; display: none">
   {{ $scrollTopJs := resources.Get "scrolltop.js" | resources.Fingerprint "sha256" }}
-  <script type="text/javascript" src="{{ $scrollTopJs.RelPermalink }}"></script>
+  <script type="text/javascript" src="{{ $scrollTopJs.RelPermalink }}" integrity="{{ $scrollTopJs.Data.Integrity }}"></script>
 </body>
 </html>

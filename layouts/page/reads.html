@@ -16,5 +16,5 @@
   {{ end }}
 </ul>
 {{ $readsJs := resources.Get "reads.js" | resources.Fingerprint "sha256" }}
-<script type="text/javascript" src="{{ $readsJs.RelPermalink }}"></script>
+<script type="text/javascript" src="{{ $readsJs.RelPermalink }}" integrity="{{ $readsJs.Data.Integrity }}"></script>
 {{ end }}
