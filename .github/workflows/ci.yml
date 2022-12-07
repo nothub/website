@@ -61,7 +61,6 @@ jobs:
           curl
           --fail
           --head
-          --silent
-          --location
+          --no-progress-meter
           --header "Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}"
           "${{ secrets.WATCHTOWER_URL }}"
