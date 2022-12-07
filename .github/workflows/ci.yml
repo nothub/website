@@ -64,5 +64,4 @@ jobs:
           --silent
           --location
           --header "Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}"
-          --insecure
-          "https://watchtower.hub.lol/v1/update"
+          "${{ secrets.WATCHTOWER_URL }}"
