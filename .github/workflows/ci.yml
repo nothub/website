@@ -17,7 +17,7 @@ jobs:
           nix_path: "nixpkgs=channel:nixos-22.05"
 
       - name: 'Activate Nix store cache'
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@v3.2.0
         id: nix-cache
         with:
           path: "/tmp/nixcache"
