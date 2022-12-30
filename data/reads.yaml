@@ -78,7 +78,7 @@
 
 - title: "Crafting Interpreters"
   url: "https://www.craftinginterpreters.com/contents.html"
-  tags: [ "book", "language-design", "interpreters", "compilers" ]
+  tags: [ "book", "language-design", "interpreters" ]
 
 - title: "The Missing Semester of Your CS Education"
   url: "https://missing.csail.mit.edu/"
@@ -87,3 +87,11 @@
 - title: "RFC1855 - Netiquette Guidelines"
   url: "https://www.rfc-editor.org/rfc/rfc1855"
   tags: [ "rfc", "community" ]
+
+- title: "Sigils are an underappreciated programming technology"
+  url: "https://raku-advent.blog/2022/12/20/sigils/"
+  tags: [ "language-design" ]
+
+- title: "Too much efficiency makes everything worse: overfitting and the strong version of Goodhart's law"
+  url: "https://sohl-dickstein.github.io/2022/11/06/strong-Goodhart.html"
+  tags: [ "machine-learning" ]
