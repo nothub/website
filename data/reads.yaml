@@ -95,3 +95,7 @@
 - title: "Too much efficiency makes everything worse: overfitting and the strong version of Goodhart's law"
   url: "https://sohl-dickstein.github.io/2022/11/06/strong-Goodhart.html"
   tags: [ "machine-learning" ]
+
+- title: "Lies we tell ourselves to keep using Golang"
+  url: "https://fasterthanli.me/articles/lies-we-tell-ourselves-to-keep-using-golang"
+  tags: [ "golang", "rant" ]
