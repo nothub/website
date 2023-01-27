@@ -1,0 +1,34 @@
+---
+# TODO: fetch infos from github api (https://github.com/orgs/community/discussions/24350)
+
+authored:
+  - "https://github.com/nothub/advent-of-code"
+  - "https://github.com/nothub/codewars"
+  - "https://github.com/nothub/debian-autoinstall"
+  - "https://github.com/nothub/dotfiles"
+  - "https://github.com/nothub/factorio-mods"
+  - "https://github.com/nothub/headlessbot"
+  - "https://github.com/nothub/docker-images"
+  - "https://github.com/nothub/infra"
+  - "https://github.com/nothub/kaitai-docker"
+  - "https://github.com/nothub/mdbook-plantuml-docker"
+  - "https://github.com/nothub/menumusic"
+  - "https://github.com/nothub/mrpack-install"
+  - "https://github.com/nothub/openttd-docker"
+  - "https://github.com/nothub/pandoc-notes"
+  - "https://github.com/nothub/rssgen"
+  - "https://github.com/nothub/SafeTPA"
+  - "https://github.com/nothub/TinyEventBus"
+  - "https://github.com/nothub/ts3-docker"
+  - "https://github.com/nothub/website"
+  - "https://github.com/nothub/WoW-Addons"
+  - "https://github.com/scm-manager/goscm"
+  - "https://gist.github.com/nothub/7573beebfb8f02a8b67ebd334ec97ab2"
+
+contributed:
+  - "https://github.com/containrrr/watchtower"
+  - "https://github.com/hexops/dockerfile"
+  - "https://github.com/mbentley/docker-teamspeak"
+  - "https://github.com/nopjmp/Dionysus"
+  - "https://github.com/rfvgyhn/docker-avorion"
+  - "https://gist.github.com/nothub/91ff81bd945eb8f1e6af08492a13ff75"
