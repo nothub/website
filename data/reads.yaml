@@ -99,3 +99,7 @@
 - title: "Lies we tell ourselves to keep using Golang"
   url: "https://fasterthanli.me/articles/lies-we-tell-ourselves-to-keep-using-golang"
   tags: [ "golang", "rant" ]
+
+- title: "A beginner’s guide to finding user needs"
+  url: "https://jdittrich.github.io/userNeedResearchBook/"
+  tags: [ "ux", "humans" ]
