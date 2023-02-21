@@ -68,3 +68,15 @@ not nice: this is not a shebang! whatever shell is invoking this script will als
 this is intended to be interpreted by bash, not sh!
 
 todo for sh compat: remove array usage
+
+---
+
+shebang.go
+- [ ] valid shell
+- [ ] valid bash
+- [ ] valid go
+
+simple.go
+- [x] valid shell
+- [x] valid bash
+- [x] valid go
