@@ -21,7 +21,7 @@ jobs:
         id: nix-cache
         with:
           path: "/tmp/nixcache"
-          key: "nix-store-${{ hashFiles(format('{0}/shell.nix', github.workspace)) }}"
+          key: "nix-store-${{ hashFiles(format('{0}/Makefile', github.workspace)) }}"
 
       - name: "Import Nix store cache"
         if: "steps.nix-cache.outputs.cache-hit == 'true'"
@@ -30,7 +30,7 @@ jobs:
 
       - name: 'Build website'
         run: |
-          nix-shell --pure --run "make"
+          make
 
       - name: "Export Nix store cache"
         if: >
