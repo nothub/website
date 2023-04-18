@@ -1,7 +1,7 @@
 ---
 title: "Golang Scripts"
 description: "Polyglot Golang-Script with Shell Entrypoint"
-date: "2023-01-03"
+date: "2023-04-18"
 tags: ["go", "shell"]
 draft: true
 ---
@@ -93,6 +93,8 @@ To get rid of the permission error, we can redirect the first commands stderr ou
 $ // 2>/dev/null; echo "test"
 test
 ```
+
+---
 
 ## Generate go.mod
 
