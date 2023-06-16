@@ -6,10 +6,10 @@ tags: ["go", "shell"]
 draft: true
 ---
 
-For a recent project, I needed a portable tool for the recurring task of reading YAML data from an HTTP endpoint.  
+For a recent project, I needed a portable tool for the recurring task of reading YAML data from an HTTP endpoint.
 I was dreading the idea of implementing this in bash, so I started writing the code in Go.
 
-Go however is a compiled language and I do not like to check binary files into version control.  
+Go however is a compiled language and I do not like to check binary files into version control.
 Instead, the tool should be implemented in a single text-file that contains common (uncompiled) go code.
 
 ## Shebang
@@ -49,7 +49,7 @@ func main() {
 }
 ```
 
-To run the polyglot:
+To run the polyglot script:
 
 ```go
 $./simple.go
@@ -57,6 +57,23 @@ Hello, World!
 ```
 
 Looking good so far 👌
+
+## Build Constraint
+
+If the script is included in a Go project, the compiler will probably attempt to include the file.
+To prohibit this behaviour, the `exclude` [build constraint](https://pkg.go.dev/go/build#hdr-Build_Constraints) can be used like this:
+
+```go
+//usr/bin/env -S go run "$0" "$@" ; exit
+//go:build exclude
+package main
+
+func main() {
+    println("Hello, World!")
+}
+```
+
+For Go <= v1.16, instead of `//go:build exclude` the syntax is `//+build exclude`.
 
 ## Handling Dependencies
 
@@ -126,6 +143,7 @@ To generate the `go.mod` file from this information, we can use `tr` and `printf
 
 ## Drawbacks
 
+### Default Shell
 
 
 INFO BOX
