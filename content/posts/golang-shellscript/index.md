@@ -36,9 +36,9 @@ shebang.go:1:1: illegal character U+0023 '#'
 ## Double-Path Trick
 
 I found [this cool trick](https://gist.github.com/msoap/a9ee054f80a58b16867c) by [Serhii Mudryk](https://github.com/msoap).  
-It utilizes the fact that, `//` is a valid Go token (a comment) and, [as defined](https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_271) in the POSIX spec, all subpathes `//` are simplified to `/`.
+It abuses the fact that, `//` is a valid Go token (a comment) and, [as defined](https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_271) in the POSIX spec, redundant path separators `//` will be simplified to `/`.
 
-This has the implication of being syntactically valid shell and Go code at the same time:
+With this trick, we can craft a file that contains valid shell code and valid Go code at the same time:
 
 ```go
 //usr/bin/env -S go run "$0" "$@" ; exit
@@ -52,7 +52,7 @@ func main() {
 To run the polyglot script:
 
 ```go
-$./simple.go
+$ ./simple.go
 Hello, World!
 ```
 
