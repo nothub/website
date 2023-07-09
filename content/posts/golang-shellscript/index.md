@@ -19,8 +19,9 @@ The first idea coming to my mind was to wrap the [`go run`](https://pkg.go.dev/c
 ```go
 #!/usr/bin/env -S go run
 package main
+
 func main() {
-println("Hello, World!")
+    println("Hello, World!")
 }
 ```
 
@@ -67,20 +68,17 @@ To prohibit this behaviour, the `exclude` [build constraint](https://pkg.go.dev/
 //usr/bin/env -S go run "$0" "$@" ; exit
 //go:build exclude
 package main
-
-func main() {
-    println("Hello, World!")
-}
+// ...
 ```
 
-For Go <= v1.16, instead of `//go:build exclude` the syntax is `//+build exclude`.
+For Go <= v1.16, the constraint prefix differs and looks like this: `//+build exclude`
 
 ## Handling Dependencies
 
-Okay but the original problem also requires me to handle YAML, for that I want to use [gopkg.in/yaml.v3](https://pkg.go.dev/gopkg.in/yaml.v3).
+Okay this is all cool but the original problem also requires me to handle YAML, for that I want to use a package like [gopkg.in/yaml.v3](https://pkg.go.dev/gopkg.in/yaml.v3).
 
-In modern Go projects, dependencies are usually declared in the projects `go.mod` file and managed by the `go` cli tool.  
-Ideally we want to leverage the same tooling for the script.
+In modern Go projects, dependencies are typically declared in the project's `go.mod` file and managed by the `go` cli tool.  
+Ideally we want to use the same tooling for the script.
 
 Instead of directly calling `go run` in the script-header, we can add some additional logic to create and use a `go.mod` file on the fly.
 
@@ -92,8 +90,8 @@ There is no way to use shell builtins or anything that is not the reference to a
 We want however to use the full power of the shell language. To do so, we again start the line with our double path token but this time instead of invoking `//usr/bin/env`, we are going to invoke just `//`.
 
 `//` has the correct syntax for a shell command but semantically it does not make much sense (and returns exit code 126).  
-The `sh` shell will tell us that we do not have the correct permissions (`//: Permission denied`).  
-The *bash* shell will tell us that: `//: Is a directory`
+The *sh* shell will tell us that we do not have the correct permissions: `//: Permission denied`  
+The *bash* shell will tell us that `//` is a directory: `//: Is a directory`
 
 However, we do not care about this because, all we want is a command to piggyback on.  
 We can just use the *separation operator* `;` to append another command:
@@ -117,11 +115,11 @@ test
 
 With this method, we can finally build our `go.mod` file!
 
-We are going to use some variables to comfortably hold some infos:
+We are going to use variables to comfortably handle some data:
 
-- `mod_path` will hold the script's own module path
-- `mod_gover` Go version the script will target
-- `mod_pkgs` will hold a comma separated list of dependencies
+- `mod_path` (the script's own module path)
+- `mod_gover` (Go version the script will target)
+- `mod_pkgs` (comma separated list of dependencies)
 
 ```sh
 // 2>/dev/null; mod_path="hub.lol/foo/bar"
@@ -142,6 +140,8 @@ To generate the `go.mod` file from this information, we can use `tr` and `printf
 ## IntelliJ Formatter
 
 ## Drawbacks
+
+drawback: self extracting module needs write permissions in workdir
 
 ### Default Shell
 
@@ -174,20 +174,4 @@ lint header with:
 
 ---
 
-shebang.go
-
-- [ ] valid shell
-- [ ] valid bash
-- [ ] valid go
-
-simple.go
-
-- [x] valid shell
-- [x] valid bash
-- [x] valid go
-
 👋 🌳 🪐
-
----
-
-drawback: self extracting module needs write permissions in workdir
