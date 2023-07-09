@@ -1,4 +1,5 @@
 {{ define "main" }}
+<main>
   <article>
     <h1>{{ .Title }}</h1>
     {{ with .Date }}
@@ -16,9 +17,10 @@
   </article>
   <br>
   <p style="text-align:center;font-weight:bold">␃</p>
-  {{ $anchorJs := resources.Get "anchor.min.js" | resources.Fingerprint "sha256" }}
-  <script type="text/javascript" src="{{ $anchorJs.RelPermalink }}" integrity="{{ $anchorJs.Data.Integrity }}"></script>
-  <script>
-    anchors.add();
-  </script>
+</main>
+{{ $anchorJs := resources.Get "anchor.min.js" | resources.Fingerprint "sha256" }}
+<script type="text/javascript" src="{{ $anchorJs.RelPermalink }}" integrity="{{ $anchorJs.Data.Integrity }}"></script>
+<script>
+  anchors.add();
+</script>
 {{ end }}

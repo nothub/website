@@ -1,4 +1,5 @@
 {{ define "main" }}
+<main>
   <ul>
   {{ range .Pages.ByPublishDate.Reverse }}
     <li>
@@ -24,4 +25,5 @@
     </li>
   {{ end }}
   </ul>
+</main>
 {{ end }}
