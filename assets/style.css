@@ -34,6 +34,12 @@ p {
   margin: 0.5em 0;
 }
 
+hr {
+  margin: 0.5em 0;
+  padding: 1px;
+  background: var(--text);
+}
+
 /* color schemes */
 
 @media (prefers-color-scheme: light) {
@@ -94,7 +100,6 @@ p {
 /* links */
 
 a:active, a:link, a:visited {
-  color: var(--secondary);
   text-decoration: none;
 }
 
@@ -106,6 +111,10 @@ a:hover, a:hover:hover, a:link:hover, a:visited:hover {
 a:hover.footnoteRef, a:link.footnoteRef, a:visited.footnoteRef {
   border-bottom: none;
   color: var(--secondary);
+}
+
+a > code {
+  border: 0
 }
 
 /* headlines */
@@ -321,6 +330,10 @@ aside {
   margin: 0.5em 0;
 }
 
+aside > dl > dd > a {
+  color: var(--secondary);
+}
+
 dt {
   font-weight: bold
 }
@@ -342,8 +355,8 @@ dl > dd {
 /* kopimi */
 
 #kopimi {
-  max-width: 5%;
-  min-width: 25px;
+  max-width: 3%;
+  min-width: 1%;
   animation: 6s linear infinite rotateRight;
   position: absolute;
   top: 0;

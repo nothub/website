@@ -9,5 +9,7 @@
   <img alt="" src="https://ipv4.games/claim?name=nothub@github" width="0" height="0" style="position: fixed; display: none">
   {{ $scrollTopJs := resources.Get "scrolltop.js" | resources.Fingerprint "sha256" }}
   <script type="text/javascript" src="{{ $scrollTopJs.RelPermalink }}" integrity="{{ $scrollTopJs.Data.Integrity }}"></script>
+  {{ $kopimiJs := resources.Get "kopimi.js" | resources.Fingerprint "sha256" }}
+  <script type="text/javascript" src="{{ $kopimiJs.RelPermalink }}" integrity="{{ $kopimiJs.Data.Integrity }}"></script>
 </body>
 </html>

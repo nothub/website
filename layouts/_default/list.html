@@ -15,8 +15,10 @@
           {{ end }}
           ]
         {{ end }}
-        {{ with .Summary }}
-          <p>{{ . | truncate 256 }}</p>
+        {{ if .Description }}
+          <p>{{ .Description }}</p>
+        {{ else }}
+          <p>{{ .Summary | truncate 256 }}</p>
         {{ end }}
       </section>
     </li>

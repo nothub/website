@@ -89,7 +89,7 @@ Exceeding reaction chamber thermal limit. We have begun power-supply calibration
 all turbo lifts and crawlways. Computer, run a level-two diagnostic on warp-drive systems. Antimatter containment
 positive. Warp drive within normal parameters. I read an ion trail characteristic of a freighter escape pod. The bomb
 had a molecular-decay detonator. Detecting some unusual fluctuations in subspace frequencies. Communication is not
-possible. The shuttle has no power. ![inline image](poe_chaos.webp) Using the gravitational pull of a star to slingshot
+possible. The shuttle has no power. ![inline image](chaos.webp) Using the gravitational pull of a star to slingshot
 back in time? We are going to Starbase Montgomery for Engineering consultations prompted by minor read-out anomalies.
 Probes have recorded unusual levels of geological activity in all five planetary systems. Assemble a team. Look at
 records of the Drema quadrant. Would these scans detect artificial transmissions as well as natural signals?
