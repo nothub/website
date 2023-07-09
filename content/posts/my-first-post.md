@@ -3,7 +3,7 @@ title: "My First Placeholder"
 description: "Yay example post!"
 date: "2020-01-26"
 tags: ["foo", "bar"]
-draft: false
+draft: true
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor

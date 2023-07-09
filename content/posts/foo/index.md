@@ -3,7 +3,7 @@ title: "Format Example"
 description: "Foo text bla..."
 date: "2022-10-29"
 tags: ["foo"]
-draft: false
+draft: true
 ---
 
 These are the voyages of the Starship Enterprise. Its continuing mission, to explore strange new worlds, to seek out new
