@@ -58,7 +58,7 @@ serve:
 
 ### Shebang
 
-The `nix-shell` command and the package declarations can also be set directly in a scripts shebang header:
+The *nix-shell* command and the package declarations can also be set directly in a scripts shebang header:
 
 ```sh
 #!/usr/bin/env nix-shell
@@ -70,13 +70,13 @@ set -e
 hugo --verbose
 ```
 
-The 2 packages [`cacert`](https://search.nixos.org/packages?channel=23.05&show=cacert) and [`hugo`](https://search.nixos.org/packages?channel=23.05&show=hugo) are both available in the whole scripts scope.
+The 2 packages [*cacert*](https://search.nixos.org/packages?channel=23.05&show=cacert) and [*hugo*](https://search.nixos.org/packages?channel=23.05&show=hugo) are both available in the whole scripts scope.
 
 With the [shellcheck directive](https://www.shellcheck.net/wiki/Directive) `shell=sh`, we can make sure that shellcheck does not misbehave.
 
 ### GitHub Actions
 
-With the following [GitHub Actions](https://docs.github.com/en/actions) steps, it is possible to pin packages and cache them too to drastically reduce the traffic required for downloads:
+With the following [GitHub Actions](https://docs.github.com/en/actions) steps, it is possible to pin packages and cache them too, to drastically reduce the traffic required for downloads:
 
 ```yaml
 - name: 'Checkout repo'
