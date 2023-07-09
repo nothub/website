@@ -30,6 +30,10 @@ body {
   text-align: justify;
 }
 
+html, body {
+  height: 95%;
+}
+
 p {
   margin: 0.5em 0;
 }
@@ -409,4 +413,10 @@ dl > dd {
   100% {
     transform: rotate(360deg)
   }
+}
+
+/* etx marker */
+#etx {
+  font-weight: bold;
+  text-align: center;
 }

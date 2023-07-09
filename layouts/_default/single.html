@@ -16,7 +16,7 @@
     {{ .Content }}
   </article>
   <br>
-  <p style="text-align:center;font-weight:bold">␃</p>
+  <p id="etx">␃</p>
 </main>
 {{ $anchorJs := resources.Get "anchor.min.js" | resources.Fingerprint "sha256" }}
 <script type="text/javascript" src="{{ $anchorJs.RelPermalink }}" integrity="{{ $anchorJs.Data.Integrity }}"></script>
