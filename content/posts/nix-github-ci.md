@@ -16,8 +16,7 @@ Plugging into the Nix ecosystem for this has a few advantages, for one the packa
 Also, the [*nix-shell*](https://nixos.org/manual/nix/stable/command-ref/nix-shell.html) application can be used in multiple handy ways to execute commands inside these environments.
 
 To pin packages to a specific version, a commit hash of the [NixOS/nixpkgs](https://github.com/NixOS/nixpkgs) git repository is used.
-The commit hash is set either via the [`NIX_PATH`](https://nixos.org/manual/nix/stable/command-ref/env-common.html#env-NIX_PATH) environment variable or the nix-shell [`-I`](https://nixos.org/manual/nix/stable/command-ref/nix-shell.html#opt-I) flag in the form of an [archive URL](https://docs.github.com/en/repositories/working-with-files/using-files/downloading-source-code-archives#source-code-archive-urls):
-`https://github.com/NixOS/nixpkgs/archive/3c7487575d9445185249a159046cc02ff364bff8.tar.gz`
+The commit hash is set either via the [`NIX_PATH`](https://nixos.org/manual/nix/stable/command-ref/env-common.html#env-NIX_PATH) environment variable or the nix-shell [`-I`](https://nixos.org/manual/nix/stable/command-ref/nix-shell.html#opt-I) flag in the form of an [archive URL](https://docs.github.com/en/repositories/working-with-files/using-files/downloading-source-code-archives#source-code-archive-urls).
 
 With the [Nix package manager](https://nixos.org/manual/nix/stable/installation/multi-user.html) installed, the latest commit hash can be grabbed like this:
 
