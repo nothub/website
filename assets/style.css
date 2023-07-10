@@ -131,10 +131,6 @@ a:hover.footnoteRef, a:link.footnoteRef, a:visited.footnoteRef {
   color: var(--secondary);
 }
 
-a > code {
-  border: 0
-}
-
 /* headlines */
 
 h1 {
@@ -233,7 +229,7 @@ li > section > h3 > a:link, li > section > h3 > a:visited {
 
 code {
   font-family: monospace;
-  padding: 0 .15em;
+  padding: .05em .15em;
 }
 
 pre {
@@ -251,7 +247,7 @@ pre > code {
   border-width: 0
 }
 
-code {
+code, p > code, a > code {
   border: 1px solid var(--secondary);
   background-color: var(--bg-figure)
 }
@@ -265,10 +261,6 @@ code, pre > code {
 
 pre, pre > code {
   display: block
-}
-
-p > code {
-  border: 0 none;
 }
 
 /* images */
