@@ -22,12 +22,18 @@ menu:
     - name: 'About'
       url: '/'
       weight: 1
-    - name: 'Reads'
-      url: '/reads/'
-      weight: 2
     - name: 'Ramblings'
       url: '/posts/'
-      weight: 3
+      weight: 2
+#    - name: 'Projects'
+#      url: '/projects/'
+#      weight: 3
+    - name: 'Reads'
+      url: '/reads/'
+      weight: 4
+    - name: 'Honks'
+      url: 'https://honks.hub.lol/'
+      weight: 5
 
 privacy:
   twitter:
