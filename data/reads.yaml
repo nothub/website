@@ -103,3 +103,7 @@
 - title: "A beginner’s guide to finding user needs"
   url: "https://jdittrich.github.io/userNeedResearchBook/"
   tags: [ "ux", "humans" ]
+
+- title: "what happens when you activity post"
+  url: "https://flak.tedunangst.com/post/what-happens-when-you-honk"
+  tags: [ "activitypub" ]
