@@ -107,3 +107,7 @@
 - title: "what happens when you activity post"
   url: "https://flak.tedunangst.com/post/what-happens-when-you-honk"
   tags: [ "activitypub" ]
+
+- title: "Choosing an HTTP Status Code - Stop Making It Hard"
+  url: "https://www.codetinkerer.com/2015/12/04/choosing-an-http-status-code.html"
+  tags: [ "http" ]
