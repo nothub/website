@@ -22,7 +22,11 @@ func main() {
 	r.SetHTMLTemplate(template.Must(template.New("").ParseFS(fs, "templates/*.tmpl")))
 
 	r.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.tmpl", map[string]any{
+		c.HTML(http.StatusOK, "index.tmpl", map[string]any{})
+	})
+
+	r.GET("/todos", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "todos.tmpl", map[string]any{
 			"PageTitle": "titleXy",
 			"Todos": []map[string]any{
 				{
