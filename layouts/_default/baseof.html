@@ -9,5 +9,6 @@
   <script type="text/javascript" src="{{ $scrollTopJs.RelPermalink }}" integrity="{{ $scrollTopJs.Data.Integrity }}"></script>
   {{ $kopimiJs := resources.Get "kopimi.js" | resources.Fingerprint "sha256" }}
   <script type="text/javascript" src="{{ $kopimiJs.RelPermalink }}" integrity="{{ $kopimiJs.Data.Integrity }}"></script>
+  <script data-goatcounter="https://hub.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
