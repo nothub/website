@@ -13,27 +13,53 @@ import (
 	"time"
 )
 
-//go:embed assets/* static/* templates/*
+//go:embed stuff/* templates/*
 var fs embed.FS
 
 func main() {
 	gin.DisableConsoleColor()
 	router := gin.Default()
+	router.SetHTMLTemplate(template.Must(template.New("").
+		ParseFS(fs, "templates/*.tmpl")))
 
-	router.SetHTMLTemplate(template.Must(template.New("").ParseFS(fs, "templates/*.html")))
-
-	router.GET("/assets/*path", func(c *gin.Context) {
-		c.FileFromFS(c.Request.URL.Path, http.FS(fs))
-	})
-
-	router.GET("/static/*path", func(c *gin.Context) {
-		c.FileFromFS(c.Request.URL.Path, http.FS(fs))
-	})
+	router.Use(gopkg)
 
 	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", map[string]any{
-			"Title": "hub.lol",
-		})
+		c.Request.URL.Path = "/about"
+		router.HandleContext(c)
+	})
+
+	router.GET("/about", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "about.tmpl", nil)
+	})
+
+	router.GET("/posts/*path", func(c *gin.Context) {
+		// TODO
+		c.AbortWithStatus(http.StatusTeapot)
+	})
+
+	router.GET("/reads/*path", func(c *gin.Context) {
+		// TODO
+		c.AbortWithStatus(http.StatusTeapot)
+	})
+
+	router.GET("/projects/*path", func(c *gin.Context) {
+		// TODO
+		c.AbortWithStatus(http.StatusTeapot)
+	})
+
+	router.GET("/stuff/*path", func(c *gin.Context) {
+		c.FileFromFS(c.Request.URL.Path, http.FS(fs))
+	})
+
+	router.GET("/rss.xml", func(c *gin.Context) {
+		// TODO
+		c.AbortWithStatus(http.StatusTeapot)
+	})
+
+	router.GET("/robots.txt", func(c *gin.Context) {
+		c.Request.URL.Path = "/stuff/robots.txt"
+		router.HandleContext(c)
 	})
 
 	srv := &http.Server{
