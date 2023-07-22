@@ -13,20 +13,22 @@ import (
 	"time"
 )
 
-//go:embed stuff/* templates/*
-var fs embed.FS
+//go:embed static/*
+var staticFs embed.FS
+
+//go:embed templates/*
+var TemplateFs embed.FS
 
 func main() {
 	gin.DisableConsoleColor()
 	router := gin.Default()
 	router.SetHTMLTemplate(template.Must(template.New("").
-		ParseFS(fs, "templates/*.tmpl")))
+		ParseFS(TemplateFs, "templates/*.tmpl")))
 
 	router.Use(gopkg)
 
 	router.GET("/", func(c *gin.Context) {
-		c.Request.URL.Path = "/about"
-		router.HandleContext(c)
+		c.Redirect(http.StatusPermanentRedirect, "/about")
 	})
 
 	router.GET("/about", func(c *gin.Context) {
@@ -54,10 +56,10 @@ func main() {
 		c.AbortWithStatus(http.StatusTeapot)
 	})
 
-	router.GET("/stuff/*path", func(c *gin.Context) {
+	router.GET("/static/*path", func(c *gin.Context) {
 		path := c.Param("path")
 		log.Printf("path=%q\n", path)
-		c.FileFromFS(c.Request.URL.Path, http.FS(fs))
+		c.FileFromFS(c.Request.URL.Path, http.FS(staticFs))
 	})
 
 	router.GET("/rss.xml", func(c *gin.Context) {
@@ -66,7 +68,7 @@ func main() {
 	})
 
 	router.GET("/robots.txt", func(c *gin.Context) {
-		c.Request.URL.Path = "/stuff/robots.txt"
+		c.Request.URL.Path = "/static/robots.txt"
 		router.HandleContext(c)
 	})
 
