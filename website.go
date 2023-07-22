@@ -34,21 +34,29 @@ func main() {
 	})
 
 	router.GET("/posts/*path", func(c *gin.Context) {
+		path := c.Param("path")
+		log.Printf("path=%q\n", path)
 		// TODO
 		c.AbortWithStatus(http.StatusTeapot)
 	})
 
 	router.GET("/reads/*path", func(c *gin.Context) {
+		path := c.Param("path")
+		log.Printf("path=%q\n", path)
 		// TODO
 		c.AbortWithStatus(http.StatusTeapot)
 	})
 
 	router.GET("/projects/*path", func(c *gin.Context) {
+		path := c.Param("path")
+		log.Printf("path=%q\n", path)
 		// TODO
 		c.AbortWithStatus(http.StatusTeapot)
 	})
 
 	router.GET("/stuff/*path", func(c *gin.Context) {
+		path := c.Param("path")
+		log.Printf("path=%q\n", path)
 		c.FileFromFS(c.Request.URL.Path, http.FS(fs))
 	})
 
