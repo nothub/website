@@ -2,58 +2,69 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/samber/lo"
 	"gopkg.in/yaml.v3"
 	"log"
 	"net/http"
+	"net/url"
 )
 
 // TODO: fetch infos from github api (https://github.com/orgs/community/discussions/24350)
 
+type role string
+
+const (
+	author  role = "author"
+	contrib role = "contrib"
+)
+
 type project struct {
-	name  string
-	desc  string
-	url   string
-	langs []string
-	tags  []string
-	stars int
+	Name  string   `yaml:"name"`
+	Desc  string   `yaml:"desc"`
+	Tags  []string `yaml:"tags"`
+	Role  role     `yaml:"role"`
+	Url   string   `yaml:"url"`
+	Langs []lang   `yaml:"langs"`
 }
 
-var langColors = make(map[string]string)
-
-func init() {
-	langColors["dockerfile"] = "#384D54"
-	langColors["go"] = "#00ADD8"
-	langColors["java"] = "#B07219"
-	langColors["lua"] = "#000080"
-	langColors["perl"] = "#0298C3"
-	langColors["python"] = "#3572A5"
-	langColors["shell"] = "#89E051"
+func (pr project) Colors() (colors []string) {
+	return lo.Map(pr.Langs, func(lang lang, index int) string {
+		return langColors[lang]
+	})
 }
 
-var projectsAuthor []project
-var projectsContrib []project
+func (pr project) Stars() int {
+	u, err := url.Parse(pr.Url)
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+	if u.Host != "github.com" {
+		return 0
+	}
+	// TODO: fetch star count from api and cache for some time
+	return 0
+}
 
 func initProjects(router *gin.Engine) (err error) {
 	log.Println("loading projects")
-	file, err := fs.ReadFile("data/projects.yaml")
+	bytes, err := fs.ReadFile("data/projects.yaml")
 	if err != nil {
 		return err
 	}
 
-	data := make(map[string][]project)
-	err = yaml.Unmarshal(file, &data)
+	var projects []project
+	err = yaml.Unmarshal(bytes, &projects)
 	if err != nil {
 		return err
 	}
 
-	projectsAuthor = data["author"]
-	projectsContrib = data["contrib"]
+	log.Printf("%++q\n", projects)
 
 	router.GET("/projects/*path", func(c *gin.Context) {
 		path := c.Param("path")
 		log.Printf("path=%q\n", path)
 		// TODO
-		c.AbortWithStatus(http.StatusTeapot)
+		c.HTML(http.StatusOK, "projects.tmpl", projects)
 	})
 
 	return nil

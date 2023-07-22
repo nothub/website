@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" style="min-height: 95%; margin: 10px; position: relative">
+{{ template "head.tmpl" -}}
+<body style="min-height: 90%; height: 95%">
+{{ template "header.tmpl" -}}
+<main style="display: flex;">
+    <section style="width: 90%">
+        <p>
+            This is a list of some of the projects I made or contributed to.
+        </p>
+        {{ range . }}
+            <ul>
+                {{ .Name }}
+                {{ .Desc }}
+                {{ .Tags }}
+                {{ .Role }}
+                {{ .Url }}
+                {{ .Langs }}
+                {{ .Colors }}
+                {{ .Stars }}
+            </ul>
+        {{ end }}
+    </section>
+</main>
+{{ template "footer.tmpl" -}}
+</body>
+</html>
