@@ -1,34 +1,96 @@
 ---
-# TODO: fetch infos from github api (https://github.com/orgs/community/discussions/24350)
 
-authored:
-  - "https://github.com/nothub/advent-of-code"
-  - "https://github.com/nothub/codewars"
-  - "https://github.com/nothub/debian-autoinstall"
-  - "https://github.com/nothub/dotfiles"
-  - "https://github.com/nothub/factorio-mods"
-  - "https://github.com/nothub/headlessbot"
-  - "https://github.com/nothub/docker-images"
-  - "https://github.com/nothub/infra"
-  - "https://github.com/nothub/kaitai-docker"
-  - "https://github.com/nothub/mdbook-plantuml-docker"
-  - "https://github.com/nothub/menumusic"
-  - "https://github.com/nothub/mrpack-install"
-  - "https://github.com/nothub/openttd-docker"
-  - "https://github.com/nothub/pandoc-notes"
-  - "https://github.com/nothub/rssgen"
-  - "https://github.com/nothub/SafeTPA"
-  - "https://github.com/nothub/TinyEventBus"
-  - "https://github.com/nothub/ts3-docker"
-  - "https://github.com/nothub/website"
-  - "https://github.com/nothub/WoW-Addons"
-  - "https://github.com/scm-manager/goscm"
-  - "https://gist.github.com/nothub/7573beebfb8f02a8b67ebd334ec97ab2"
+author:
 
-contributed:
-  - "https://github.com/containrrr/watchtower"
-  - "https://github.com/hexops/dockerfile"
-  - "https://github.com/mbentley/docker-teamspeak"
-  - "https://github.com/nopjmp/Dionysus"
-  - "https://github.com/rfvgyhn/docker-avorion"
-  - "https://gist.github.com/nothub/91ff81bd945eb8f1e6af08492a13ff75"
+  - name: "mrpack-install"
+    desc: "Deploys a Modrinth modpack including Minecraft server"
+    url: "https://github.com/nothub/mrpack-install"
+    langs: [ "go" ]
+    tags: [ "Minecraft", "cli" ]
+
+  - name: "TinyEventBus"
+    desc: "Tiny and fast pubsub implementation with subscriber priorities and event canceling for Java 8, 11 and 17"
+    url: "https://github.com/nothub/TinyEventBus"
+    langs: [ "java" ]
+    tags: [ "pubsub", "library" ]
+
+  - name: "rssgen"
+    desc: "Library for generating RSS 2.0 XML files"
+    url: "https://github.com/nothub/rssgen"
+    langs: [ "java" ]
+    tags: [ "RSS", "library" ]
+
+  - name: "gobonsai"
+    desc: "A bonsai tree generator (cbonsai ported to go)"
+    url: "https://github.com/nothub/gobonsai"
+    langs: [ "go" ]
+    tags: [ "gimmick", "cli" ]
+
+  - name: "website (hub.lol)"
+    desc: "Sources of this website"
+    url: "https://github.com/nothub/website"
+    langs: [ "go" ]
+    tags: [ "web" ]
+
+  - name: "dotfiles"
+    desc: "My cozy ${HOME}"
+    url: "https://github.com/nothub/dotfiles"
+    langs: [ "shell", "python" ]
+    tags: [ ]
+
+  - name: "goscm"
+    desc: "Client library for SCM-Manager"
+    url: "https://github.com/scm-manager/goscm"
+    langs: [ "go" ]
+    tags: [ "SCM-Manager", "library" ]
+
+  - name: "drem"
+    desc: "Docker rootless environment manager"
+    url: "https://github.com/nothub/drem"
+    langs: [ "go" ]
+    tags: [ "Docker", "cli" ]
+
+  - name: "openttd-docker"
+    desc: "OpenTTD container image"
+    url: "https://github.com/nothub/openttd-docker"
+    langs: [ "dockerfile", "shell" ]
+    tags: [ "Docker", "container" ]
+
+  - name: "ts3-docker"
+    desc: "TeamSpeak 3 container image"
+    url: "https://github.com/nothub/ts3-docker"
+    langs: [ "dockerfile", "shell" ]
+    tags: [ "Docker", "container" ]
+
+  - name: "menumusic"
+    desc: "Change Minecrafts title menu music without much fuzz! "
+    url: "https://modrinth.com/mod/menumusic"
+    langs: [ "java" ]
+    tags: [ "Minecraft" ]
+
+  - name: "factorio-mods"
+    desc: "Some Mods for the game Factorio"
+    url: "https://github.com/nothub/factorio-mods"
+    langs: [ "lua" ]
+    tags: [ "Factorio" ]
+
+
+contrib:
+
+  - name: "Asciiquarium"
+    desc: "Enjoy the mysteries of the sea from the safety of your own terminal!"
+    url: "https://github.com/nothub/asciiquarium"
+    langs: [ "perl" ]
+    tags: [ "gimmick", "cli" ]
+
+  - name: "containrrr/watchtower"
+    desc: "A process for automating Docker container base image updates"
+    url: "https://github.com/containrrr/watchtower"
+    langs: [ "go" ]
+    tags: [ "Docker" ]
+
+  - name: "nopjmp/Dionysus"
+    desc: "Minecraft 1.12.2 Paper Fork designed for high player counts and anarchy"
+    url: "https://github.com/nopjmp/Dionysus"
+    langs: [ "java" ]
+    tags: [ "Minecraft" ]
