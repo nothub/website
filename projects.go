@@ -1,35 +1,37 @@
 package main
 
 import (
-	"embed"
-	_ "embed"
+	"github.com/gin-gonic/gin"
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
 	"log"
+	"net/http"
 )
 
-//go:embed data/*
-var dataFs embed.FS
+var projectsAuthor []string
+var projectsContrib []string
 
-func Init() {
-
-	log.Println("generating projects")
-	file, err := ioutil.ReadFile("data/projects.yaml")
+func initProjects(router *gin.Engine) (err error) {
+	log.Println("loading projects")
+	file, err := fs.ReadFile("data/projects.yaml")
 	if err != nil {
-		log.Fatalln(err.Error())
+		return err
 	}
 
 	data := make(map[string][]string)
 	err = yaml.Unmarshal(file, &data)
 	if err != nil {
-		log.Fatalln(err.Error())
+		return err
 	}
 
-	for _, project := range data["authored"] {
-		log.Printf("authored: %s\n", project)
-	}
+	projectsAuthor = data["authored"]
+	projectsContrib = data["contributed"]
 
-	for _, project := range data["contributed"] {
-		log.Printf("contributed: %s\n", project)
-	}
+	router.GET("/projects/*path", func(c *gin.Context) {
+		path := c.Param("path")
+		log.Printf("path=%q\n", path)
+		// TODO
+		c.AbortWithStatus(http.StatusTeapot)
+	})
+
+	return nil
 }

@@ -13,18 +13,16 @@ import (
 	"time"
 )
 
-//go:embed static/*
-var staticFs embed.FS
-
-//go:embed templates/*
-var TemplateFs embed.FS
+//go:embed data/* static/* templates/*
+var fs embed.FS
 
 func main() {
 	gin.DisableConsoleColor()
 	router := gin.Default()
 	router.SetHTMLTemplate(template.Must(template.New("").
-		ParseFS(TemplateFs, "templates/*.tmpl")))
+		ParseFS(fs, "templates/*.tmpl")))
 
+	// go module vanity url redirects
 	router.Use(gopkg)
 
 	router.GET("/", func(c *gin.Context) {
@@ -35,36 +33,26 @@ func main() {
 		c.HTML(http.StatusOK, "about.tmpl", nil)
 	})
 
-	router.GET("/posts/*path", func(c *gin.Context) {
-		path := c.Param("path")
-		log.Printf("path=%q\n", path)
-		// TODO
-		c.AbortWithStatus(http.StatusTeapot)
-	})
+	if err := initProjects(router); err != nil {
+		log.Fatalln(err.Error())
+	}
 
-	router.GET("/reads/*path", func(c *gin.Context) {
-		path := c.Param("path")
-		log.Printf("path=%q\n", path)
-		// TODO
-		c.AbortWithStatus(http.StatusTeapot)
-	})
+	if err := initReads(router); err != nil {
+		log.Fatalln(err.Error())
+	}
 
-	router.GET("/projects/*path", func(c *gin.Context) {
-		path := c.Param("path")
-		log.Printf("path=%q\n", path)
-		// TODO
-		c.AbortWithStatus(http.StatusTeapot)
-	})
+	if err := initPosts(router); err != nil {
+		log.Fatalln(err.Error())
+	}
+
+	if err := initRss(router); err != nil {
+		log.Fatalln(err.Error())
+	}
 
 	router.GET("/static/*path", func(c *gin.Context) {
 		path := c.Param("path")
 		log.Printf("path=%q\n", path)
-		c.FileFromFS(c.Request.URL.Path, http.FS(staticFs))
-	})
-
-	router.GET("/rss.xml", func(c *gin.Context) {
-		// TODO
-		c.AbortWithStatus(http.StatusTeapot)
+		c.FileFromFS(c.Request.URL.Path, http.FS(fs))
 	})
 
 	router.GET("/robots.txt", func(c *gin.Context) {
@@ -79,9 +67,10 @@ func main() {
 
 	go func() {
 		err := srv.ListenAndServe()
-		if err == nil {
-		} else if err == http.ErrServerClosed {
+		if err == http.ErrServerClosed {
 			log.Println("graceful shutdown complete")
+		} else if err == nil {
+			log.Fatalln("http.Server stopped with nil error")
 		} else {
 			log.Fatalf("server error: %s\n", err.Error())
 		}
