@@ -6,11 +6,11 @@
 <main style="display: flex;">
     <section style="width: 90%">
         <p>
-            This is a list of some of the projects I made or contributed to.
+            This is a list of some projects I made or contributed to.
         </p>
         {{ range . }}
             <ul>
-                {{ .Name }}
+                {{ .Title }}
                 {{ .Desc }}
                 {{ .Tags }}
                 {{ .Role }}

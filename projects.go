@@ -19,7 +19,7 @@ const (
 )
 
 type project struct {
-	Name  string   `yaml:"name"`
+	Title string   `yaml:"title"`
 	Desc  string   `yaml:"desc"`
 	Tags  []string `yaml:"tags"`
 	Role  role     `yaml:"role"`
