@@ -6,7 +6,7 @@
 <main style="display: flex;">
     <section style="width: 90%">
         <p>
-            This is a list of some projects I made or contributed to.
+            These are some projects I started or contributed to.
         </p>
         <section style="display:flex;flex-direction:row;flex-flow: row wrap;">
             {{ range . }}
@@ -16,13 +16,13 @@
                         {{ $stars := .Stars }}{{ if gt $stars 0 }} {{ $stars }} ⭐{{ end }}
                         <p style="color: gray;display:inline; float:right; margin-top: 0">{{ .Role }}</p>
                     </section>
-                    <p>{{ .Desc }}</p>
-                    <p>{{ .Tags }}</p>
                     <section class="project-langs">
                         {{ range .Langs -}}
                             <p class="project-lang" style="display:inline">{{ . }}</p>
                         {{- end }}
                     </section>
+                    <p style="margin-top: 0; margin-bottom: 0">{{ .Desc }}</p>
+                    <p style="margin-top: 0; margin-bottom: 0">{{ .Tags }}</p>
                 </section>
             {{ end }}
         </section>
@@ -57,8 +57,8 @@
         border-width: 1px;
         border-style: solid;
         box-shadow: var(--secondary);
-        margin: 10px 10px 10px 0;
-        padding: 5px 10px 10px;
+        margin: 5px 10px 5px 0;
+        padding: 10px 10px 10px 10px;
     }
 </style>
 {{ template "footer.tmpl" -}}
