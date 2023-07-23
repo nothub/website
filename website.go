@@ -50,13 +50,16 @@ func main() {
 	}
 
 	router.GET("/static/*path", func(c *gin.Context) {
-		path := c.Param("path")
-		log.Printf("path=%q\n", path)
 		c.FileFromFS(c.Request.URL.Path, http.FS(fs))
 	})
 
 	router.GET("/robots.txt", func(c *gin.Context) {
 		c.Request.URL.Path = "/static/robots.txt"
+		router.HandleContext(c)
+	})
+
+	router.GET("/sitemap.xml", func(c *gin.Context) {
+		c.Request.URL.Path = "/static/sitemap.xml"
 		router.HandleContext(c)
 	})
 
