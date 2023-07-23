@@ -87,20 +87,20 @@
 - title: "Asciiquarium"
   url: "https://github.com/nothub/asciiquarium"
   desc: "Enjoy the mysteries of the sea from the safety of your own terminal!"
-  role: "contributor"
+  role: "contrib"
   tags: [ "gimmick", "cli" ]
   langs: [ "perl" ]
 
 - title: "containrrr/watchtower"
   url: "https://github.com/containrrr/watchtower"
   desc: "A process for automating Docker container base image updates"
-  role: "contributor"
+  role: "contrib"
   tags: [ "Docker" ]
   langs: [ "go" ]
 
 - title: "nopjmp/Dionysus"
   url: "https://github.com/nopjmp/Dionysus"
   desc: "Minecraft 1.12.2 Paper Fork designed for high player counts and anarchy"
-  role: "contributor"
+  role: "contrib"
   tags: [ "Minecraft" ]
   langs: [ "java" ]
