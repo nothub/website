@@ -215,11 +215,6 @@ dt {
     font-weight: bold
 }
 
-dt:after {
-    font-weight: 400;
-    content: ":"
-}
-
 dl > dd, dl > dt {
     white-space: nowrap;
 }

@@ -3,8 +3,8 @@
 {{ template "head.tmpl" -}}
 <body>
 {{ template "nav.tmpl" -}}
-<main style="display: flex;flex-flow: row wrap;justify-content: space-between">
-    <section style="min-width:33%;max-width:67%">
+<main style="display: flex;flex-flow: row wrap;justify-content: space-around">
+    <section style="min-width:20%;max-width:80%">
         <p>
             Hi, I am hub and this is my corner of the internet.
         </p>
@@ -15,58 +15,61 @@
             Linux. I live in northern Germany.
         </p>
     </section>
-    <aside style="margin-left:5px;margin-right:5px">
-        <dl>
-            <dt>
-                email
-            </dt>
-            <dd>
-                <a href="mailto:contact@hub.lol">contact@hub.lol</a>
-            </dd>
-            <dt>
-                irc
-            </dt>
-            <dd>
-                <a href="ircs://irc.libera.chat/hub,isuser">hub@libera.chat</a>
-            </dd>
-            <dt>
-                discord
-            </dt>
-            <dd>
-                hub#6408
-            </dd>
-            <dt>
-                fediverse
-            </dt>
-            <dd>
-                <a href="https://honks.hub.lol/u/hub" rel="me" target="_blank">@hub@honks.hub.lol</a>
-            </dd>
-            <dt>
-                github
-            </dt>
-            <dd>
-                <a href="https://github.com/nothub" rel="me" target="_blank">nothub</a>
-            </dd>
-            <dt>
-                codeberg
-            </dt>
-            <dd>
-                <a href="https://codeberg.org/nothub" rel="me" target="_blank">nothub</a>
-            </dd>
-            <dt>
-                codewars
-            </dt>
-            <dd>
-                <a href="https://www.codewars.com/users/nothub" rel="me" target="_blank">nothub</a>
-            </dd>
-            <dt>
-                linkedin
-            </dt>
-            <dd>
-                <a href="https://www.linkedin.com/in/flhuebner" rel="me" target="_blank">flhuebner</a>
-            </dd>
-        </dl>
-    </aside>
+    <section>
+        <aside style="margin-left:5px;margin-right:5px">
+            <img alt="photo of me" width="128px" height="128px" src="/static/me.png" style="border-radius: 50%;float: none">
+            <dl>
+                <dt>
+                    email
+                </dt>
+                <dd>
+                    <a href="mailto:contact@hub.lol">contact@hub.lol</a>
+                </dd>
+                <dt>
+                    irc
+                </dt>
+                <dd>
+                    <a href="ircs://irc.libera.chat/hub,isuser">hub@libera.chat</a>
+                </dd>
+                <dt>
+                    discord
+                </dt>
+                <dd>
+                    hub#6408
+                </dd>
+                <dt>
+                    fediverse
+                </dt>
+                <dd>
+                    <a href="https://honks.hub.lol/u/hub" rel="me" target="_blank">@hub@honks.hub.lol</a>
+                </dd>
+                <dt>
+                    github
+                </dt>
+                <dd>
+                    <a href="https://github.com/nothub" rel="me" target="_blank">nothub</a>
+                </dd>
+                <dt>
+                    codeberg
+                </dt>
+                <dd>
+                    <a href="https://codeberg.org/nothub" rel="me" target="_blank">nothub</a>
+                </dd>
+                <dt>
+                    codewars
+                </dt>
+                <dd>
+                    <a href="https://www.codewars.com/users/nothub" rel="me" target="_blank">nothub</a>
+                </dd>
+                <dt>
+                    linkedin
+                </dt>
+                <dd>
+                    <a href="https://www.linkedin.com/in/flhuebner" rel="me" target="_blank">flhuebner</a>
+                </dd>
+            </dl>
+        </aside>
+    </section>
 </main>
 {{ template "footer.tmpl" -}}
 </body>
