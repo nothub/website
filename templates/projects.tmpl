@@ -8,21 +8,23 @@
         <p>
             This is a list of some projects I made or contributed to.
         </p>
-        {{ range . }}
-            <section class="project-card">
-                <p>
-                    <a href="{{ .Url }}">{{ .Title }}</a>{{ $stars := .Stars }}{{ if gt $stars 0 }} {{ $stars }} ⭐{{ end }}
-                </p>
-                <p>{{ .Desc }}</p>
-                <p>{{ .Role }}</p>
-                <p>{{ .Tags }}</p>
-                <section class="project-langs">
-                    {{ range .Langs -}}
-                        <p class="project-lang" style="display:inline">{{ . }}</p>
-                    {{- end }}
+        <section style="display:flex;flex-direction:row;flex-flow: row wrap;">
+            {{ range . }}
+                <section class="project-card" style="min-width: 300px;max-width: 300px;">
+                    <p>
+                        <a href="{{ .Url }}">{{ .Title }}</a>{{ $stars := .Stars }}{{ if gt $stars 0 }} {{ $stars }} ⭐{{ end }}
+                    </p>
+                    <p>{{ .Desc }}</p>
+                    <p>{{ .Role }}</p>
+                    <p>{{ .Tags }}</p>
+                    <section class="project-langs">
+                        {{ range .Langs -}}
+                            <p class="project-lang" style="display:inline">{{ . }}</p>
+                        {{- end }}
+                    </section>
                 </section>
-            </section>
-        {{ end }}
+            {{ end }}
+        </section>
     </section>
 </main>
 <script defer>
