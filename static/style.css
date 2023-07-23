@@ -261,11 +261,6 @@ dl > dd {
 }
 
 /* projects */
-#projects {
-    display: flex;
-    flex-flow: row wrap;
-}
-
 .project-lang, .project-topic {
     float: left;
     margin-top: 0;
