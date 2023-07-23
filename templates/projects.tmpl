@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" style="min-height: 95%; margin: 10px; position: relative">
+<html lang="en">
 {{ template "head.tmpl" -}}
-<body style="min-height: 90%; height: 95%">
+<body>
 {{ template "header.tmpl" -}}
-<main style="display: flex;">
+<main>
     <section>
         <p>
             These are some projects I started or contributed to.
@@ -12,11 +12,10 @@
             {{ range . }}
                 <section class="project-card">
                     <section>
-                        <a href="{{ .Url }}">{{ .Title }}</a>
+                        <a href="{{ .Url }}" style="font-size: 18px">{{ .Title }}</a>
                         {{ $stars := .Stars }}{{ if gt $stars 0 }} {{ $stars }} ⭐{{ end }}
                         <p class="project-role">{{ .Role }}</p>
                     </section>
-                    <br style="display: block;margin-top: 2px;">
                     <section class="project-tags">
                         {{ range .Langs -}}
                             <p class="project-lang">{{ . }}</p>
@@ -26,7 +25,7 @@
                         {{- end }}
                     </section>
                     <br>
-                    <p style="margin: 0 0 0 0;">{{ .Desc }}</p>
+                    <p class="no-margin" style="font-size: 16px">{{ .Desc }}</p>
                 </section>
             {{ end }}
         </section>
@@ -51,46 +50,6 @@
         }
     }
 </script>
-<style>
-    #projects {
-        display: flex;
-        flex-flow: row wrap;
-    }
-
-    .project-lang {
-        float: left;
-        margin-top: 0;
-        margin-right: 5px;
-        font-size: 14px
-    }
-
-    .project-topic {
-        float: right;
-        margin-top: 0;
-        margin-left: 5px;
-        font-size: 14px
-    }
-
-    .project-card {
-        border: var(--secondary);
-        border-width: 1px;
-        border-style: solid;
-        box-shadow: var(--secondary);
-        margin: 5px 10px 5px 0;
-        padding: 10px 10px 10px 10px;
-        min-width: 300px;
-        max-width: 300px;
-        min-height: 150px;
-    }
-
-    .project-role {
-        color: gray;
-        display: inline;
-        float: right;
-        margin-top: 0;
-        font-size: 14px
-    }
-</style>
 {{ template "footer.tmpl" -}}
 </body>
 </html>
