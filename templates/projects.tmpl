@@ -12,7 +12,7 @@
             {{ range . }}
                 <section class="project-card">
                     <section>
-                        <a href="{{ .Url }}" style="font-size: 18px">{{ .Title }}</a>
+                        <a href="{{ .Url }}">{{ .Title }}</a>
                         {{ $stars := .Stars }}{{ if gt $stars 0 }} {{ $stars }} ⭐{{ end }}
                         <p class="project-role">{{ .Role }}</p>
                     </section>
@@ -25,7 +25,8 @@
                         {{- end }}
                     </section>
                     <br>
-                    <p class="no-margin" style="font-size: 16px">{{ .Desc }}</p>
+                    <br>
+                    <p class="project-desc">{{ .Desc }}</p>
                 </section>
             {{ end }}
         </section>

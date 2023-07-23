@@ -4,3 +4,4 @@ footer with page src link
 heading anchors
 add [.well-known](https://www.rfc-editor.org/rfc/rfc8615) as static asset
 use [image map](https://www.devever.net/~hl/imagemap-example-client#cs-balloon)
+add [cool](https://github.com/MariaLetta/free-gophers-pack) [gophers](https://github.com/egonelbre/gophers)
