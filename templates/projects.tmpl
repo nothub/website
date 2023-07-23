@@ -11,11 +11,12 @@
         <section style="display:flex;flex-direction:row;flex-flow: row wrap;">
             {{ range . }}
                 <section class="project-card" style="min-width: 300px;max-width: 300px;">
-                    <p>
-                        <a href="{{ .Url }}">{{ .Title }}</a>{{ $stars := .Stars }}{{ if gt $stars 0 }} {{ $stars }} ⭐{{ end }}
-                    </p>
+                    <section>
+                        <a href="{{ .Url }}">{{ .Title }}</a>
+                        {{ $stars := .Stars }}{{ if gt $stars 0 }} {{ $stars }} ⭐{{ end }}
+                        <p style="color: gray;display:inline; float:right; margin-top: 0">{{ .Role }}</p>
+                    </section>
                     <p>{{ .Desc }}</p>
-                    <p>{{ .Role }}</p>
                     <p>{{ .Tags }}</p>
                     <section class="project-langs">
                         {{ range .Langs -}}
