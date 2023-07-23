@@ -14,15 +14,19 @@
                     <section>
                         <a href="{{ .Url }}">{{ .Title }}</a>
                         {{ $stars := .Stars }}{{ if gt $stars 0 }} {{ $stars }} ⭐{{ end }}
-                        <p style="color: gray;display:inline; float:right; margin-top: 0;font-size: 12px">{{ .Role }}</p>
+                        <p class="project-role">{{ .Role }}</p>
                     </section>
-                    <section class="project-langs">
+                    <br style="display: block;margin-top: 2px;">
+                    <section class="project-tags">
                         {{ range .Langs -}}
-                            <p class="project-lang" style="display:inline">{{ . }}</p>
+                            <p class="project-lang">{{ . }}</p>
+                        {{- end }}
+                        {{ range .Topics -}}
+                            <p class="project-topic">{{ . }}</p>
                         {{- end }}
                     </section>
-                    <p style="margin-top: 0; margin-bottom: 0">{{ .Desc }}</p>
-                    <p style="margin-top: 0; margin-bottom: 0">{{ .Tags }}</p>
+                    <br>
+                    <p style="margin: 0 0 0 0;">{{ .Desc }}</p>
                 </section>
             {{ end }}
         </section>
@@ -39,7 +43,7 @@
         ["shell", "#89E051"],
     ]);
     for (const card of Array.from(document.getElementsByClassName("project-card"))) {
-        const langs = Array.from(card.getElementsByClassName("project-langs")[0].getElementsByClassName("project-lang"))
+        const langs = Array.from(card.getElementsByClassName("project-tags")[0].getElementsByClassName("project-lang"))
         for (const lang of langs) {
             if (langColors.has(lang.innerText)) {
                 lang.style.color = langColors.get(lang.innerText);
@@ -53,8 +57,18 @@
         flex-flow: row wrap;
     }
 
-    .project-lang + .project-lang:before {
-        content: " "
+    .project-lang {
+        float: left;
+        margin-top: 0;
+        margin-right: 5px;
+        font-size: 14px
+    }
+
+    .project-topic {
+        float: right;
+        margin-top: 0;
+        margin-left: 5px;
+        font-size: 14px
     }
 
     .project-card {
@@ -67,6 +81,14 @@
         min-width: 300px;
         max-width: 300px;
         min-height: 150px;
+    }
+
+    .project-role {
+        color: gray;
+        display: inline;
+        float: right;
+        margin-top: 0;
+        font-size: 14px
     }
 </style>
 {{ template "footer.tmpl" -}}

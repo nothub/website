@@ -4,103 +4,103 @@
   url: "https://github.com/nothub/mrpack-install"
   desc: "Deploys a Modrinth modpack including Minecraft server"
   role: "author"
-  tags: [ "Minecraft", "cli" ]
+  topics: [ "Minecraft", "cli" ]
   langs: [ "go" ]
 
 - title: "TinyEventBus"
   url: "https://github.com/nothub/TinyEventBus"
   desc: "Tiny and fast pubsub implementation with subscriber priorities and event canceling for Java 8, 11 and 17"
   role: "author"
-  tags: [ "pubsub", "library" ]
+  topics: [ "pubsub", "library" ]
   langs: [ "java" ]
 
 - title: "rssgen"
   url: "https://github.com/nothub/rssgen"
   desc: "Library for generating RSS 2.0 XML files"
   role: "author"
-  tags: [ "RSS", "library" ]
+  topics: [ "RSS", "library" ]
   langs: [ "java" ]
 
 - title: "gobonsai"
   url: "https://github.com/nothub/gobonsai"
   desc: "A bonsai tree generator (cbonsai ported to go)"
   role: "author"
-  tags: [ "gimmick", "cli" ]
+  topics: [ "gimmick", "cli" ]
   langs: [ "go" ]
 
 - title: "website (hub.lol)"
   url: "https://github.com/nothub/website"
   desc: "Sources of this website"
   role: "author"
-  tags: [ "web" ]
+  topics: [ "web" ]
   langs: [ "go" ]
 
 - title: "dotfiles"
   url: "https://github.com/nothub/dotfiles"
   desc: "My cozy ${HOME}"
   role: "author"
-  tags: [ ]
+  topics: [ ]
   langs: [ "shell", "python" ]
 
 - title: "goscm"
   url: "https://github.com/scm-manager/goscm"
   desc: "Client library for SCM-Manager"
   role: "author"
-  tags: [ "SCM-Manager", "library" ]
+  topics: [ "SCM-Manager", "library" ]
   langs: [ "go" ]
 
 - title: "drem"
   url: "https://github.com/nothub/drem"
   desc: "Docker rootless environment manager"
   role: "author"
-  tags: [ "Docker", "cli" ]
+  topics: [ "Docker", "cli" ]
   langs: [ "go" ]
 
 - title: "openttd-docker"
   url: "https://github.com/nothub/openttd-docker"
   desc: "OpenTTD container image"
   role: "author"
-  tags: [ "Docker", "container" ]
+  topics: [ "Docker", "container" ]
   langs: [ "dockerfile", "shell" ]
 
 - title: "ts3-docker"
   url: "https://github.com/nothub/ts3-docker"
   desc: "TeamSpeak 3 container image"
   role: "author"
-  tags: [ "Docker", "container" ]
+  topics: [ "Docker", "container" ]
   langs: [ "dockerfile", "shell" ]
 
 - title: "menumusic"
   url: "https://modrinth.com/mod/menumusic"
   desc: "Change Minecrafts title menu music without much fuzz!"
   role: "author"
-  tags: [ "Minecraft" ]
+  topics: [ "Minecraft" ]
   langs: [ "java" ]
 
 - title: "factorio-mods"
   url: "https://github.com/nothub/factorio-mods"
   desc: "Some Mods for the game Factorio"
   role: "author"
-  tags: [ "Factorio" ]
+  topics: [ "Factorio" ]
   langs: [ "lua" ]
 
 - title: "Asciiquarium"
   url: "https://github.com/nothub/asciiquarium"
   desc: "Enjoy the mysteries of the sea from the safety of your own terminal!"
   role: "contrib"
-  tags: [ "gimmick", "cli" ]
+  topics: [ "gimmick", "cli" ]
   langs: [ "perl" ]
 
 - title: "containrrr/watchtower"
   url: "https://github.com/containrrr/watchtower"
   desc: "A process for automating Docker container base image updates"
   role: "contrib"
-  tags: [ "Docker" ]
+  topics: [ "Docker" ]
   langs: [ "go" ]
 
 - title: "nopjmp/Dionysus"
   url: "https://github.com/nopjmp/Dionysus"
   desc: "Minecraft 1.12.2 Paper Fork designed for high player counts and anarchy"
   role: "contrib"
-  tags: [ "Minecraft" ]
+  topics: [ "Minecraft" ]
   langs: [ "java" ]
