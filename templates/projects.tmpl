@@ -16,7 +16,7 @@
                         {{ $stars := .Stars }}{{ if gt $stars 0 }} {{ $stars }} ⭐{{ end }}
                         <p class="project-role">{{ .Role }}</p>
                     </section>
-                    <section class="project-tags">
+                    <section class="project-tags" style="display: flex;flex-flow: row wrap;justify-content: flex-start">
                         {{ range .Langs -}}
                             <p class="project-lang">{{ . }}</p>
                         {{- end }}
@@ -24,8 +24,6 @@
                             <p class="project-topic">{{ . }}</p>
                         {{- end }}
                     </section>
-                    <br>
-                    <br>
                     <p class="project-desc">{{ .Desc }}</p>
                 </section>
             {{ end }}

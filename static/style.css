@@ -266,16 +266,10 @@ dl > dd {
     flex-flow: row wrap;
 }
 
-.project-lang {
+.project-lang, .project-topic {
     float: left;
     margin-top: 0;
     margin-right: 5px;
-}
-
-.project-topic {
-    float: right;
-    margin-top: 0;
-    margin-left: 5px;
 }
 
 .project-card {
@@ -287,11 +281,11 @@ dl > dd {
     padding: 10px 10px 10px 10px;
     min-width: 300px;
     max-width: 300px;
-    min-height: 150px;
 }
 
-.project-card > .project-desc {
-    margin-bottom: 5px
+.project-desc {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .project-role {

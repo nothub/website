@@ -4,7 +4,7 @@
   url: "https://github.com/nothub/mrpack-install"
   desc: "Deploys a Modrinth modpack including Minecraft server"
   role: "author"
-  topics: [ "Minecraft", "cli" ]
+  topics: [ "minecraft", "cli" ]
   langs: [ "go" ]
 
 - title: "TinyEventBus"
@@ -18,7 +18,7 @@
   url: "https://github.com/nothub/rssgen"
   desc: "Library for generating RSS 2.0 XML files"
   role: "author"
-  topics: [ "RSS", "library" ]
+  topics: [ "rss", "library" ]
   langs: [ "java" ]
 
 - title: "gobonsai"
@@ -39,49 +39,49 @@
   url: "https://github.com/nothub/dotfiles"
   desc: "My cozy ${HOME}"
   role: "author"
-  topics: [ ]
+  topics: [ "linux" ]
   langs: [ "shell", "python" ]
 
 - title: "goscm"
   url: "https://github.com/scm-manager/goscm"
   desc: "Client library for SCM-Manager"
   role: "author"
-  topics: [ "SCM-Manager", "library" ]
+  topics: [ "scm-manager", "library" ]
   langs: [ "go" ]
 
 - title: "drem"
   url: "https://github.com/nothub/drem"
   desc: "Docker rootless environment manager"
   role: "author"
-  topics: [ "Docker", "cli" ]
+  topics: [ "docker", "cli" ]
   langs: [ "go" ]
 
 - title: "openttd-docker"
   url: "https://github.com/nothub/openttd-docker"
   desc: "OpenTTD container image"
   role: "author"
-  topics: [ "Docker", "container" ]
+  topics: [ "container" ]
   langs: [ "dockerfile", "shell" ]
 
 - title: "ts3-docker"
   url: "https://github.com/nothub/ts3-docker"
   desc: "TeamSpeak 3 container image"
   role: "author"
-  topics: [ "Docker", "container" ]
+  topics: [ "container" ]
   langs: [ "dockerfile", "shell" ]
 
 - title: "menumusic"
   url: "https://modrinth.com/mod/menumusic"
   desc: "Change Minecrafts title menu music without much fuzz!"
   role: "author"
-  topics: [ "Minecraft" ]
+  topics: [ "minecraft" ]
   langs: [ "java" ]
 
 - title: "factorio-mods"
   url: "https://github.com/nothub/factorio-mods"
   desc: "Some Mods for the game Factorio"
   role: "author"
-  topics: [ "Factorio" ]
+  topics: [ "factorio" ]
   langs: [ "lua" ]
 
 - title: "Asciiquarium"
@@ -95,12 +95,12 @@
   url: "https://github.com/containrrr/watchtower"
   desc: "A process for automating Docker container base image updates"
   role: "contrib"
-  topics: [ "Docker" ]
+  topics: [ "docker" ]
   langs: [ "go" ]
 
 - title: "nopjmp/Dionysus"
   url: "https://github.com/nopjmp/Dionysus"
   desc: "Minecraft 1.12.2 Paper Fork designed for high player counts and anarchy"
   role: "contrib"
-  topics: [ "Minecraft" ]
+  topics: [ "minecraft" ]
   langs: [ "java" ]
