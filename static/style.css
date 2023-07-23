@@ -42,10 +42,6 @@ body {
     height: 95%
 }
 
-main {
-    display: flex;
-}
-
 hr {
     margin: 0.5em 0;
     padding: 1px;
