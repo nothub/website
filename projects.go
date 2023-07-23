@@ -2,35 +2,22 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/samber/lo"
 	"gopkg.in/yaml.v3"
 	"log"
+	"math/rand"
 	"net/http"
 	"net/url"
 )
 
 // TODO: fetch infos from github api (https://github.com/orgs/community/discussions/24350)
 
-type role string
-
-const (
-	author  role = "author"
-	contrib role = "contrib"
-)
-
 type project struct {
 	Title string   `yaml:"title"`
-	Desc  string   `yaml:"desc"`
-	Tags  []string `yaml:"tags"`
-	Role  role     `yaml:"role"`
 	Url   string   `yaml:"url"`
-	Langs []lang   `yaml:"langs"`
-}
-
-func (pr project) Colors() (colors []string) {
-	return lo.Map(pr.Langs, func(lang lang, index int) string {
-		return langColors[lang]
-	})
+	Desc  string   `yaml:"desc"`
+	Role  string   `yaml:"role"`
+	Tags  []string `yaml:"tags"`
+	Langs []string `yaml:"langs"`
 }
 
 func (pr project) Stars() int {
@@ -42,7 +29,7 @@ func (pr project) Stars() int {
 		return 0
 	}
 	// TODO: fetch star count from api and cache for some time
-	return 0
+	return rand.Intn(3)
 }
 
 func initProjects(router *gin.Engine) (err error) {

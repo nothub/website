@@ -9,19 +9,46 @@
             This is a list of some projects I made or contributed to.
         </p>
         {{ range . }}
-            <ul>
-                {{ .Title }}
-                {{ .Desc }}
-                {{ .Tags }}
-                {{ .Role }}
-                {{ .Url }}
-                {{ .Langs }}
-                {{ .Colors }}
-                {{ .Stars }}
-            </ul>
+            <section class="project-card">
+                <p>
+                    <a href="{{ .Url }}">{{ .Title }}</a>{{ $stars := .Stars }}{{ if gt $stars 0 }} {{ $stars }} ⭐{{ end }}
+                </p>
+                <p>{{ .Desc }}</p>
+                <p>{{ .Role }}</p>
+                <p>{{ .Tags }}</p>
+                <section class="project-langs">
+                    {{ range .Langs -}}
+                        <p class="project-lang" style="display:inline">{{ . }}</p>
+                    {{- end }}
+                </section>
+            </section>
         {{ end }}
     </section>
 </main>
+<script defer>
+    const langColors = new Map([
+        ["dockerfile", "#384D54"],
+        ["go", "#00ADD8"],
+        ["java", "#B07219"],
+        ["lua", "#000080"],
+        ["perl", "#0298C3"],
+        ["python", "#3572A5"],
+        ["shell", "#89E051"],
+    ]);
+    for (const card of Array.from(document.getElementsByClassName("project-card"))) {
+        const langs = Array.from(card.getElementsByClassName("project-langs")[0].getElementsByClassName("project-lang"))
+        for (const lang of langs) {
+            if (langColors.has(lang.innerText)) {
+                lang.style.color = langColors.get(lang.innerText);
+            }
+        }
+    }
+</script>
+<style>
+    .project-lang + .project-lang:before {
+        content: " "
+    }
+</style>
 {{ template "footer.tmpl" -}}
 </body>
 </html>
