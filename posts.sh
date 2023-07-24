@@ -11,10 +11,9 @@ for path in "content"/*; do
   slug="$(basename "${path%.*}" | inline-detox)"
   echo >&2 "slug: ${slug}"
 
-  mkdir -p "posts/${slug}"
-
   if [[ -d "${path}" ]]; then
     for asset_path in "${path}"/*; do
+      mkdir -p "posts/${slug}"
       asset_file="$(basename "${asset_path}")"
       if [[ "${asset_file}" == "index.md" ]]; then
         continue
