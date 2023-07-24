@@ -9,6 +9,7 @@ POSTS := $(shell find posts         -type f -name '*')
 website: go.mod go.sum $(GOSRC) $(DATA) $(POSTS)
 	GOOS=linux GOARCH=amd64 go build $(LDFLAGS) $(GOFLAGS) -o website
 
-.PHONY: image
-image: website
-	docker build -t "n0thub/website:dev" .
+.PHONY: test
+test:
+	go vet
+	go test
