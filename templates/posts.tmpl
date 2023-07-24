@@ -1,3 +1,15 @@
-<h1>POSTS</h1>
-
-{{ .Posts }}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head.tmpl" -}}
+<body>
+{{ template "nav.tmpl" -}}
+<main>
+    <ul>
+        {{ range $slug, $html := . }}
+            <li><a href="./{{ $slug }}">{{ $slug }}</a></li>
+        {{ end }}
+    </ul>
+</main>
+{{ template "footer.tmpl" -}}
+</body>
+</html>
