@@ -32,6 +32,12 @@ func initPosts(router *gin.Engine) (err error) {
 			log.Fatalln(err.Error())
 		}
 
+		// TODO:
+		//   https://github.com/yuin/goldmark-meta / https://github.com/abhinav/goldmark-frontmatter
+		//   https://github.com/yuin/goldmark-highlighting
+		//   https://github.com/abhinav/goldmark-anchor
+		//   https://github.com/abhinav/goldmark-toc
+
 		var buf bytes.Buffer
 		err = goldmark.Convert(md, &buf)
 		if err != nil {
