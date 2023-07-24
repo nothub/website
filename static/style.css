@@ -441,18 +441,20 @@ dl > dd {
     width: 50px;
     height: 26px;
     border-radius: 50px;
-    position: relative;
     padding: 5px;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
+    position: fixed;
+    top: 10px;
+    left: 10px;
 }
 
 .theme-switcher-label .theme-switcher-knob {
     background-color: var(--bg);
-    width: 21px;
+    width: 22px;
     height: 20px;
     position: absolute;
     left: 3px;
@@ -462,5 +464,5 @@ dl > dd {
 }
 
 .theme-switcher:checked + .theme-switcher-label .theme-switcher-knob {
-    transform: translateX(23px);
+    transform: translateX(22px);
 }
