@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-//go:embed data/* static/* templates/*
+//go:embed data/* static/* templates/* posts/*
 var fs embed.FS
 
 func main() {
