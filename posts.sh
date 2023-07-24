@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO: replace pandoc with goldmark
+
 set -eu
 
 mkdir -p "content"
