@@ -33,7 +33,7 @@ func main() {
 		c.HTML(http.StatusOK, "about.tmpl", nil)
 	})
 
-	if err := initProjects(router); err != nil {
+	if err := initPosts(router); err != nil {
 		log.Fatalln(err.Error())
 	}
 
@@ -41,11 +41,7 @@ func main() {
 		log.Fatalln(err.Error())
 	}
 
-	if err := initPosts(router); err != nil {
-		log.Fatalln(err.Error())
-	}
-
-	if err := initRss(router); err != nil {
+	if err := initProjects(router); err != nil {
 		log.Fatalln(err.Error())
 	}
 

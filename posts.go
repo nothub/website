@@ -45,21 +45,28 @@ func initPosts(router *gin.Engine) (err error) {
 		c.HTML(http.StatusOK, "posts.tmpl", posts)
 	})
 
-	router.GET("/posts/*slug", func(c *gin.Context) {
-		slug := strings.TrimPrefix(c.Param("slug"), "/")
-
-		// redirect to posts overview
-		if len(strings.TrimSpace(slug)) == 0 {
+	router.GET("/posts/*path", func(c *gin.Context) {
+		path := strings.TrimSpace(strings.TrimPrefix(c.Param("path"), "/"))
+		switch path {
+		case "":
+			// rewrite /posts/ to /posts
 			c.Request.URL.Path = "/posts"
 			router.HandleContext(c)
-			return
+		case "rss.xml":
+			// redirect /posts/rss.xml to /rss.xml
+			c.Redirect(http.StatusPermanentRedirect, "/rss.xml")
+		default:
+			if post, ok := posts[path]; ok {
+				c.HTML(http.StatusOK, "post.tmpl", post)
+			} else {
+				c.AbortWithStatus(http.StatusNotFound)
+			}
 		}
+	})
 
-		if post, ok := posts[slug]; ok {
-			c.HTML(http.StatusOK, "post.tmpl", post)
-		} else {
-			c.AbortWithStatus(http.StatusNotFound)
-		}
+	router.GET("/rss.xml", func(c *gin.Context) {
+		// TODO
+		c.AbortWithStatus(http.StatusTeapot)
 	})
 
 	return nil
