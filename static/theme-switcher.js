@@ -17,6 +17,28 @@ const themes = new Map([
     ])],
 ]);
 
+const input = document.body.appendChild(
+    document.createElement('input'));
+input.setAttribute("class", "theme-switcher")
+input.setAttribute("id", "theme-switcher")
+input.setAttribute("type", "checkbox")
+
+const label = document.body.appendChild(
+    document.createElement('label'));
+label.setAttribute("class", "theme-switcher-label")
+label.setAttribute("for", "theme-switcher")
+
+const sun = label.appendChild(document.createElement('i'))
+sun.setAttribute("class", "theme-switcher-sun")
+sun.innerText = '🌞'
+
+const moon = label.appendChild(document.createElement('i'))
+moon.setAttribute("class", "theme-switcher-moon")
+moon.innerText = '🌛'
+
+const knob = label.appendChild(document.createElement('span'))
+knob.setAttribute("class", "theme-switcher-knob")
+
 let theme = localStorage.getItem("theme");
 if (theme === null) {
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
