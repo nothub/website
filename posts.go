@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"github.com/gin-gonic/gin"
+	"github.com/yuin/goldmark"
 	"html/template"
 	"log"
 	"net/http"
@@ -22,25 +24,21 @@ func initPosts(router *gin.Engine) (err error) {
 		if entry.IsDir() {
 			continue
 		}
-		slug := strings.TrimSuffix(entry.Name(), ".html")
+		slug := strings.TrimSuffix(entry.Name(), ".md")
 		log.Printf("loading post: %s\n", slug)
 
-		by, err := fs.ReadFile("posts/" + entry.Name())
+		md, err := fs.ReadFile("posts/" + entry.Name())
 		if err != nil {
 			log.Fatalln(err.Error())
 		}
 
-		posts[slug] = template.HTML(by)
-	}
+		var buf bytes.Buffer
+		err = goldmark.Convert(md, &buf)
+		if err != nil {
+			log.Fatalln(err.Error())
+		}
 
-	for _, entry := range dir {
-		if !entry.IsDir() {
-			continue
-		}
-		slug := strings.TrimSuffix(entry.Name(), ".html")
-		if _, ok := posts[slug]; ok {
-			log.Printf("found data for post: %s\n", slug)
-		}
+		posts[slug] = template.HTML(buf.Bytes())
 	}
 
 	router.GET("/posts", func(c *gin.Context) {
