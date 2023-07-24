@@ -431,13 +431,13 @@ dl > dd {
 
 /* theme switcher */
 
-.checkbox {
+.theme-switcher {
     opacity: 0;
     position: absolute;
 }
 
-.checkbox-label {
-    background-color: var(--text);
+.theme-switcher-label {
+    background-color: var(--bg-figure);
     width: 50px;
     height: 26px;
     border-radius: 50px;
@@ -450,9 +450,9 @@ dl > dd {
     box-sizing: border-box;
 }
 
-.checkbox-label .ball {
+.theme-switcher-label .theme-switcher-knob {
     background-color: var(--bg);
-    width: 20px;
+    width: 21px;
     height: 20px;
     position: absolute;
     left: 3px;
@@ -461,6 +461,6 @@ dl > dd {
     transition: transform 0.1s linear;
 }
 
-.checkbox:checked + .checkbox-label .ball {
-    transform: translateX(24px);
+.theme-switcher:checked + .theme-switcher-label .theme-switcher-knob {
+    transform: translateX(23px);
 }

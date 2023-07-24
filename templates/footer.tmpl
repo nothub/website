@@ -1,12 +1,8 @@
-<a href="https://web.archive.org/web/20210312101244/http://www.kopimi.com/kopimi/"><img id="kopimi" src="/static/kopimi.svg" width="64" alt="kopimi logo"></a>
-<img src="https://ipv4.games/claim?name=nothub@github" width="0" height="0" style="position: fixed; display: none" alt="">
-<script type="text/javascript" src="/static/scrolltop.js"></script>
-
-<input type="checkbox" class="checkbox" id="checkbox">
-<label for="checkbox" class="checkbox-label">
-    <i style="font-size:75%">'🌞'</i>
-    <i style="font-size:75%">'🌝'</i>
-    <span class="ball"></span>
+<input class="theme-switcher" id="checkbox" type="checkbox">
+<label class="theme-switcher-label" for="checkbox">
+    <i style="font-size:90%;padding-left:1px">🌞</i>
+    <i style="font-size:90%;padding-right:4px">🌛</i>
+    <span class="theme-switcher-knob"></span>
 </label>
 <script defer>
     const themes = new Map([
@@ -33,7 +29,7 @@
     const checkbox = document.getElementById("checkbox");
 
     // init checkbox to correct setting
-    if (dark) {
+    if (!dark) {
         checkbox.checked = !checkbox.checked
     }
 
@@ -50,4 +46,7 @@
         }
     });
 </script>
+<a href="https://web.archive.org/web/20210312101244/http://www.kopimi.com/kopimi/"><img id="kopimi" src="/static/kopimi.svg" width="64" alt="kopimi logo"></a>
+<img src="https://ipv4.games/claim?name=nothub@github" width="0" height="0" style="position: fixed; display: none" alt="">
+<script type="text/javascript" src="/static/scrolltop.js"></script>
 <script data-goatcounter="https://hub.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
