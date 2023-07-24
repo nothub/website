@@ -45,8 +45,6 @@ func initProjects(router *gin.Engine) (err error) {
 		return err
 	}
 
-	log.Printf("%++q\n", projects)
-
 	router.GET("/projects/*path", func(c *gin.Context) {
 		path := c.Param("path")
 		log.Printf("path=%q\n", path)
