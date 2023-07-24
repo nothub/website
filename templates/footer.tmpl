@@ -1,4 +1,53 @@
 <a href="https://web.archive.org/web/20210312101244/http://www.kopimi.com/kopimi/"><img id="kopimi" src="/static/kopimi.svg" width="64" alt="kopimi logo"></a>
 <img src="https://ipv4.games/claim?name=nothub@github" width="0" height="0" style="position: fixed; display: none" alt="">
 <script type="text/javascript" src="/static/scrolltop.js"></script>
+
+<input type="checkbox" class="checkbox" id="checkbox">
+<label for="checkbox" class="checkbox-label">
+    <i style="font-size:75%">'🌞'</i>
+    <i style="font-size:75%">'🌝'</i>
+    <span class="ball"></span>
+</label>
+<script defer>
+    const themes = new Map([
+        ["light", new Map([
+            ["--bg-figure", "#DDD"],
+            ["--bg", "#FFF"],
+            ["--secondary", "#444"],
+            ["--text", "#000"],
+            ["--link-new", "#0000EE"],
+            ["--link-vis", "#551A8B"],
+        ])],
+        ["dark", new Map([
+            ["--bg-figure", "#151515"],
+            ["--bg", "#050709"],
+            ["--secondary", "#9EAC30"],
+            ["--text", "#E6E2BD"],
+            ["--link-new", "#9EAC30"],
+            ["--link-vis", "#7E8926"],
+        ])],
+    ]);
+
+    let dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    const checkbox = document.getElementById("checkbox");
+
+    // init checkbox to correct setting
+    if (dark) {
+        checkbox.checked = !checkbox.checked
+    }
+
+    checkbox.addEventListener("change", () => {
+        dark = !dark
+        if (dark) {
+            for (const [name, color] of themes.get("dark")) {
+                document.documentElement.style.setProperty(name, color);
+            }
+        } else {
+            for (const [name, color] of themes.get("light")) {
+                document.documentElement.style.setProperty(name, color);
+            }
+        }
+    });
+</script>
 <script data-goatcounter="https://hub.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
