@@ -20,34 +20,39 @@ const themes = new Map([
 let theme = localStorage.getItem("theme");
 if (theme === null) {
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        localStorage.setItem("theme", "dark");
         theme = "dark"
+        localStorage.setItem("theme", "dark");
     } else {
-        localStorage.setItem("theme", "light");
         theme = "light"
+        localStorage.setItem("theme", "light");
+    }
+}
+
+function setTheme(str) {
+    theme = str
+    localStorage.setItem("theme", str);
+    for (const [name, color] of themes.get(str)) {
+        document.documentElement.style.setProperty(name, color);
     }
 }
 
 const checkbox = document.getElementById("theme-switcher");
 
-// init checkbox to correct setting
+// ensure correct state
 if (theme === "light") {
     checkbox.checked = !checkbox.checked
+    setTheme("light")
+} else {
+    setTheme("dark")
 }
 
 checkbox.addEventListener("change", () => {
     switch (theme) {
         case "light":
-            theme = "dark"
-            for (const [name, color] of themes.get("dark")) {
-                document.documentElement.style.setProperty(name, color);
-            }
+            setTheme("dark")
             break;
         case "dark":
-            theme = "light"
-            for (const [name, color] of themes.get("light")) {
-                document.documentElement.style.setProperty(name, color);
-            }
+            setTheme("light")
             break;
     }
 });
