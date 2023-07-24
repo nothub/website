@@ -55,6 +55,29 @@ hr {
     }
 }
 
+/* relative size */
+
+@media (max-width: 900px) {
+    body {
+        font-size: 15px;
+        margin: 20px 5% 25px;
+    }
+}
+
+@media (min-width: 901px) and (max-width: 1800px) {
+    body {
+        font-size: 17px;
+        margin: 30px 10% 25px;
+    }
+}
+
+@media (min-width: 1801px) {
+    body {
+        font-size: 18px;
+        margin: 30px 15% 25px;
+    }
+}
+
 /* hide decoration on small screens */
 
 @media only screen and (max-width: 420px) {
