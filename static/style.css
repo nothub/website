@@ -118,6 +118,100 @@ a:hover.footnoteRef, a:link.footnoteRef, a:visited.footnoteRef {
     color: var(--secondary);
 }
 
+/* headlines */
+
+h1 {
+    font-size: 150%;
+}
+
+h2 {
+    font-size: 125%;
+}
+
+h1, h2, h3 {
+    margin: 1.25em 0 0.25em;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+h4, h5, h6 {
+    margin: 1em 0 0;
+    line-height: 1.1;
+}
+
+/* article */
+
+article > p:first-of-type {
+    margin: 0.75em 0 0;
+}
+
+/* tables */
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    overflow-wrap: normal;
+    table-layout: fixed;
+    width: 100%;
+}
+
+table > * {
+    overflow-wrap: normal;
+}
+
+thead {
+    background-color: var(--bg-figure);
+    font-weight: bold;
+}
+
+tbody:first-child, thead {
+    border-top: 1px solid var(--secondary);
+}
+
+tbody:last-child, thead {
+    border-bottom: 1px solid var(--secondary);
+}
+
+tr {
+    border-left: 1px solid var(--secondary);
+    border-right: 1px solid var(--secondary);
+}
+
+tr:nth-child(even) {
+    background-color: var(--bg-figure);
+}
+
+tr td, tr th {
+    padding: .2em .7em;
+}
+
+/* lists */
+
+li {
+    margin-bottom: 7px;
+    margin-top: 5px;
+}
+
+ul, ol {
+    font-size: 90%;
+    padding-left: 25px;
+}
+
+ul > li {
+    list-style-type: "➫ ";
+}
+
+ol > li {
+    list-style-type: decimal;
+}
+
+li > section > h2 > a:link, li > section > h2 > a:visited,
+li > section > h3 > a:link, li > section > h3 > a:visited {
+    color: var(--secondary);
+}
+
 /* codeblocks */
 
 code {
@@ -127,6 +221,7 @@ code {
 
 pre {
     overflow: auto;
+    font-size: 85%;
     background-color: var(--bg-figure);
     border: 1px solid var(--secondary);
     padding: 0;
@@ -203,6 +298,24 @@ figcaption:empty {
     display: none
 }
 
+/* quotes */
+
+blockquote {
+    quotes: none;
+    border-left: .35em var(--secondary) solid;
+    padding-left: 1em;
+    margin: 1.5em 0.5em 1.5em 0.5em;
+    font-size: 90%
+}
+
+blockquote, figcaption {
+    font-style: italic
+}
+
+blockquote:after, blockquote:before {
+    content: none
+}
+
 /* navbar */
 
 nav {
@@ -215,11 +328,6 @@ nav > a:link, nav > a:visited {
 
 .nav_link + .nav_link:before {
     content: " · "
-}
-
-#house {
-    color: var(--secondary);
-    margin: 0 0 5px;
 }
 
 /* contact info */
@@ -255,7 +363,12 @@ dl > dd {
     color: var(--secondary);
 }
 
-/* kopimi */
+/* deco */
+
+#house {
+    color: var(--secondary);
+    margin: 0 0 5px;
+}
 
 #kopimi {
     max-width: 1.5%;
@@ -280,12 +393,14 @@ dl > dd {
 }
 
 /* etx marker */
+
 #etx {
     font-weight: bold;
     text-align: center;
 }
 
 /* projects */
+
 .project-lang, .project-topic {
     float: left;
     margin-top: 0;
@@ -296,7 +411,6 @@ dl > dd {
     border: var(--secondary);
     border-width: 1px;
     border-style: solid;
-    box-shadow: var(--secondary);
     margin: 5px 10px 5px 0;
     padding: 10px 10px 10px 10px;
     min-width: 300px;
