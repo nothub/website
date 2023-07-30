@@ -1,7 +1,7 @@
 const themes = new Map([
     ["light", new Map([
         ["--bg-figure", "#DDD"],
-        ["--bg", "#FFF"],
+        ["--bg", "#FDFDFD"],
         ["--secondary", "#444"],
         ["--text", "#000"],
         ["--link-new", "#0000EE"],

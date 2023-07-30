@@ -36,7 +36,7 @@ hr {
 @media (prefers-color-scheme: light) {
     :root {
         --bg-figure: #ddd;
-        --bg: #fff;
+        --bg: #fdfdfd;
         --secondary: #444;
         --text: #000;
         --link-new: #0000ee;
