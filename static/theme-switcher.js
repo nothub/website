@@ -30,10 +30,12 @@ label.setAttribute("for", "theme-switcher")
 
 const sun = label.appendChild(document.createElement('i'))
 sun.setAttribute("class", "theme-switcher-sun")
+sun.style.fontSize = "15px"
 sun.innerText = '🌞'
 
 const moon = label.appendChild(document.createElement('i'))
 moon.setAttribute("class", "theme-switcher-moon")
+moon.style.fontSize = "15px"
 moon.innerText = '🌛'
 
 const knob = label.appendChild(document.createElement('span'))
