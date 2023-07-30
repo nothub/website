@@ -77,7 +77,6 @@ func initPosts(router *gin.Engine) (err error) {
 		}
 
 		slug := strings.TrimSuffix(entry.Name(), ".md")
-		log.Printf("loading post: %s\n", slug)
 
 		byts, err := fs.ReadFile("posts/" + entry.Name())
 		if err != nil {
@@ -95,13 +94,15 @@ func initPosts(router *gin.Engine) (err error) {
 		if err != nil {
 			log.Fatalln(err.Error())
 		}
-		log.Printf("%++v\n", meta)
 
 		if !meta.Draft || optLoadDrafts {
+			log.Printf("registering post: %s\n", slug)
 			posts[slug] = Post{
 				Meta:    meta,
 				Content: template.HTML(buf.String()),
 			}
+		} else {
+			log.Printf("skipping draft: %s\n", slug)
 		}
 	}
 
