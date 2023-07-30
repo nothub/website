@@ -10,8 +10,10 @@ import (
 	"strings"
 	"time"
 
+	chroma "github.com/alecthomas/chroma/v2/formatters/html"
 	"github.com/gin-gonic/gin"
 	"github.com/yuin/goldmark"
+	gmhl "github.com/yuin/goldmark-highlighting/v2"
 	gmmeta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
@@ -30,6 +32,12 @@ func initPosts(router *gin.Engine) (err error) {
 			extension.Strikethrough,
 			extension.Footnote,
 			&toc.Extender{Title: "ToC", MaxDepth: 1},
+			gmhl.NewHighlighting(
+				gmhl.WithStyle("gruvbox"),
+				gmhl.WithFormatOptions(
+					chroma.WithLineNumbers(true),
+				),
+			),
 		),
 	)
 
@@ -53,7 +61,6 @@ func initPosts(router *gin.Engine) (err error) {
 		}
 
 		// TODO:
-		//   https://github.com/yuin/goldmark-highlighting
 		//   https://github.com/abhinav/goldmark-anchor
 
 		var buf bytes.Buffer

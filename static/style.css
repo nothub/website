@@ -240,7 +240,6 @@ pre > code {
 
 code, p > code, a > code {
     border: 1px solid var(--secondary);
-    background-color: var(--bg-figure)
 }
 
 code, pre > code {
