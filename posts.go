@@ -63,16 +63,13 @@ func initPosts(router *gin.Engine) (err error) {
 			log.Fatalln(err.Error())
 		}
 
-		postMeta, err := parseMeta(gmmeta.Get(context))
+		meta, err := parseMeta(gmmeta.Get(context))
 		if err != nil {
 			log.Fatalln(err.Error())
 		}
-		log.Printf("%++v\n", postMeta)
+		log.Printf("%++v\n", meta)
 
-		// TODO: do this in a sane way with goldmark ast transformer
-		str := fmt.Sprintf("<h1>%s</h1>\n<br>\n", postMeta.title) + string(buf.Bytes())
-
-		posts[slug] = template.HTML(str)
+		posts[slug] = template.HTML(buildHeader(meta) + "<hr>\n" + buf.String())
 	}
 
 	router.GET("/posts", func(c *gin.Context) {
@@ -104,6 +101,24 @@ func initPosts(router *gin.Engine) (err error) {
 	})
 
 	return nil
+}
+
+func buildHeader(postMeta *metaData) string {
+	// TODO: do this in a sane way with goldmark ast transformer
+	str := strings.Builder{}
+	str.WriteString("<section>\n")
+	str.WriteString(fmt.Sprintf("<h1>%s</h1>\n", postMeta.title))
+	str.WriteString("<time>" + postMeta.date.Format(time.DateOnly) + "</time>\n")
+	str.WriteString("[ ")
+	var tagLinks []string
+	for _, tag := range postMeta.tags {
+		tagLinks = append(tagLinks, "<a class=\"tag\" href=\"/tags/"+tag+"\">"+tag+"</a>")
+	}
+	str.WriteString(strings.Join(tagLinks, " "))
+	str.WriteString(" ]\n")
+	str.WriteString("<p>" + postMeta.desc + "</p>\n")
+	str.WriteString("</section>\n")
+	return str.String()
 }
 
 type metaData struct {
