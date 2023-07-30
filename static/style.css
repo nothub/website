@@ -145,6 +145,10 @@ article > p:first-of-type {
     margin: 0.75em 0 0;
 }
 
+main > p {
+    line-height: 1.5em;
+}
+
 /* tables */
 
 table {
