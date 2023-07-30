@@ -101,6 +101,8 @@ The organisms fuse to the nerve, intertwining at the molecular level. That's why
 extract it. The vertex waves show a K-complex corresponding to an REM state. The engineering section's critical.
 Destruction is imminent. Their robes contain ultritium, highly explosive, virtually undetectable by your transporter.
 
+![sharks](./sharks.gif)
+
 {{< figure src="sharks.gif" title="hacker sharks" alt="group of sharks doing pair-programming" >}}
 
 It indicates a synchronic distortion in the areas emanating triolic waves. The cerebellum, the cerebral cortex, the

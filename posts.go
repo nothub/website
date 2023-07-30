@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	img64 "github.com/tenkoh/goldmark-img64"
 	"go.abhg.dev/goldmark/anchor"
 	"html/template"
 	"log"
@@ -55,7 +56,9 @@ func initPosts(router *gin.Engine) (err error) {
 					chroma.WithLineNumbers(true),
 				),
 			),
+			img64.Img64,
 		),
+		goldmark.WithRendererOptions(img64.WithParentPath("posts")),
 	)
 
 	dir, err := fs.ReadDir("posts")
@@ -66,13 +69,19 @@ func initPosts(router *gin.Engine) (err error) {
 	var posts = make(map[string]Post)
 
 	for _, entry := range dir {
+		var slug string
+		var file string
 		if entry.IsDir() {
-			continue
+			slug = entry.Name()
+			file = "posts/" + entry.Name() + "/index.md"
+			log.Printf("loading post: %s\n", slug)
+		} else {
+			slug = strings.TrimSuffix(entry.Name(), ".md")
+			file = "posts/" + entry.Name()
+			log.Printf("loading post: %s\n", slug)
 		}
-		slug := strings.TrimSuffix(entry.Name(), ".md")
-		log.Printf("loading post: %s\n", slug)
 
-		md, err := fs.ReadFile("posts/" + entry.Name())
+		md, err := fs.ReadFile(file)
 		if err != nil {
 			log.Fatalln(err.Error())
 		}
@@ -122,7 +131,9 @@ func initPosts(router *gin.Engine) (err error) {
 			if post, ok := posts[path]; ok {
 				c.HTML(http.StatusOK, "post.gohtml", post)
 			} else {
-				c.AbortWithStatus(http.StatusNotFound)
+				log.Println("loading post asset from: " + c.Request.URL.Path)
+				c.FileFromFS(c.Request.URL.Path, http.FS(fs))
+				//c.AbortWithStatus(http.StatusNotFound)
 			}
 		}
 	})
