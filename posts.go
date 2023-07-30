@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"go.abhg.dev/goldmark/anchor"
 	"html/template"
 	"log"
 	"net/http"
@@ -17,7 +18,6 @@ import (
 	gmmeta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
-	"go.abhg.dev/goldmark/toc"
 )
 
 func initPosts(router *gin.Engine) (err error) {
@@ -31,7 +31,7 @@ func initPosts(router *gin.Engine) (err error) {
 			gmmeta.New(),
 			extension.Strikethrough,
 			extension.Footnote,
-			&toc.Extender{Title: "ToC", MaxDepth: 1},
+			&anchor.Extender{},
 			gmhl.NewHighlighting(
 				gmhl.WithStyle("gruvbox"),
 				gmhl.WithFormatOptions(
@@ -59,9 +59,6 @@ func initPosts(router *gin.Engine) (err error) {
 		if err != nil {
 			log.Fatalln(err.Error())
 		}
-
-		// TODO:
-		//   https://github.com/abhinav/goldmark-anchor
 
 		var buf bytes.Buffer
 		context := parser.NewContext()
