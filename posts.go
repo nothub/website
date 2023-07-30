@@ -2,16 +2,28 @@ package main
 
 import (
 	"bytes"
-	"github.com/gin-gonic/gin"
-	"github.com/yuin/goldmark"
+	"errors"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"strings"
+	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/yuin/goldmark"
+	gmmeta "github.com/yuin/goldmark-meta"
+	"github.com/yuin/goldmark/parser"
+	"go.abhg.dev/goldmark/toc"
 )
 
 func initPosts(router *gin.Engine) (err error) {
 	log.Println("loading posts")
+
+	gm := goldmark.New(goldmark.WithParserOptions(parser.WithAutoHeadingID()), goldmark.WithExtensions(gmmeta.New(), &toc.Extender{
+		Title:    "ToC",
+		MaxDepth: 1,
+	}))
 
 	dir, err := fs.ReadDir("posts")
 	if err != nil {
@@ -33,18 +45,26 @@ func initPosts(router *gin.Engine) (err error) {
 		}
 
 		// TODO:
-		//   https://github.com/yuin/goldmark-meta / https://github.com/abhinav/goldmark-frontmatter
 		//   https://github.com/yuin/goldmark-highlighting
 		//   https://github.com/abhinav/goldmark-anchor
-		//   https://github.com/abhinav/goldmark-toc
 
 		var buf bytes.Buffer
-		err = goldmark.Convert(md, &buf)
+		context := parser.NewContext()
+		err = gm.Convert(md, &buf, parser.WithContext(context))
 		if err != nil {
 			log.Fatalln(err.Error())
 		}
 
-		posts[slug] = template.HTML(buf.Bytes())
+		postMeta, err := parseMeta(gmmeta.Get(context))
+		if err != nil {
+			log.Fatalln(err.Error())
+		}
+		log.Printf("%++v\n", postMeta)
+
+		// TODO: do this in a sane way with goldmark ast transformer
+		str := fmt.Sprintf("<h1>%s</h1>\n<br>\n", postMeta.title) + string(buf.Bytes())
+
+		posts[slug] = template.HTML(str)
 	}
 
 	router.GET("/posts", func(c *gin.Context) {
@@ -75,5 +95,67 @@ func initPosts(router *gin.Engine) (err error) {
 		c.AbortWithStatus(http.StatusTeapot)
 	})
 
+	return nil
+}
+
+type metaData struct {
+	title string
+	desc  string
+	date  time.Time
+	tags  []string
+	draft bool
+}
+
+func parseMeta(meta map[string]any) (*metaData, error) {
+	var data metaData
+
+	if err := validateMetaEntry[string]("title", meta); err != nil {
+		return nil, err
+	}
+	data.title = meta["title"].(string)
+
+	if err := validateMetaEntry[string]("description", meta); err != nil {
+		return nil, err
+	}
+	data.desc = meta["description"].(string)
+
+	if err := validateMetaEntry[string]("date", meta); err != nil {
+		return nil, err
+	}
+	dateVal, err := time.Parse(time.DateOnly /* time.DateOnly */, fmt.Sprint(meta["date"]))
+	if err != nil {
+		return nil, errors.New("meta contains wrong date format: " + err.Error())
+	}
+	data.date = dateVal
+
+	if _, ok := meta["tags"]; !ok {
+		return nil, errors.New("meta entry tags is missing")
+	}
+	rawTags := meta["tags"].([]any)
+	for _, rawTag := range rawTags {
+		_, typeOk := rawTag.(string)
+		if !typeOk {
+			return nil, errors.New(fmt.Sprintf("meta entry tag has wrong type"))
+		}
+		data.tags = append(data.tags, rawTag.(string))
+	}
+
+	if err := validateMetaEntry[bool]("draft", meta); err != nil {
+		return nil, err
+	}
+	data.draft = meta["draft"].(bool)
+
+	return &data, nil
+}
+
+func validateMetaEntry[T any](name string, meta map[string]any) error {
+	if val, ok := meta[name]; ok {
+		_, typeOk := val.(T)
+		if !typeOk {
+			return errors.New(fmt.Sprintf("meta entry %q has wrong type", name))
+		}
+	} else {
+		return errors.New(fmt.Sprintf("meta entry %q is missing", name))
+	}
 	return nil
 }
