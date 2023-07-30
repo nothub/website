@@ -52,7 +52,7 @@ func initProjects(router *gin.Engine) (err error) {
 
 		meta, err := githubRepoMeta(u.Path)
 		if err != nil {
-			log.Printf("stargazer lookup for %s caused http status %s\n", proj.Url, err.Error())
+			log.Printf("stargazer lookup for %s caused %s\n", proj.Url, err.Error())
 			continue
 		}
 
