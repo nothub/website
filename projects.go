@@ -49,7 +49,7 @@ func initProjects(router *gin.Engine) (err error) {
 		path := c.Param("path")
 		log.Printf("path=%q\n", path)
 		// TODO
-		c.HTML(http.StatusOK, "projects.tmpl", projects)
+		c.HTML(http.StatusOK, "projects.gohtml", projects)
 	})
 
 	return nil

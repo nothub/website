@@ -21,7 +21,7 @@ var gopkg = func(c *gin.Context) {
 		c.AbortWithStatus(http.StatusNotFound)
 	}
 
-	c.HTML(http.StatusOK, "gopkg.tmpl", map[string]any{
+	c.HTML(http.StatusOK, "gopkg.gohtml", map[string]any{
 		"pkg": modPath,
 	})
 

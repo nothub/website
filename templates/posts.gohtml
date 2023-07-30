@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-{{ template "head.tmpl" -}}
+{{ template "head.gohtml" -}}
 <body>
-{{ template "nav.tmpl" -}}
+{{ template "nav.gohtml" -}}
 <main>
     <ul>
         {{ range $slug, $html := . }}
@@ -10,6 +10,6 @@
         {{ end }}
     </ul>
 </main>
-{{ template "footer.tmpl" -}}
+{{ template "footer.gohtml" -}}
 </body>
 </html>

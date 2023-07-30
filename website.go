@@ -20,7 +20,7 @@ func main() {
 	gin.DisableConsoleColor()
 	router := gin.Default()
 	router.SetHTMLTemplate(template.Must(template.New("").
-		ParseFS(fs, "templates/*.tmpl")))
+		ParseFS(fs, "templates/*.gohtml")))
 
 	// go module vanity url redirects
 	router.Use(gopkg)
@@ -30,7 +30,7 @@ func main() {
 	})
 
 	router.GET("/about", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "about.tmpl", nil)
+		c.HTML(http.StatusOK, "about.gohtml", nil)
 	})
 
 	if err := initPosts(router); err != nil {

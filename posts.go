@@ -81,7 +81,7 @@ func initPosts(router *gin.Engine) (err error) {
 	}
 
 	router.GET("/posts", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "posts.tmpl", posts)
+		c.HTML(http.StatusOK, "posts.gohtml", posts)
 	})
 
 	router.GET("/posts/*path", func(c *gin.Context) {
@@ -96,7 +96,7 @@ func initPosts(router *gin.Engine) (err error) {
 			c.Redirect(http.StatusPermanentRedirect, "/rss.xml")
 		default:
 			if post, ok := posts[path]; ok {
-				c.HTML(http.StatusOK, "post.tmpl", post)
+				c.HTML(http.StatusOK, "post.gohtml", post)
 			} else {
 				c.AbortWithStatus(http.StatusNotFound)
 			}

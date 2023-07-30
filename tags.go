@@ -18,7 +18,7 @@ func initTags(router *gin.Engine) (err error) {
 	log.Println("linking tags")
 
 	router.GET("/tags", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "tags.tmpl", tags)
+		c.HTML(http.StatusOK, "tags.gohtml", tags)
 	})
 
 	router.GET("/tags/*path", func(c *gin.Context) {
@@ -30,7 +30,7 @@ func initTags(router *gin.Engine) (err error) {
 			router.HandleContext(c)
 		default:
 			if links, ok := tags[path]; ok {
-				c.HTML(http.StatusOK, "tags.tmpl", map[string]any{
+				c.HTML(http.StatusOK, "tags.gohtml", map[string]any{
 					path: links,
 				})
 			} else {
