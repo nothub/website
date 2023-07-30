@@ -38,6 +38,15 @@ func (meta Meta) DateString() string {
 	return meta.Date.Format(time.DateOnly)
 }
 
+type anchorTexter struct{}
+
+func (*anchorTexter) AnchorText(h *anchor.HeaderInfo) []byte {
+	if h.Level > 2 {
+		return nil
+	}
+	return []byte("¶")
+}
+
 func initPosts(router *gin.Engine) (err error) {
 	log.Println("loading posts")
 
@@ -46,20 +55,18 @@ func initPosts(router *gin.Engine) (err error) {
 			parser.WithAutoHeadingID(),
 		),
 		goldmark.WithExtensions(
-			gmmeta.New(),
-			extension.Strikethrough,
 			extension.Footnote,
-			&anchor.Extender{},
+			extension.Strikethrough,
+			gmmeta.New(),
+			&anchor.Extender{Texter: &anchorTexter{}},
+			figure.Figure,
 			gmhl.NewHighlighting(
 				gmhl.WithStyle("gruvbox"),
 				gmhl.WithFormatOptions(
 					chroma.WithLineNumbers(true),
 				),
 			),
-			img64.Img64,
-		),
-		goldmark.WithRendererOptions(img64.WithParentPath("posts")),
-	)
+		))
 
 	dir, err := fs.ReadDir("posts")
 	if err != nil {
