@@ -57,6 +57,7 @@ func initPosts(router *gin.Engine) (err error) {
 		goldmark.WithExtensions(
 			extension.Footnote,
 			extension.Strikethrough,
+			extension.Table,
 			gmmeta.New(),
 			&anchor.Extender{Texter: &anchorTexter{}},
 			figure.Figure,
