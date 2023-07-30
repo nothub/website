@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"go.abhg.dev/goldmark/anchor"
 	"html/template"
 	"log"
 	"net/http"
@@ -13,12 +12,14 @@ import (
 
 	chroma "github.com/alecthomas/chroma/v2/formatters/html"
 	"github.com/gin-gonic/gin"
-	figure "github.com/mangoumbrella/goldmark-figure"
-	"github.com/yuin/goldmark"
+
+	gmfigure "github.com/mangoumbrella/goldmark-figure"
+	gm "github.com/yuin/goldmark"
 	gmhl "github.com/yuin/goldmark-highlighting/v2"
 	gmmeta "github.com/yuin/goldmark-meta"
-	"github.com/yuin/goldmark/extension"
-	"github.com/yuin/goldmark/parser"
+	gmext "github.com/yuin/goldmark/extension"
+	gmparser "github.com/yuin/goldmark/parser"
+	gmanchor "go.abhg.dev/goldmark/anchor"
 )
 
 type Post struct {
@@ -40,7 +41,7 @@ func (meta Meta) DateString() string {
 
 type anchorTexter struct{}
 
-func (*anchorTexter) AnchorText(h *anchor.HeaderInfo) []byte {
+func (*anchorTexter) AnchorText(h *gmanchor.HeaderInfo) []byte {
 	if h.Level > 2 {
 		return nil
 	}
@@ -50,24 +51,17 @@ func (*anchorTexter) AnchorText(h *anchor.HeaderInfo) []byte {
 func initPosts(router *gin.Engine) (err error) {
 	log.Println("loading posts")
 
-	gm := goldmark.New(
-		goldmark.WithParserOptions(
-			parser.WithAutoHeadingID(),
-		),
-		goldmark.WithExtensions(
-			extension.Footnote,
-			extension.Strikethrough,
-			extension.Table,
-			gmmeta.New(),
-			&anchor.Extender{Texter: &anchorTexter{}},
-			figure.Figure,
-			gmhl.NewHighlighting(
-				gmhl.WithStyle("gruvbox"),
-				gmhl.WithFormatOptions(
-					chroma.WithLineNumbers(true),
-				),
-			),
-		))
+	gm := gm.New(gm.WithParserOptions(gmparser.WithAutoHeadingID()), gm.WithExtensions(
+		gmext.Footnote,
+		gmext.Strikethrough,
+		gmext.Table,
+		gmfigure.Figure,
+		gmmeta.New(),
+		&gmanchor.Extender{Texter: &anchorTexter{}},
+		gmhl.NewHighlighting(
+			gmhl.WithStyle("gruvbox"),
+			gmhl.WithFormatOptions(chroma.WithLineNumbers(true)),
+		)))
 
 	dir, err := fs.ReadDir("posts")
 	if err != nil {
@@ -91,8 +85,8 @@ func initPosts(router *gin.Engine) (err error) {
 		}
 
 		var buf bytes.Buffer
-		ctx := parser.NewContext()
-		err = gm.Convert(byts, &buf, parser.WithContext(ctx))
+		ctx := gmparser.NewContext()
+		err = gm.Convert(byts, &buf, gmparser.WithContext(ctx))
 		if err != nil {
 			log.Fatalln(err.Error())
 		}
@@ -103,9 +97,11 @@ func initPosts(router *gin.Engine) (err error) {
 		}
 		log.Printf("%++v\n", meta)
 
-		posts[slug] = Post{
-			Meta:    meta,
-			Content: template.HTML(buf.String()),
+		if !meta.Draft || optLoadDrafts {
+			posts[slug] = Post{
+				Meta:    meta,
+				Content: template.HTML(buf.String()),
+			}
 		}
 	}
 
