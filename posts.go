@@ -20,6 +20,23 @@ import (
 	"github.com/yuin/goldmark/parser"
 )
 
+type Post struct {
+	Meta    Meta
+	Content template.HTML
+}
+
+type Meta struct {
+	Title string
+	Desc  string
+	Date  time.Time
+	Tags  []string
+	Draft bool
+}
+
+func (meta Meta) DateString() string {
+	return meta.Date.Format(time.DateOnly)
+}
+
 func initPosts(router *gin.Engine) (err error) {
 	log.Println("loading posts")
 
@@ -46,7 +63,7 @@ func initPosts(router *gin.Engine) (err error) {
 		log.Fatalln(err.Error())
 	}
 
-	var posts = make(map[string]template.HTML)
+	var posts = make(map[string]Post)
 
 	for _, entry := range dir {
 		if entry.IsDir() {
@@ -73,10 +90,17 @@ func initPosts(router *gin.Engine) (err error) {
 		}
 		log.Printf("%++v\n", meta)
 
-		posts[slug] = template.HTML(buildHeader(meta) + "<hr>\n" + buf.String())
+		posts[slug] = Post{
+			Meta:    meta,
+			Content: template.HTML(buf.String()),
+		}
+	}
 
-		for _, tag := range meta.Tags {
-			linkTag(tag, "Post: "+meta.Title, "/posts/"+slug)
+	// TODO: sort posts descending by date
+
+	for slug, post := range posts {
+		for _, tag := range post.Meta.Tags {
+			linkTag(tag, "Post: "+post.Meta.Title, "/posts/"+slug)
 		}
 	}
 
@@ -111,77 +135,44 @@ func initPosts(router *gin.Engine) (err error) {
 	return nil
 }
 
-func buildHeader(postMeta *Meta) string {
-	// TODO: do this in a sane way with goldmark ast transformer
-	str := strings.Builder{}
-	str.WriteString("<section>\n")
-	str.WriteString(fmt.Sprintf("<h1>%s</h1>\n", postMeta.Title))
-	str.WriteString("<time>" + postMeta.Date.Format(time.DateOnly) + "</time>\n")
-	str.WriteString("[ ")
-	var tagLinks []string
-	for _, tag := range postMeta.Tags {
-		tagLinks = append(tagLinks, "<a class=\"tag\" href=\"/tags/"+tag+"\">"+tag+"</a>")
+func parseMeta(rawMeta map[string]any) (meta Meta, err error) {
+	if err = validateMetaEntry[string]("title", rawMeta); err != nil {
+		return meta, err
 	}
-	str.WriteString(strings.Join(tagLinks, " "))
-	str.WriteString(" ]\n")
-	str.WriteString("<p>" + postMeta.Desc + "</p>\n")
-	str.WriteString("</section>\n")
-	return str.String()
-}
+	meta.Title = rawMeta["title"].(string)
 
-type Meta struct {
-	Title string
-	Desc  string
-	Date  time.Time
-	Tags  []string
-	Draft bool
-}
-
-type Post struct {
-	Meta Meta
-	Html string
-}
-
-func parseMeta(meta map[string]any) (*Meta, error) {
-	var data Meta
-
-	if err := validateMetaEntry[string]("title", meta); err != nil {
-		return nil, err
+	if err = validateMetaEntry[string]("description", rawMeta); err != nil {
+		return meta, err
 	}
-	data.Title = meta["title"].(string)
+	meta.Desc = rawMeta["description"].(string)
 
-	if err := validateMetaEntry[string]("description", meta); err != nil {
-		return nil, err
+	if err = validateMetaEntry[string]("date", rawMeta); err != nil {
+		return meta, err
 	}
-	data.Desc = meta["description"].(string)
-
-	if err := validateMetaEntry[string]("date", meta); err != nil {
-		return nil, err
-	}
-	dateVal, err := time.Parse(time.DateOnly /* time.DateOnly */, fmt.Sprint(meta["date"]))
+	dateVal, err := time.Parse(time.DateOnly, fmt.Sprint(rawMeta["date"]))
 	if err != nil {
-		return nil, errors.New("meta contains wrong date format: " + err.Error())
+		return meta, errors.New("meta contains wrong date format: " + err.Error())
 	}
-	data.Date = dateVal
+	meta.Date = dateVal
 
-	if _, ok := meta["tags"]; !ok {
-		return nil, errors.New("meta entry tags is missing")
+	if _, ok := rawMeta["tags"]; !ok {
+		return meta, errors.New(fmt.Sprintf("meta entry %q is missing", "tags"))
 	}
-	rawTags := meta["tags"].([]any)
-	for _, rawTag := range rawTags {
+	rawTags := rawMeta["tags"].([]any)
+	for val, rawTag := range rawTags {
 		_, typeOk := rawTag.(string)
 		if !typeOk {
-			return nil, errors.New(fmt.Sprintf("meta entry tag has wrong type"))
+			return meta, errors.New(fmt.Sprintf("tag %q has wrong type", val))
 		}
-		data.Tags = append(data.Tags, rawTag.(string))
+		meta.Tags = append(meta.Tags, rawTag.(string))
 	}
 
-	if err := validateMetaEntry[bool]("draft", meta); err != nil {
-		return nil, err
+	if err := validateMetaEntry[bool]("draft", rawMeta); err != nil {
+		return meta, err
 	}
-	data.Draft = meta["draft"].(bool)
+	meta.Draft = rawMeta["draft"].(bool)
 
-	return &data, nil
+	return meta, nil
 }
 
 func validateMetaEntry[T any](name string, meta map[string]any) error {

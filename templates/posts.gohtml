@@ -6,8 +6,13 @@
 <main>
     <h1>Posts</h1>
     <ul>
-        {{ range $slug, $html := . }}
-            <li><a href="./posts/{{ $slug }}">{{ $slug }}</a></li>
+        {{ range $slug, $post := . }}
+            <section>
+                <a href="./posts/{{ $slug }}"><h2>{{ $post.Meta.Title }}</h2></a>
+                <time>{{ $post.Meta.DateString }}</time>
+                [ {{ range $post.Meta.Tags }} <a class="tag" href="/tags/{{ . }}">{{ . }}</a> {{ end }} ]
+                <p>{{ $post.Meta.Desc }}</p>
+            </section>
         {{ end }}
     </ul>
 </main>
