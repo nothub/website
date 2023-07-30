@@ -12,12 +12,12 @@ import (
 // TODO: fetch infos from github api (https://github.com/orgs/community/discussions/24350)
 
 type project struct {
-	Title  string   `yaml:"title"`
-	Url    string   `yaml:"url"`
-	Desc   string   `yaml:"desc"`
-	Role   string   `yaml:"role"`
-	Topics []string `yaml:"topics"`
-	Langs  []string `yaml:"langs"`
+	Title string   `yaml:"title"`
+	Url   string   `yaml:"url"`
+	Desc  string   `yaml:"desc"`
+	Role  string   `yaml:"role"`
+	Tags  []string `yaml:"tags"`
+	Langs []string `yaml:"langs"`
 }
 
 func (pr project) Stars() int {
@@ -43,6 +43,12 @@ func initProjects(router *gin.Engine) (err error) {
 	err = yaml.Unmarshal(bytes, &projects)
 	if err != nil {
 		return err
+	}
+
+	for _, project := range projects {
+		for _, tag := range project.Tags {
+			linkTag(tag, "Project: "+project.Title, project.Url)
+		}
 	}
 
 	router.GET("/projects/*path", func(c *gin.Context) {
