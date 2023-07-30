@@ -6,10 +6,14 @@ import (
 )
 
 var optLoadDrafts bool
-var optGithubToken string = os.Getenv("GITHUB_TOKEN")
+var optGithubToken string
 
 func init() {
-	flag.BoolVar(&optLoadDrafts, "drafts", false, "load drafts")
-	flag.StringVar(&optGithubToken, "github-token", "", "github token")
+	flag.BoolVar(&optLoadDrafts, "drafts", false, "")
+	flag.StringVar(&optGithubToken, "github-token", "", "")
 	flag.Parse()
+
+	if optGithubToken == "" {
+		optGithubToken = os.Getenv("GITHUB_TOKEN")
+	}
 }

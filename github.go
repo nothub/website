@@ -74,7 +74,9 @@ func githubRepoMeta(repo string) (*RepoMeta, error) {
 	}
 
 	setDefaultHeader(req)
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", optGithubToken))
+	if optGithubToken != "" {
+		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", optGithubToken))
+	}
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("X-GitHub-Api-Version", "2022-11-28")
 	req.Close = true
