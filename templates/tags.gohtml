@@ -5,6 +5,7 @@
 {{ template "nav.gohtml" -}}
 <main>
     <h1>Tags</h1>
+    <p>A bunch of references to different things, grouped by tag.</p>
     <!-- TODO: tag cloud -->
     {{ range $tag, $refs := . }}
         <section>
