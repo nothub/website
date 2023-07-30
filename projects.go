@@ -49,6 +49,9 @@ func initProjects(router *gin.Engine) (err error) {
 		for _, tag := range project.Tags {
 			linkTag(tag, "Project: "+project.Title, project.Url)
 		}
+		for _, lang := range project.Langs {
+			linkTag(lang, "Project: "+project.Title, project.Url)
+		}
 	}
 
 	router.GET("/projects/*path", func(c *gin.Context) {
