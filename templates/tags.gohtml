@@ -4,7 +4,17 @@
 <body>
 {{ template "nav.gohtml" -}}
 <main>
-{{ . }}
+    <h1>Tags</h1>
+    {{ range $tag, $refs := . }}
+        <section>
+            <h2><a href="/tags/{{ $tag }}">{{ $tag }}</a></h2>
+            <ul>
+                {{ range $refs }}
+                    <li><a href="{{ .Link }}">{{ .Name }}</a></li>
+                {{ end }}
+            </ul>
+        </section>
+    {{ end }}
 </main>
 {{ template "footer.gohtml" -}}
 </body>

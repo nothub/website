@@ -7,11 +7,15 @@ import (
 	"strings"
 )
 
-// tags holds a list of internal links per tag
-var tags = make(map[string][]string)
+type Ref struct {
+	Name string
+	Link string
+}
 
-func linkTag(tag string, link string) {
-	tags[tag] = append(tags[tag], link)
+var tags = make(map[string][]Ref)
+
+func linkTag(tag string, name string, link string) {
+	tags[tag] = append(tags[tag], Ref{Name: name, Link: link})
 }
 
 func initTags(router *gin.Engine) (err error) {
