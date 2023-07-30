@@ -21,8 +21,8 @@
                         {{ range .Langs -}}
                             <p class="project-lang">{{ . }}</p>
                         {{- end }}
-                        {{ range .Topics -}}
-                            <p class="project-topic">{{ . }}</p>
+                        {{ range .Tags -}}
+                            <p class="project-tag">{{ . }}</p>
                         {{- end }}
                     </section>
                     <p class="project-desc">{{ .Desc }}</p>

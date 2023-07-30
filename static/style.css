@@ -404,7 +404,7 @@ dl > dd {
 
 /* projects */
 
-.project-lang, .project-topic {
+.project-lang, .project-tag {
     float: left;
     margin-top: 0;
     margin-right: 5px;
