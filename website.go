@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"embed"
+	"errors"
 	"github.com/gin-gonic/gin"
 	"html/template"
 	"log"
@@ -70,7 +71,7 @@ func main() {
 
 	go func() {
 		err := srv.ListenAndServe()
-		if err == http.ErrServerClosed {
+		if errors.Is(err, http.ErrServerClosed) {
 			log.Println("graceful shutdown complete")
 		} else if err == nil {
 			log.Fatalln("http.Server stopped with nil error")
