@@ -4,6 +4,7 @@
 <body>
 {{ template "nav.gohtml" -}}
 <main>
+    <h1>Posts</h1>
     <ul>
         {{ range $slug, $html := . }}
             <li><a href="./{{ $slug }}">{{ $slug }}</a></li>
