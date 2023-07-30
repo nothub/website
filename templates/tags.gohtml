@@ -5,6 +5,7 @@
 {{ template "nav.gohtml" -}}
 <main>
     <h1>Tags</h1>
+    <!-- TODO: tag cloud -->
     {{ range $tag, $refs := . }}
         <section>
             <h2><a href="/tags/{{ $tag }}">{{ $tag }}</a></h2>
