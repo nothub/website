@@ -2,7 +2,7 @@
 title: "Nix packages for reproducible environments (lazy-mode)"
 description: "How to pin nix packages in shell scripts, ci pipelines and other build processes"
 date: "2023-07-09"
-tags: ["nix", "make", "github", "ci"]
+tags: ["nix", "make", "shell"]
 draft: false
 ---
 

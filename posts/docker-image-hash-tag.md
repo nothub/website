@@ -2,7 +2,7 @@
 title: "Docker image hash-tags"
 description: "Pin Docker images with a hashsum as tag"
 date: "2023-03-17"
-tags: ["docker", "TIL"]
+tags: ["docker"]
 draft: false
 ---
 
