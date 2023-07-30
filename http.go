@@ -8,3 +8,7 @@ import (
 var httpClient = &http.Client{
 	Timeout: time.Second * 10,
 }
+
+func setDefaultHeader(req *http.Request) {
+	req.Header.Set("User-Agent", "hub.lol")
+}

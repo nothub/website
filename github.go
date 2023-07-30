@@ -73,7 +73,7 @@ func githubRepoMeta(repo string) (*RepoMeta, error) {
 		return nil, err
 	}
 
-	req.Header.Set("User-Agent", "hub.lol")
+	setDefaultHeader(req)
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", optGithubToken))
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("X-GitHub-Api-Version", "2022-11-28")
