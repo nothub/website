@@ -13,6 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/yuin/goldmark"
 	gmmeta "github.com/yuin/goldmark-meta"
+	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"go.abhg.dev/goldmark/toc"
 )
@@ -20,10 +21,17 @@ import (
 func initPosts(router *gin.Engine) (err error) {
 	log.Println("loading posts")
 
-	gm := goldmark.New(goldmark.WithParserOptions(parser.WithAutoHeadingID()), goldmark.WithExtensions(gmmeta.New(), &toc.Extender{
-		Title:    "ToC",
-		MaxDepth: 1,
-	}))
+	gm := goldmark.New(
+		goldmark.WithParserOptions(
+			parser.WithAutoHeadingID(),
+		),
+		goldmark.WithExtensions(
+			gmmeta.New(),
+			extension.Strikethrough,
+			extension.Footnote,
+			&toc.Extender{Title: "ToC", MaxDepth: 1},
+		),
+	)
 
 	dir, err := fs.ReadDir("posts")
 	if err != nil {
