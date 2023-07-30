@@ -33,7 +33,7 @@
   desc: "Sources of this website"
   role: "author"
   tags: [ "web" ]
-  langs: [ "go" ]
+  langs: [ "go", "html", "js" ]
 
 - title: "dotfiles"
   url: "https://github.com/nothub/dotfiles"
