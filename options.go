@@ -1,10 +1,15 @@
 package main
 
-import "flag"
+import (
+	"flag"
+	"os"
+)
 
 var optLoadDrafts bool
+var optGithubToken string = os.Getenv("GITHUB_TOKEN")
 
-func flags() {
+func init() {
 	flag.BoolVar(&optLoadDrafts, "drafts", false, "load drafts")
+	flag.StringVar(&optGithubToken, "github-token", "", "github token")
 	flag.Parse()
 }

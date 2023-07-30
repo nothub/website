@@ -18,8 +18,6 @@ import (
 var fs embed.FS
 
 func main() {
-	flags()
-
 	gin.DisableConsoleColor()
 	router := gin.Default()
 	router.SetHTMLTemplate(template.Must(template.New("").

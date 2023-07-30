@@ -12,7 +12,7 @@
                 <section class="project-card">
                     <section>
                         <a href="{{ .Url }}">{{ .Title }}</a>
-                        {{ $stars := .Stars }}{{ if gt $stars 0 }} {{ $stars }} ⭐{{ end }}
+                        {{ if gt .Stars 0 }} {{ .Stars }} ⭐{{ end }}
                         <p class="project-role">{{ .Role }}</p>
                     </section>
                     <section class="project-tags" style="display: flex;flex-flow: row wrap;justify-content: flex-start">
