@@ -5,6 +5,7 @@
 {{ template "nav.gohtml" -}}
 <main>
     <h1>Posts</h1>
+    <p>A few things I wrote down for some reason.</p>
         {{ range $slug, $post := . }}
             <section>
                 <a href="./posts/{{ $slug }}"><h2>{{ $post.Meta.Title }}</h2></a>
