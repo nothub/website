@@ -29,8 +29,10 @@ func initTags(router *gin.Engine) (err error) {
 			c.Request.URL.Path = "/tags"
 			router.HandleContext(c)
 		default:
-			if tag, ok := tags[path]; ok {
-				c.HTML(http.StatusOK, "tag.tmpl", tag)
+			if links, ok := tags[path]; ok {
+				c.HTML(http.StatusOK, "tags.tmpl", map[string]any{
+					path: links,
+				})
 			} else {
 				c.AbortWithStatus(http.StatusNotFound)
 			}
