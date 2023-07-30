@@ -76,7 +76,7 @@ func initPosts(router *gin.Engine) (err error) {
 		posts[slug] = template.HTML(buildHeader(meta) + "<hr>\n" + buf.String())
 
 		for _, tag := range meta.tags {
-			linkTag(tag, meta.title, "/posts/"+slug)
+			linkTag(tag, "Post: "+meta.title, "/posts/"+slug)
 		}
 	}
 
