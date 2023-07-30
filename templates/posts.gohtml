@@ -5,7 +5,6 @@
 {{ template "nav.gohtml" -}}
 <main>
     <h1>Posts</h1>
-    <ul>
         {{ range $slug, $post := . }}
             <section>
                 <a href="./posts/{{ $slug }}"><h2>{{ $post.Meta.Title }}</h2></a>
@@ -14,7 +13,6 @@
                 <p>{{ $post.Meta.Desc }}</p>
             </section>
         {{ end }}
-    </ul>
 </main>
 {{ template "footer.gohtml" -}}
 </body>
