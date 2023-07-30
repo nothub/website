@@ -33,13 +33,26 @@
 </main>
 <script defer>
     const langColors = new Map([
+        ["bash", "#2D3A3E"],
+        ["c", "#555555"],
+        ["clojure", "#DB5855"],
+        ["cpp", "#178600"],
+        ["crystal", "#000100"],
         ["dockerfile", "#384D54"],
         ["go", "#00ADD8"],
+        ["hcl", "#844FBA"],
+        ["holyc", "#FFEFAF"],
         ["java", "#B07219"],
+        ["javascript", "#F1E05A"],
         ["lua", "#000080"],
+        ["nim", "#FFC200"],
+        ["nix", "#7E7EFF"],
         ["perl", "#0298C3"],
         ["python", "#3572A5"],
         ["shell", "#89E051"],
+        ["svelte", "#FF3E00"],
+        ["typescript", "#3178C6"],
+        ["zig", "#EC915C"],
     ]);
     for (const card of Array.from(document.getElementsByClassName("project-card"))) {
         const langs = Array.from(card.getElementsByClassName("project-tags")[0].getElementsByClassName("project-lang"))
