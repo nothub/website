@@ -1,9 +1,13 @@
 package cache
 
 import (
+	"log"
 	"sync"
 	"time"
 )
+
+// example usage:
+// var cache = cache.New(24 * time.Hour)
 
 type m map[string]item
 type Cache struct {
@@ -21,35 +25,39 @@ func (item item) expired() bool {
 	return item.until.After(time.Now())
 }
 
-func New(duration time.Duration) (cache *Cache) {
-	cache.m = make(m)
-	cache.dura = duration
-	return cache
+func New(dura time.Duration) (cache *Cache) {
+	return &Cache{
+		m:    make(map[string]item),
+		mx:   sync.Mutex{},
+		dura: dura,
+	}
 }
 
-func (cache *Cache) Put(id string, value any) {
-	cache.mx.Lock()
-	defer cache.mx.Unlock()
+func (ca *Cache) Put(id string, value any) {
+	ca.mx.Lock()
+	defer ca.mx.Unlock()
 
-	cache.m[id] = item{
-		until: time.Now().Add(cache.dura),
+	ca.m[id] = item{
+		until: time.Now().Add(ca.dura),
 		value: value,
 	}
 }
 
-func (cache *Cache) Get(id string) (value any) {
-	cache.mx.Lock()
-	defer cache.mx.Unlock()
+func (ca *Cache) Get(id string) (value any) {
+	ca.mx.Lock()
+	defer ca.mx.Unlock()
 
-	item, ok := cache.m[id]
+	item, ok := ca.m[id]
 	if !ok {
 		return nil
 	}
 
 	if item.expired() {
-		delete(cache.m, id)
+		delete(ca.m, id)
 		return nil
 	}
+
+	log.Println("cache hit for " + id)
 
 	return item
 }

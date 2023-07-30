@@ -52,8 +52,6 @@ type RepoMeta struct {
 	} `json:"organization"`
 }
 
-var repoCache = make(map[string]RepoMeta)
-
 func githubRepoMeta(repo string) (*RepoMeta, error) {
 	repo = strings.TrimSuffix(repo, ".git")
 	split := strings.Split(repo, "/")
@@ -62,10 +60,6 @@ func githubRepoMeta(repo string) (*RepoMeta, error) {
 	}
 
 	path := fmt.Sprintf("%s/%s", split[len(split)-2], split[len(split)-1])
-
-	if meta, ok := repoCache[path]; ok {
-		return &meta, nil
-	}
 
 	u := "https://api.github.com/repos/" + path
 	req, err := http.NewRequest(http.MethodGet, u, nil)
@@ -103,7 +97,6 @@ func githubRepoMeta(repo string) (*RepoMeta, error) {
 	}
 
 	log.Printf("project %s has %v stargazers\n", meta.FullName, meta.StargazersCount)
-	repoCache[path] = meta
 
 	return &meta, nil
 }
