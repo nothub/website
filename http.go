@@ -10,5 +10,5 @@ var httpClient = &http.Client{
 }
 
 func setDefaultHeader(req *http.Request) {
-	req.Header.Set("User-Agent", "github.com/nothub/website")
+	req.Header.Set("User-Agent", "hub.lol")
 }
