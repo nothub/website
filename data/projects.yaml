@@ -49,6 +49,13 @@
   tags: [ "scm-manager", "library" ]
   langs: [ "go" ]
 
+- title: "python-cli-pyz-template"
+  url: "https://github.com/nothub/python-cli-pyz-template"
+  desc: "Template for packaging python cli apps as pyz archives"
+  role: "author"
+  tags: [ "cli" ]
+  langs: [ "python" ]
+
 - title: "drem"
   url: "https://github.com/nothub/drem"
   desc: "Docker rootless environment manager"
@@ -77,12 +84,26 @@
   tags: [ "minecraft" ]
   langs: [ "java" ]
 
+- title: "SafeTPA"
+  url: "https://github.com/nothub/SafeTPA"
+  desc: "Minecraft self-service teleport requests"
+  role: "author"
+  tags: [ "minecraft" ]
+  langs: [ "java" ]
+
 - title: "factorio-mods"
   url: "https://github.com/nothub/factorio-mods"
   desc: "Some Mods for the game Factorio"
   role: "author"
   tags: [ "factorio" ]
   langs: [ "lua" ]
+
+- title: "reclink"
+  url: "https://github.com/nothub/reclink"
+  desc: "Link files recursively"
+  role: "author"
+  tags: [ "cli" ]
+  langs: [ "python" ]
 
 - title: "Asciiquarium"
   url: "https://github.com/nothub/asciiquarium"
@@ -104,3 +125,10 @@
   role: "contrib"
   tags: [ "minecraft" ]
   langs: [ "java" ]
+
+- title: "rfvgyhn/docker-avorion"
+  url: "https://github.com/rfvgyhn/docker-avorion"
+  desc: "Docker container for Avorion dedicated server"
+  role: "contrib"
+  tags: [ "container" ]
+  langs: [ "dockerfile", "shell" ]
