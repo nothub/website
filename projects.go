@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"gopkg.in/yaml.v3"
 	"log"
 	"math/rand"
 	"net/http"
 	"net/url"
+
+	"github.com/gin-gonic/gin"
+	"gopkg.in/yaml.v3"
 )
 
 // TODO: fetch infos from github api (https://github.com/orgs/community/discussions/24350)
@@ -54,10 +55,7 @@ func initProjects(router *gin.Engine) (err error) {
 		}
 	}
 
-	router.GET("/projects/*path", func(c *gin.Context) {
-		path := c.Param("path")
-		log.Printf("path=%q\n", path)
-		// TODO
+	router.GET("/projects", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "projects.gohtml", projects)
 	})
 

@@ -1,19 +1,40 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"gopkg.in/yaml.v3"
 )
 
-func initReads(router *gin.Engine) (err error) {
-	// TODO
+type Read struct {
+	Title string   `yaml:"title"`
+	Url   string   `yaml:"url"`
+	Tags  []string `yaml:"tags"`
+}
 
-	router.GET("/reads/*path", func(c *gin.Context) {
-		path := c.Param("path")
-		log.Printf("path=%q\n", path)
-		// TODO
-		c.AbortWithStatus(http.StatusTeapot)
+func initReads(router *gin.Engine) (err error) {
+	log.Println("organizing reads")
+	bytes, err := fs.ReadFile("data/reads.yaml")
+	if err != nil {
+		return err
+	}
+
+	var reads []Read
+	err = yaml.Unmarshal(bytes, &reads)
+	if err != nil {
+		return err
+	}
+
+	for _, read := range reads {
+		for _, tag := range read.Tags {
+			linkTag(tag, "Read: "+read.Title, read.Url)
+		}
+	}
+
+	router.GET("/reads", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "reads.gohtml", reads)
 	})
 
 	return nil

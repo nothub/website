@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head.gohtml" -}}
+<body>
+{{ template "nav.gohtml" -}}
+<main>
+    <h1>Reads</h1>
+    {{ range . }}
+        <section>
+            <a href="{{ .Url }}"><h2>{{ .Title }}</h2></a>
+            [ {{ range .Tags }} <a class="tag" href="/tags/{{ . }}">{{ . }}</a> {{ end }} ]
+        </section>
+    {{ end }}
+</main>
+{{ template "footer.gohtml" -}}
+</body>
+</html>
