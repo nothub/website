@@ -5,6 +5,7 @@
 {{ template "nav.gohtml" -}}
 <main>
     <h1>Reads</h1>
+    <p>This is an incomplete pile of stuff that taught me, helped me, or I enjoyed reading.</p>
     {{ range . }}
         <section>
             <a href="{{ .Url }}"><h2>{{ .Title }}</h2></a>
