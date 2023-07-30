@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	img64 "github.com/tenkoh/goldmark-img64"
 	"go.abhg.dev/goldmark/anchor"
 	"html/template"
 	"log"
@@ -14,6 +13,7 @@ import (
 
 	chroma "github.com/alecthomas/chroma/v2/formatters/html"
 	"github.com/gin-gonic/gin"
+	figure "github.com/mangoumbrella/goldmark-figure"
 	"github.com/yuin/goldmark"
 	gmhl "github.com/yuin/goldmark-highlighting/v2"
 	gmmeta "github.com/yuin/goldmark-meta"
@@ -69,31 +69,27 @@ func initPosts(router *gin.Engine) (err error) {
 	var posts = make(map[string]Post)
 
 	for _, entry := range dir {
-		var slug string
-		var file string
-		if entry.IsDir() {
-			slug = entry.Name()
-			file = "posts/" + entry.Name() + "/index.md"
-			log.Printf("loading post: %s\n", slug)
-		} else {
-			slug = strings.TrimSuffix(entry.Name(), ".md")
-			file = "posts/" + entry.Name()
-			log.Printf("loading post: %s\n", slug)
+		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".md") {
+			log.Printf("skipping %s\n", entry.Name())
+			continue
 		}
 
-		md, err := fs.ReadFile(file)
+		slug := strings.TrimSuffix(entry.Name(), ".md")
+		log.Printf("loading post: %s\n", slug)
+
+		byts, err := fs.ReadFile("posts/" + entry.Name())
 		if err != nil {
 			log.Fatalln(err.Error())
 		}
 
 		var buf bytes.Buffer
-		context := parser.NewContext()
-		err = gm.Convert(md, &buf, parser.WithContext(context))
+		ctx := parser.NewContext()
+		err = gm.Convert(byts, &buf, parser.WithContext(ctx))
 		if err != nil {
 			log.Fatalln(err.Error())
 		}
 
-		meta, err := parseMeta(gmmeta.Get(context))
+		meta, err := parseMeta(gmmeta.Get(ctx))
 		if err != nil {
 			log.Fatalln(err.Error())
 		}
@@ -131,9 +127,7 @@ func initPosts(router *gin.Engine) (err error) {
 			if post, ok := posts[path]; ok {
 				c.HTML(http.StatusOK, "post.gohtml", post)
 			} else {
-				log.Println("loading post asset from: " + c.Request.URL.Path)
-				c.FileFromFS(c.Request.URL.Path, http.FS(fs))
-				//c.AbortWithStatus(http.StatusNotFound)
+				c.AbortWithStatus(http.StatusNotFound)
 			}
 		}
 	})

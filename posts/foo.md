@@ -83,13 +83,14 @@ transporters off. A strange set-up, but I'd say the graviton generator is depola
 scrapes are the leavings of natural rubber, a type of non-conductive sole used by researchers experimenting with
 electricity. The molecules must have been partly de-phased by the anyon beam.
 
-![unix spellbook](/static/man.gif)
+![unix spellbook](/assets/man.gif)
+Ye olde unix spellbook
 
 Exceeding reaction chamber thermal limit. We have begun power-supply calibration. Force fields have been established on
 all turbo lifts and crawlways. Computer, run a level-two diagnostic on warp-drive systems. Antimatter containment
 positive. Warp drive within normal parameters. I read an ion trail characteristic of a freighter escape pod. The bomb
 had a molecular-decay detonator. Detecting some unusual fluctuations in subspace frequencies. Communication is not
-possible. The shuttle has no power. ![inline image](chaos.webp) Using the gravitational pull of a star to slingshot
+possible. The shuttle has no power. ![inline image](/assets/chaos.webp) Using the gravitational pull of a star to slingshot
 back in time? We are going to Starbase Montgomery for Engineering consultations prompted by minor read-out anomalies.
 Probes have recorded unusual levels of geological activity in all five planetary systems. Assemble a team. Look at
 records of the Drema quadrant. Would these scans detect artificial transmissions as well as natural signals?
@@ -101,9 +102,8 @@ The organisms fuse to the nerve, intertwining at the molecular level. That's why
 extract it. The vertex waves show a K-complex corresponding to an REM state. The engineering section's critical.
 Destruction is imminent. Their robes contain ultritium, highly explosive, virtually undetectable by your transporter.
 
-![sharks](./sharks.gif)
-
-{{< figure src="sharks.gif" title="hacker sharks" alt="group of sharks doing pair-programming" >}}
+![sharks](/assets/sharks.gif)
+Some text about hacker sharks.
 
 It indicates a synchronic distortion in the areas emanating triolic waves. The cerebellum, the cerebral cortex, the
 brain stem, the entire nervous system has been depleted of electrochemical energy. Any device like that would produce

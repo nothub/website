@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-//go:embed data/* static/* templates/* posts/*
+//go:embed assets/* data/* posts/* static/* templates/*
 var fs embed.FS
 
 func main() {
@@ -49,6 +49,10 @@ func main() {
 	if err := initTags(router); err != nil {
 		log.Fatalln(err.Error())
 	}
+
+	router.GET("/assets/*path", func(c *gin.Context) {
+		c.FileFromFS(c.Request.URL.Path, http.FS(fs))
+	})
 
 	router.GET("/static/*path", func(c *gin.Context) {
 		c.FileFromFS(c.Request.URL.Path, http.FS(fs))
