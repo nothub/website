@@ -45,6 +45,10 @@ func main() {
 		log.Fatalln(err.Error())
 	}
 
+	if err := initTags(router); err != nil {
+		log.Fatalln(err.Error())
+	}
+
 	router.GET("/static/*path", func(c *gin.Context) {
 		c.FileFromFS(c.Request.URL.Path, http.FS(fs))
 	})

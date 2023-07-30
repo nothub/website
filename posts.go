@@ -74,6 +74,10 @@ func initPosts(router *gin.Engine) (err error) {
 		log.Printf("%++v\n", meta)
 
 		posts[slug] = template.HTML(buildHeader(meta) + "<hr>\n" + buf.String())
+
+		for _, tag := range meta.tags {
+			linkTag(tag, "/posts/"+slug)
+		}
 	}
 
 	router.GET("/posts", func(c *gin.Context) {
