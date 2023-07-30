@@ -11,6 +11,8 @@ import (
 	"time"
 )
 
+// TODO: use some ready to go api lib?
+
 type RepoMeta struct {
 	Name     string `json:"name"`
 	FullName string `json:"full_name"`

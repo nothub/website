@@ -8,8 +8,6 @@ import (
 	"net/url"
 )
 
-// TODO: fetch infos from github api (https://github.com/orgs/community/discussions/24350)
-
 type Project struct {
 	Title string   `yaml:"title"`
 	Url   string   `yaml:"url"`
