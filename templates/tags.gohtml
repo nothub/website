@@ -6,10 +6,10 @@
 <main>
     <h1>Tags</h1>
     <p>A bunch of references to different things, grouped by tag.</p>
-    <!-- TODO: tag cloud -->
+    <div class="tagcloud"><!-- TODO --></div>
     {{ range $tag, $refs := . }}
         <section>
-            <h2><a href="/tags/{{ $tag }}">{{ $tag }}</a></h2>
+            <h2><a class="tag" href="/tags/{{ $tag }}">{{ $tag }}</a></h2>
             <ul>
                 {{ range $refs }}
                     <li><a href="{{ .Link }}">{{ .Name }}</a></li>

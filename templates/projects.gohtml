@@ -5,8 +5,7 @@
 {{ template "nav.gohtml" -}}
 <main>
     <h1>Projects</h1>
-    <section>
-        <p>Some projects I started or contributed to.</p>
+    <p>Some projects I started or contributed to.</p>
         <section style="display: flex;flex-flow: row wrap">
             {{ range . }}
                 <section class="project-card">
@@ -27,7 +26,6 @@
                 </section>
             {{ end }}
         </section>
-    </section>
 </main>
 <script defer>
     const langColors = new Map([
