@@ -10,7 +10,7 @@
 
 - title: "Hexagonal Grids"
   url: "https://www.redblobgames.com/grids/hexagons"
-  tags: [ "design", "hexagons" ]
+  tags: [ "hexagon", "algorithm" ]
 
 - title: "Hello World under the microscope"
   url: "https://gynvael.coldwind.pl/?lang=en&id=754"
@@ -18,7 +18,7 @@
 
 - title: "On the road to pure Go X11 GUIs"
   url: "https://p.janouch.name/article-xgb.html"
-  tags: [ "golang", "x11" ]
+  tags: [ "go", "x11" ]
 
 - title: "GNU Make Cheatsheet"
   url: "https://gist.github.com/rueycheng/42e355d1480fd7a33ee81c866c7fdf78"
@@ -30,7 +30,7 @@
 
 - title: "Docker and the OCI container ecosystem"
   url: "https://lwn.net/SubscriberLink/902049/374614a66c0367f3/"
-  tags: [ "docker", "containers" ]
+  tags: [ "docker", "container" ]
 
 - title: "Posix make specifications"
   url: "https://pubs.opengroup.org/onlinepubs/9699919799/utilities/make.html"
@@ -62,7 +62,7 @@
 
 - title: "systemd Shutdown Units"
   url: "https://www.psdn.io/posts/systemd-shutdown-unit/"
-  tags: [ "systemd", "best-practices" ]
+  tags: [ "systemd", "best-practice" ]
 
 - title: "pure sh bible"
   url: "https://github.com/dylanaraps/pure-sh-bible"
@@ -78,7 +78,11 @@
 
 - title: "Crafting Interpreters"
   url: "https://www.craftinginterpreters.com/contents.html"
-  tags: [ "book", "language-design", "interpreters" ]
+  tags: [ "book", "language-design", "interpreter" ]
+
+- title: "The different ways to handle errors in C"
+  url: "https://mccue.dev/pages/7-27-22-c-errors"
+  tags: [ "c", "design-pattern" ]
 
 - title: "The Missing Semester of Your CS Education"
   url: "https://missing.csail.mit.edu/"
@@ -98,11 +102,11 @@
 
 - title: "Lies we tell ourselves to keep using Golang"
   url: "https://fasterthanli.me/articles/lies-we-tell-ourselves-to-keep-using-golang"
-  tags: [ "golang", "rant" ]
+  tags: [ "go", "rant" ]
 
 - title: "A beginner’s guide to finding user needs"
   url: "https://jdittrich.github.io/userNeedResearchBook/"
-  tags: [ "ux", "humans" ]
+  tags: [ "ux" ]
 
 - title: "what happens when you activity post"
   url: "https://flak.tedunangst.com/post/what-happens-when-you-honk"
