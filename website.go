@@ -19,19 +19,25 @@ import (
 var fs embed.FS
 
 func main() {
+	// disable logging decoration
+	log.SetFlags(0)
+
 	gin.DisableConsoleColor()
 	router := gin.New()
 
 	// custom logging handler
-	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
-		return fmt.Sprintf("%s %s %v %s %s %s\n",
-			param.ClientIP,
-			param.Method,
-			param.StatusCode,
-			param.Path,
-			param.Request.UserAgent(),
-			param.ErrorMessage,
-		)
+	router.Use(gin.LoggerWithConfig(gin.LoggerConfig{
+		Formatter: func(param gin.LogFormatterParams) string {
+			return fmt.Sprintf("%s\t%v | %s | %s %s | %s\n",
+				param.Method,
+				param.StatusCode,
+				param.Path,
+				param.ClientIP,
+				param.Request.UserAgent(),
+				param.ErrorMessage,
+			)
+		},
+		Output: os.Stderr,
 	}))
 
 	// default recovery handler
