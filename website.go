@@ -4,6 +4,7 @@ import (
 	"context"
 	"embed"
 	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"html/template"
 	"log"
@@ -22,6 +23,17 @@ func main() {
 	router := gin.Default()
 	router.SetHTMLTemplate(template.Must(template.New("").
 		ParseFS(fs, "templates/*.gohtml")))
+
+	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
+		return fmt.Sprintf("%s %s %v %s %s %s\n",
+			param.ClientIP,
+			param.Method,
+			param.StatusCode,
+			param.Path,
+			param.Request.UserAgent(),
+			param.ErrorMessage,
+		)
+	}))
 
 	// go module vanity url redirects
 	router.Use(gopkg)
