@@ -28,12 +28,11 @@ func main() {
 	// custom logging handler
 	router.Use(gin.LoggerWithConfig(gin.LoggerConfig{
 		Formatter: func(param gin.LogFormatterParams) string {
-			return fmt.Sprintf("%s\t%v | %s | %s %s | %s\n",
+			return fmt.Sprintf("%s %s %v %s %s\n",
+				param.ClientIP,
 				param.Method,
 				param.StatusCode,
 				param.Path,
-				param.ClientIP,
-				param.Request.UserAgent(),
 				param.ErrorMessage,
 			)
 		},
