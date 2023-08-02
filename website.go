@@ -20,10 +20,9 @@ var fs embed.FS
 
 func main() {
 	gin.DisableConsoleColor()
-	router := gin.Default()
-	router.SetHTMLTemplate(template.Must(template.New("").
-		ParseFS(fs, "templates/*.gohtml")))
+	router := gin.New()
 
+	// custom logging handler
 	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
 		return fmt.Sprintf("%s %s %v %s %s %s\n",
 			param.ClientIP,
@@ -34,6 +33,11 @@ func main() {
 			param.ErrorMessage,
 		)
 	}))
+
+	// default recovery handler
+	router.Use(gin.Recovery())
+
+	router.SetHTMLTemplate(template.Must(template.New("").ParseFS(fs, "templates/*.gohtml")))
 
 	// go module vanity url redirects
 	router.Use(gopkg)
