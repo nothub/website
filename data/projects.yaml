@@ -28,6 +28,13 @@
   tags: [ "rss", "library" ]
   langs: [ "java" ]
 
+- title: "hashutils"
+  url: "https://github.com/nothub/hashutils"
+  desc: "Implementations of the PHC and MCF hash string format"
+  role: "author"
+  tags: [ "crypto", "library" ]
+  langs: [ "go" ]
+
 - title: "gobonsai"
   url: "https://github.com/nothub/gobonsai"
   desc: "A bonsai tree generator (cbonsai ported to go)"
@@ -76,6 +83,13 @@
   role: "author"
   tags: [ "container" ]
   langs: [ "dockerfile", "shell" ]
+
+- title: "MineCharts"
+  url: "https://github.com/nothub/MineCharts-Flask"
+  desc: "Monitoring of Minecraft server player counts"
+  role: "author"
+  tags: [ "flask", "minecraft" ]
+  langs: [ "python", "html", "js" ]
 
 - title: "menumusic"
   url: "https://modrinth.com/mod/menumusic"
