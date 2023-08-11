@@ -1,6 +1,6 @@
 module github.com/nothub/website
 
-go 1.20
+go 1.21
 
 require (
 	github.com/alecthomas/chroma/v2 v2.8.0
