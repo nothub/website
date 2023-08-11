@@ -175,3 +175,8 @@ lint header with:
 ---
 
 👋 🌳 🪐
+
+---
+
+examples:
+https://github.com/nothub/dotfiles/blob/main/.local/bin/xfce4-keybinds.go
