@@ -1,7 +1,6 @@
 package cache
 
 import (
-	"log"
 	"sync"
 	"time"
 )
@@ -57,7 +56,16 @@ func (ca *Cache) Get(id string) (value any) {
 		return nil
 	}
 
-	log.Println("cache hit for " + id)
-
 	return item
+}
+
+func (ca *Cache) Scrub() {
+	ca.mx.Lock()
+	defer ca.mx.Unlock()
+
+	for id, item := range ca.m {
+		if item.expired() {
+			delete(ca.m, id)
+		}
+	}
 }
