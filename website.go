@@ -51,7 +51,8 @@ func main() {
 	// default recovery handler
 	router.Use(gin.Recovery())
 
-	router.SetHTMLTemplate(template.Must(template.New("").ParseFS(fs, "templates/*.gohtml")))
+	router.SetHTMLTemplate(template.Must(template.New("").
+		ParseFS(fs, "templates/*.gohtml")))
 
 	// go module vanity url redirects
 	router.Use(gopkg)
@@ -136,7 +137,7 @@ func main() {
 			}
 			os.Exit(0)
 		default:
-			log.Fatalf("unhandled signal: %s", sig.String())
+			log.Fatalf("unhandled signal: %s\n", sig.String())
 		}
 	}
 }
