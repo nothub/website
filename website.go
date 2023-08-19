@@ -4,10 +4,10 @@ import (
 	"context"
 	"embed"
 	"errors"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"html/template"
 	"log"
+	"log/slog"
 	"net/http"
 	"os"
 	"os/signal"
@@ -25,19 +25,28 @@ func main() {
 	gin.DisableConsoleColor()
 	router := gin.New()
 
-	// custom logging handler
-	router.Use(gin.LoggerWithConfig(gin.LoggerConfig{
-		Formatter: func(param gin.LogFormatterParams) string {
-			return fmt.Sprintf("%s %s %v %s %s\n",
-				param.ClientIP,
-				param.Method,
-				param.StatusCode,
-				param.Path,
-				param.ErrorMessage,
-			)
-		},
-		Output: os.Stderr,
-	}))
+	var slogger = slog.New(slog.NewTextHandler(os.Stderr, nil))
+	router.Use(func(c *gin.Context) {
+		start := time.Now()
+		c.Next()
+		latency := time.Now().Sub(start)
+		attributes := []slog.Attr{
+			slog.Int("status", c.Writer.Status()),
+			slog.String("method", c.Request.Method),
+			slog.String("path", c.Request.URL.Path),
+			slog.String("ip", c.ClientIP()),
+			slog.Duration("latency", latency),
+			slog.String("ua", c.Request.UserAgent()),
+		}
+		switch {
+		case c.Writer.Status() >= http.StatusInternalServerError:
+			slogger.LogAttrs(context.Background(), slog.LevelError, c.Errors.String(), attributes...)
+		case c.Writer.Status() >= http.StatusBadRequest:
+			slogger.LogAttrs(context.Background(), slog.LevelInfo, c.Errors.String(), attributes...)
+		default:
+			slogger.LogAttrs(context.Background(), slog.LevelInfo, "request", attributes...)
+		}
+	})
 
 	// default recovery handler
 	router.Use(gin.Recovery())
