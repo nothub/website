@@ -10,23 +10,23 @@ import (
 
 var slogger = slog.New(slog.NewTextHandler(os.Stderr, nil))
 
-var Gin = func(c *gin.Context) {
+var Gin = func(ctx *gin.Context) {
 	start := time.Now()
-	c.Next()
+	ctx.Next()
 	latency := time.Now().Sub(start)
 	attrs := []any{
-		slog.Int("status", c.Writer.Status()),
-		slog.String("method", c.Request.Method),
-		slog.String("path", c.Request.URL.Path),
-		slog.String("ip", c.ClientIP()),
+		slog.Int("status", ctx.Writer.Status()),
+		slog.String("method", ctx.Request.Method),
+		slog.String("path", ctx.Request.URL.Path),
+		slog.String("ip", ctx.ClientIP()),
 		slog.Duration("latency", latency),
-		slog.String("ua", c.Request.UserAgent()),
+		slog.String("ua", ctx.Request.UserAgent()),
 	}
-	if len(c.Errors) > 0 {
-		attrs = append(attrs, slog.String("err", c.Errors.String()))
+	if len(ctx.Errors) > 0 {
+		attrs = append(attrs, slog.String("err", ctx.Errors.String()))
 	}
 	switch {
-	case c.Writer.Status() >= http.StatusInternalServerError:
+	case ctx.Writer.Status() >= http.StatusInternalServerError:
 		slogger.Error("gin", attrs...)
 	default:
 		slogger.Info("gin", attrs...)
