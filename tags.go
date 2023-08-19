@@ -21,24 +21,24 @@ func linkTag(tag string, name string, link string) {
 func initTags(router *gin.Engine) (err error) {
 	log.Println("linking tags")
 
-	router.GET("/tags", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "tags.gohtml", tags)
+	router.GET("/tags", func(ctx *gin.Context) {
+		ctx.HTML(http.StatusOK, "tags.gohtml", tags)
 	})
 
-	router.GET("/tags/*path", func(c *gin.Context) {
-		path := strings.TrimSpace(strings.TrimPrefix(c.Param("path"), "/"))
+	router.GET("/tags/*path", func(ctx *gin.Context) {
+		path := strings.TrimSpace(strings.TrimPrefix(ctx.Param("path"), "/"))
 		switch path {
 		case "":
 			// rewrite /tags/ to /tags
-			c.Request.URL.Path = "/tags"
-			router.HandleContext(c)
+			ctx.Request.URL.Path = "/tags"
+			router.HandleContext(ctx)
 		default:
 			if links, ok := tags[path]; ok {
-				c.HTML(http.StatusOK, "tags.gohtml", map[string]any{
+				ctx.HTML(http.StatusOK, "tags.gohtml", map[string]any{
 					path: links,
 				})
 			} else {
-				c.AbortWithStatus(http.StatusNotFound)
+				ctx.AbortWithStatus(http.StatusNotFound)
 			}
 		}
 	})

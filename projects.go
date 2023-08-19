@@ -59,8 +59,8 @@ func initProjects(router *gin.Engine) (err error) {
 		}
 	}()
 
-	router.GET("/projects", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "projects.gohtml", projects)
+	router.GET("/projects", func(ctx *gin.Context) {
+		ctx.HTML(http.StatusOK, "projects.gohtml", projects)
 	})
 
 	return nil

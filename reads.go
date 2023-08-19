@@ -33,8 +33,8 @@ func initReads(router *gin.Engine) (err error) {
 		}
 	}
 
-	router.GET("/reads", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "reads.gohtml", reads)
+	router.GET("/reads", func(ctx *gin.Context) {
+		ctx.HTML(http.StatusOK, "reads.gohtml", reads)
 	})
 
 	return nil

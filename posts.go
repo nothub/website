@@ -114,32 +114,32 @@ func initPosts(router *gin.Engine) (err error) {
 		}
 	}
 
-	router.GET("/posts", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "posts.gohtml", posts)
+	router.GET("/posts", func(ctx *gin.Context) {
+		ctx.HTML(http.StatusOK, "posts.gohtml", posts)
 	})
 
-	router.GET("/posts/*path", func(c *gin.Context) {
-		path := strings.TrimSpace(strings.TrimPrefix(c.Param("path"), "/"))
+	router.GET("/posts/*path", func(ctx *gin.Context) {
+		path := strings.TrimSpace(strings.TrimPrefix(ctx.Param("path"), "/"))
 		switch path {
 		case "":
 			// rewrite /posts/ to /posts
-			c.Request.URL.Path = "/posts"
-			router.HandleContext(c)
+			ctx.Request.URL.Path = "/posts"
+			router.HandleContext(ctx)
 		case "rss.xml":
 			// redirect /posts/rss.xml to /rss.xml
-			c.Redirect(http.StatusPermanentRedirect, "/rss.xml")
+			ctx.Redirect(http.StatusPermanentRedirect, "/rss.xml")
 		default:
 			if post, ok := posts[path]; ok {
-				c.HTML(http.StatusOK, "post.gohtml", post)
+				ctx.HTML(http.StatusOK, "post.gohtml", post)
 			} else {
-				c.AbortWithStatus(http.StatusNotFound)
+				ctx.AbortWithStatus(http.StatusNotFound)
 			}
 		}
 	})
 
-	router.GET("/rss.xml", func(c *gin.Context) {
+	router.GET("/rss.xml", func(ctx *gin.Context) {
 		// TODO
-		c.AbortWithStatus(http.StatusTeapot)
+		ctx.AbortWithStatus(http.StatusTeapot)
 	})
 
 	return nil

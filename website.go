@@ -56,12 +56,12 @@ func main() {
 	// go module vanity url redirects
 	router.Use(gopkg)
 
-	router.GET("/", func(c *gin.Context) {
-		c.Redirect(http.StatusPermanentRedirect, "/about")
+	router.GET("/", func(ctx *gin.Context) {
+		ctx.Redirect(http.StatusPermanentRedirect, "/about")
 	})
 
-	router.GET("/about", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "about.gohtml", nil)
+	router.GET("/about", func(ctx *gin.Context) {
+		ctx.HTML(http.StatusOK, "about.gohtml", nil)
 	})
 
 	if err := initPosts(router); err != nil {
@@ -80,22 +80,26 @@ func main() {
 		log.Fatalln(err.Error())
 	}
 
-	router.GET("/assets/*path", func(c *gin.Context) {
-		c.FileFromFS(c.Request.URL.Path, http.FS(fs))
+	router.GET("/assets/*path", func(ctx *gin.Context) {
+		ctx.FileFromFS(ctx.Request.URL.Path, http.FS(fs))
 	})
 
-	router.GET("/static/*path", func(c *gin.Context) {
-		c.FileFromFS(c.Request.URL.Path, http.FS(fs))
+	router.GET("/static/*path", func(ctx *gin.Context) {
+		ctx.FileFromFS(ctx.Request.URL.Path, http.FS(fs))
 	})
 
-	router.GET("/robots.txt", func(c *gin.Context) {
-		c.Request.URL.Path = "/static/robots.txt"
-		router.HandleContext(c)
+	router.GET("/robots.txt", func(ctx *gin.Context) {
+		ctx.Request.URL.Path = "/static/robots.txt"
+		router.HandleContext(ctx)
 	})
 
-	router.GET("/sitemap.xml", func(c *gin.Context) {
-		c.Request.URL.Path = "/static/sitemap.xml"
-		router.HandleContext(c)
+	router.GET("/sitemap.xml", func(ctx *gin.Context) {
+		ctx.Request.URL.Path = "/static/sitemap.xml"
+		router.HandleContext(ctx)
+	})
+
+	router.GET("/teapot", func(ctx *gin.Context) {
+		ctx.String(http.StatusTeapot, "🫖")
 	})
 
 	srv := &http.Server{
@@ -107,8 +111,6 @@ func main() {
 		err := srv.ListenAndServe()
 		if errors.Is(err, http.ErrServerClosed) {
 			log.Println("graceful shutdown complete")
-		} else if err == nil {
-			log.Fatalln("http.Server stopped with nil error")
 		} else {
 			log.Fatalf("server error: %s\n", err.Error())
 		}
