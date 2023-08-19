@@ -13,3 +13,7 @@ website: go.mod go.sum $(GOSRC) $(DATA) $(POSTS)
 test:
 	go vet
 	go test
+
+.PHONY: clean
+clean:
+	go clean
