@@ -127,7 +127,7 @@ func main() {
 			// TODO: reload config
 		case syscall.SIGINT, syscall.SIGTERM:
 			log.Println("shutting down server...")
-			ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+			ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 			err := srv.Shutdown(ctx)
 			if cancel != nil {
 				cancel()
