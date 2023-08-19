@@ -14,7 +14,7 @@ var Gin = func(c *gin.Context) {
 	start := time.Now()
 	c.Next()
 	latency := time.Now().Sub(start)
-	attrs := []slog.Attr{
+	attrs := []any{
 		slog.Int("status", c.Writer.Status()),
 		slog.String("method", c.Request.Method),
 		slog.String("path", c.Request.URL.Path),
@@ -27,8 +27,8 @@ var Gin = func(c *gin.Context) {
 	}
 	switch {
 	case c.Writer.Status() >= http.StatusInternalServerError:
-		slogger.Error("gin", attrs)
+		slogger.Error("gin", attrs...)
 	default:
-		slogger.Info("gin", attrs)
+		slogger.Info("gin", attrs...)
 	}
 }
