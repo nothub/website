@@ -5,9 +5,9 @@ import (
 	"embed"
 	"errors"
 	"github.com/gin-gonic/gin"
+	"github.com/nothub/website/slogging"
 	"html/template"
 	"log"
-	"log/slog"
 	"net/http"
 	"os"
 	"os/signal"
@@ -25,28 +25,7 @@ func main() {
 	gin.DisableConsoleColor()
 	router := gin.New()
 
-	var slogger = slog.New(slog.NewTextHandler(os.Stderr, nil))
-	router.Use(func(c *gin.Context) {
-		start := time.Now()
-		c.Next()
-		latency := time.Now().Sub(start)
-		attributes := []slog.Attr{
-			slog.Int("status", c.Writer.Status()),
-			slog.String("method", c.Request.Method),
-			slog.String("path", c.Request.URL.Path),
-			slog.String("ip", c.ClientIP()),
-			slog.Duration("latency", latency),
-			slog.String("ua", c.Request.UserAgent()),
-		}
-		switch {
-		case c.Writer.Status() >= http.StatusInternalServerError:
-			slogger.LogAttrs(context.Background(), slog.LevelError, c.Errors.String(), attributes...)
-		case c.Writer.Status() >= http.StatusBadRequest:
-			slogger.LogAttrs(context.Background(), slog.LevelInfo, c.Errors.String(), attributes...)
-		default:
-			slogger.LogAttrs(context.Background(), slog.LevelInfo, "request", attributes...)
-		}
-	})
+	router.Use(slogging.Gin)
 
 	// default recovery handler
 	router.Use(gin.Recovery())
