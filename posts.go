@@ -14,7 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	gmfigure "github.com/mangoumbrella/goldmark-figure"
-	gm "github.com/yuin/goldmark"
+	"github.com/yuin/goldmark"
 	gmhl "github.com/yuin/goldmark-highlighting/v2"
 	gmmeta "github.com/yuin/goldmark-meta"
 	gmext "github.com/yuin/goldmark/extension"
@@ -51,7 +51,7 @@ func (*anchorTexter) AnchorText(h *gmanchor.HeaderInfo) []byte {
 func initPosts(router *gin.Engine) (err error) {
 	log.Println("loading posts")
 
-	gm := gm.New(gm.WithParserOptions(gmparser.WithAutoHeadingID()), gm.WithExtensions(
+	gm := goldmark.New(goldmark.WithParserOptions(gmparser.WithAutoHeadingID()), goldmark.WithExtensions(
 		gmext.Footnote,
 		gmext.Strikethrough,
 		gmext.Table,
