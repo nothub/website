@@ -15,12 +15,8 @@
                         <p class="project-role">{{ .Role }}</p>
                     </section>
                     <section class="project-tags" style="display: flex;flex-flow: row wrap;justify-content: flex-start">
-                        {{ range .Langs -}}
-                            <p class="project-lang">{{ . }}</p>
-                        {{- end }}
-                        {{ range .Tags -}}
-                            <p class="project-tag">{{ . }}</p>
-                        {{- end }}
+                        {{ range .Langs }}<a class="tag project-lang" class="project-tag" class="tag" href="/tags/{{ . }}">{{ . }}</a>{{ end }}
+                        {{ range .Tags }}<a class="tag project-tag" class="tag" href="/tags/{{ . }}">{{ . }}</a>{{ end }}
                     </section>
                     <p class="project-desc">{{ .Desc }}</p>
                 </section>
