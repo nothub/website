@@ -133,7 +133,7 @@ func main() {
 				cancel()
 			}
 			if err != nil {
-				log.Fatal("server shutdown error: ", err)
+				log.Fatalf("server shutdown error: %s\n", err)
 			}
 			os.Exit(0)
 		default:
