@@ -7,10 +7,10 @@ draft: true
 ---
 
 For a recent project, I needed a portable tool for the recurring task of reading YAML data from an HTTP endpoint.
-I was dreading the idea of implementing this in bash, so I started writing the code in Go.
+I was dreading the idea of implementing this with curl in shell, so I started writing the code in Go.
 
 Go however is a compiled language and I do not like to check binary files into version control.
-Instead, the tool should be implemented in a single text-file that contains common (uncompiled) go code.
+Instead, I wanted the tool to be distributed in a single text-file that contains common go code.
 
 ## Shebang
 
@@ -62,7 +62,7 @@ Looking good so far 👌
 ## Build Constraint
 
 If the script is included in a Go project, the compiler will probably attempt to include the file.
-To prohibit this behaviour, the `exclude` [build constraint](https://pkg.go.dev/go/build#hdr-Build_Constraints) can be used like this:
+To prohibit this behaviour, a [build constraint](https://pkg.go.dev/go/build#hdr-Build_Constraints) can be used like this:
 
 ```go
 //usr/bin/env -S go run "$0" "$@" ; exit
@@ -75,7 +75,7 @@ For Go <= v1.16, the constraint prefix differs and looks like this: `//+build ex
 
 ## Handling Dependencies
 
-Okay this is all cool but the original problem also requires me to handle YAML, for that I want to use a package like [gopkg.in/yaml.v3](https://pkg.go.dev/gopkg.in/yaml.v3).
+This is already very handy but the original problem also requires me to handle YAML, for that I want to use a package like [gopkg.in/yaml.v3](https://pkg.go.dev/gopkg.in/yaml.v3).
 
 In modern Go projects, dependencies are typically declared in the project's `go.mod` file and managed by the `go` cli tool.  
 Ideally we want to use the same tooling for the script.
@@ -84,7 +84,7 @@ Instead of directly calling `go run` in the script-header, we can add some addit
 
 ### Piggybacking
 
-The way of calling `env` to execute stuff has a big issue; `env` is a program to "run (another) program in a modified environment".  
+The way of calling `env` to execute code has a big issue; `env` is a program to "run (another) program in a modified environment".  
 There is no way to use shell builtins or anything that is not the reference to another program.
 
 We want however to use the full power of the shell language. To do so, we again start the line with our double path token but this time instead of invoking `//usr/bin/env`, we are going to invoke just `//`.
@@ -133,6 +133,10 @@ To generate the `go.mod` file from this information, we can use `tr` and `printf
 //usr/bin/env -S printf "module %s\n\ngo %s\n\nrequire (\n%s\n)" "${mod_path}" "${mod_gover}" "$(echo "${mod_pkgs}" | tr "," "\n")" > go.mod
 ```
 
+### Temp Dir
+
+TODO: create temp dir, copy file, generate go.mod and go.sum, build, run with project as workdir
+
 ## Autoformat
 
 ## Cleanup
@@ -141,7 +145,9 @@ To generate the `go.mod` file from this information, we can use `tr` and `printf
 
 ## Drawbacks
 
-drawback: self extracting module needs write permissions in workdir
+drawback:
+- self extracting module needs write permissions in workdir
+- workdir must not contain go.mod or go.sum file
 
 ### Default Shell
 
