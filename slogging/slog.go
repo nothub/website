@@ -18,6 +18,7 @@ var Gin = func(ctx *gin.Context) {
 		slog.Int("status", ctx.Writer.Status()),
 		slog.String("method", ctx.Request.Method),
 		slog.String("path", ctx.Request.URL.Path),
+		slog.String("query", ctx.Request.URL.RawQuery),
 		slog.String("ip", ctx.ClientIP()),
 		slog.Duration("latency", latency),
 		slog.String("ua", ctx.Request.UserAgent()),
