@@ -23,6 +23,7 @@ func main() {
 	log.SetFlags(0)
 
 	gin.DisableConsoleColor()
+	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
 
 	router.Use(slogging.Gin)
