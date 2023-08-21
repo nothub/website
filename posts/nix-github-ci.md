@@ -112,4 +112,4 @@ With the following [GitHub Actions](https://docs.github.com/en/actions) steps, i
 ```
 
 The workflow makes use of [cachix/install-nix-action](https://github.com/cachix/install-nix-action) to bootstrap the Nix package manager in the CI environment.
-Actually, [this websites deployment](https://github.com/nothub/website/blob/7da49d566c756efd9553e86bc10cc70bef076bb9/.github/workflows/ci.yaml) is also done by a GitHub Actions pipeline using Nix.
+Actually, at some point in the past, [this websites deployment](https://github.com/nothub/website/blob/7da49d566c756efd9553e86bc10cc70bef076bb9/.github/workflows/ci.yaml) was also done by a GitHub Actions pipeline using Nix.

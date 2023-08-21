@@ -1,8 +1,6 @@
-module github.com/nothub/website
+module hub.lol/website
 
 go 1.21
-
-retract [v0.0.0-0, v0.0.0]  // moved to hub.lol/website
 
 require (
 	github.com/alecthomas/chroma/v2 v2.8.0
