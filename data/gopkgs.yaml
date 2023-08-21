@@ -1,0 +1,31 @@
+---
+
+- path: "hub.lol/mrpack-install"
+  repo: "https://github.com/nothub/mrpack-install.git"
+
+- path: "hub.lol/gobonsai"
+  repo: "https://github.com/nothub/gobonsai.git"
+
+- path: "hub.lol/drem"
+  repo: "https://github.com/nothub/drem.git"
+
+- path: "hub.lol/hashutils"
+  repo: "https://github.com/nothub/hashutils.git"
+
+- path: "hub.lol/buckets"
+  repo: "https://github.com/nothub/buckets.git"
+
+- path: "hub.lol/flargs"
+  repo: "https://github.com/nothub/flargs.git"
+
+- path: "hub.lol/flapps"
+  repo: "https://github.com/nothub/flapps.git"
+
+- path: "hub.lol/interwebs"
+  repo: "https://github.com/nothub/interwebs.git"
+
+- path: "hub.lol/keymux"
+  repo: "https://github.com/nothub/keymux.git"
+
+- path: "hub.lol/website"
+  repo: "https://github.com/nothub/website.git"

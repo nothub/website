@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="utf8">
-    <title>hub.lol/{{ .pkg }}</title>
+    <title>{{ .path }}</title>
     <meta name="author" content="Florian Hübner">
-    <meta content="hub.lol/{{ .pkg }} git https://github.com/nothub/{{ .pkg }}.git" name="go-import">
-    <meta http-equiv="Refresh" content="10; URL=https://github.com/nothub/{{ .pkg }}"/>
+    <meta content="{{ .path }} git {{ .repo }}" name="go-import">
+    <meta http-equiv="Refresh" content="5; URL={{ .repo }}"/>
     <link rel="stylesheet" href="/static/normalize.css">
     <link rel="stylesheet" href="/static/style.css">
     <link rel="icon" href="data:,">
@@ -14,24 +14,21 @@
 <body>
 {{ template "nav.gohtml" -}}
 <main>
-    <h1>hub.lol/{{ .pkg }}</h1>
+    <h1>{{ .path }}</h1>
     <br>
     <section style="display: flex; flex-direction: column; gap: 1.5em; align-items: center">
-        <section>Repository lives at: <a href="https://github.com/nothub/{{ .pkg }}">https://github.com/nothub/{{ .pkg }}</a></section>
-        <section id="countdown">Redirecting in 10 seconds...</section>
+        <section>Repository lives at: <a href="{{ .repo }}">{{ .repo }}</a></section>
+        <section id="countdown">Redirecting in 5 seconds...</section>
         <section><img src="{{ .gopher }}" height="128px" alt="funny gopher"></section>
     </section>
 </main>
 <script>
     const countdown = document.getElementById('countdown');
-    let seconds = 10 - 1;
-
-    function updateText() {
+    let seconds = 5 - 1;
+    setInterval(function () {
         countdown.textContent = 'Redirecting in ' + seconds + ' seconds...'
-        seconds--
-    }
-
-    setInterval(updateText, 1000);
+        if (seconds > 0) seconds--
+    }, 1000);
 </script>
 {{ template "footer.gohtml" -}}
 </body>
