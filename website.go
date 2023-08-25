@@ -106,7 +106,8 @@ func main() {
 		log.Printf("signal received: %s\n", sig.String())
 		switch sig {
 		case syscall.SIGHUP:
-			// TODO: reload config
+			// TODO: reload config & data
+			log.Fatalf("unhandled signal: %s\n", sig.String())
 		case syscall.SIGINT, syscall.SIGTERM:
 			log.Println("shutting down server...")
 			ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
@@ -119,7 +120,7 @@ func main() {
 			}
 			os.Exit(0)
 		default:
-			log.Fatalf("unhandled signal: %s\n", sig.String())
+			log.Printf("unhandled signal: %s\n", sig.String())
 		}
 	}
 }
