@@ -7,16 +7,19 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
+[*.{sh, bash}]
+indent_size = 4
+
 [*.{json, yaml}]
 indent_size = 2
 
 [*.{html, css, svg}]
 indent_size = 2
-max_line_length = 9999
+max_line_length = 255
 
 [*.md]
 trim_trailing_whitespace = false
-max_line_length = 9999
+max_line_length = 255
 
 [Makefile]
 indent_style = tab
