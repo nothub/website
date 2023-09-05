@@ -9,7 +9,7 @@ jobs:
     steps:
 
       - name: 'Fetch latest'
-        uses: actions/checkout@v3.6.0
+        uses: actions/checkout@v4.0.0
 
       - name: 'Setup Go'
         uses: actions/setup-go@v4.1.0
