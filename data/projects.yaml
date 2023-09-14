@@ -28,6 +28,13 @@
   tags: [ "rss", "library" ]
   langs: [ "java" ]
 
+- title: "gogorilla"
+  url: "https://github.com/nothub/gogorilla"
+  desc: "A client for gorilla-cli, the Gorilla LLM shell command generator"
+  role: "author"
+  tags: [ "llm", "cli" ]
+  langs: [ "go" ]
+
 - title: "hashutils"
   url: "https://github.com/nothub/hashutils"
   desc: "Implementations of the PHC and MCF hash string format"
