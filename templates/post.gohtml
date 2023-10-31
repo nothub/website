@@ -5,12 +5,15 @@
 {{ template "nav.gohtml" -}}
 <main>
 <section>
-    <h1>{{ .Meta.Title }}</h1>
-    <time>{{ .Meta.DateString }}</time>
-    [ {{ range .Meta.Tags }} <a class="tag" href="/tags/{{ . }}">{{ . }}</a> {{ end }} ]
-    <p>{{ .Meta.Desc }}</p>
+<h1>{{ .Meta.Title }}</h1>
+<time>{{ .Meta.DateString }}</time>
+[ {{ range .Meta.Tags }} <a class="tag" href="/tags/{{ . }}">{{ . }}</a> {{ end }} ]
+<p>{{ .Meta.Desc }}</p>
 </section>
+<hr>
+<section>
 {{ .Content -}}
+</section>
 </main>
 <p style="text-align: center; color: var(--secondary)">␃</p>
 {{ template "footer.gohtml" -}}
