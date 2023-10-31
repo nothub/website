@@ -6,12 +6,6 @@
 - title: "Fefes Blog"
   url: "https://blog.fefe.de/"
 
-- title: "Ramblings from Jessie"
-  url: "https://blog.jessfraz.com/"
-
-- title: "Patterns in the Void"
-  url: "https://blog.patternsinthevoid.net/"
-
 - title: "The Universe of Discourse"
   url: "https://blog.plover.com/"
 
@@ -56,3 +50,6 @@
 
 - title: "Unix Sheikh"
   url: "https://www.unixsheikh.com/"
+
+- title: "Hundred Rabbits"
+  url: "https://100r.co/site/log.html"
