@@ -28,18 +28,25 @@
   tags: [ "rss", "library" ]
   langs: [ "java" ]
 
-- title: "gogorilla"
-  url: "https://github.com/nothub/gogorilla"
-  desc: "A client for gorilla-cli, the Gorilla LLM shell command generator"
+- title: "debian-autoinstall"
+  url: "https://github.com/nothub/debian-autoinstall"
+  desc: "Generate customized Debian ISO images for automatic deployments"
   role: "author"
-  tags: [ "llm", "cli" ]
-  langs: [ "go" ]
+  tags: [ "debian", "cli" ]
+  langs: [ "shell" ]
 
 - title: "hashutils"
   url: "https://github.com/nothub/hashutils"
   desc: "Implementations of the PHC and MCF hash string format"
   role: "author"
   tags: [ "crypto", "library" ]
+  langs: [ "go" ]
+
+- title: "gogorilla"
+  url: "https://github.com/nothub/gogorilla"
+  desc: "A client for gorilla-cli, the Gorilla LLM shell command generator"
+  role: "author"
+  tags: [ "llm", "cli" ]
   langs: [ "go" ]
 
 - title: "gobonsai"
@@ -63,19 +70,19 @@
   tags: [ "scm-manager", "library" ]
   langs: [ "go" ]
 
-- title: "python-cli-pyz-template"
-  url: "https://github.com/nothub/python-cli-pyz-template"
-  desc: "Template for packaging python cli apps as pyz archives"
-  role: "author"
-  tags: [ "cli" ]
-  langs: [ "python" ]
-
 - title: "semver"
   url: "https://github.com/nothub/semver"
   desc: "Tiny library for parsing and comparing semver"
   role: "author"
   tags: [ "library" ]
   langs: [ "go" ]
+
+- title: "python-cli-pyz-template"
+  url: "https://github.com/nothub/python-cli-pyz-template"
+  desc: "Template for packaging python cli apps as pyz archives"
+  role: "author"
+  tags: [ "cli" ]
+  langs: [ "python" ]
 
 - title: "drem"
   url: "https://github.com/nothub/drem"
@@ -132,6 +139,20 @@
   role: "author"
   tags: [ "cli" ]
   langs: [ "python" ]
+
+- title: "keymux"
+  url: "https://github.com/nothub/keymux"
+  desc: "Multiplex multiple keyboard inputs with a single key press"
+  role: "author"
+  tags: [ "cli" ]
+  langs: [ "go" ]
+
+- title: "headlessbot"
+  url: "https://github.com/nothub/headlessbot"
+  desc: "A headless Minecraft bot"
+  role: "author"
+  tags: [ "cli" ]
+  langs: [ "java", "shell" ]
 
 - title: "Asciiquarium"
   url: "https://github.com/nothub/asciiquarium"
