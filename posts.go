@@ -139,7 +139,7 @@ func initPosts(router *gin.Engine) (err error) {
 
 	router.GET("/rss.xml", func(ctx *gin.Context) {
 		// TODO
-		ctx.AbortWithStatus(http.StatusTeapot)
+		ctx.AbortWithStatus(http.StatusNotImplemented)
 	})
 
 	return nil
