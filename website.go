@@ -64,10 +64,12 @@ func main() {
 	}
 
 	router.GET("/assets/*path", func(ctx *gin.Context) {
+		setCacheHeader(ctx)
 		ctx.FileFromFS(ctx.Request.URL.Path, http.FS(fs))
 	})
 
 	router.GET("/static/*path", func(ctx *gin.Context) {
+		setCacheHeader(ctx)
 		ctx.FileFromFS(ctx.Request.URL.Path, http.FS(fs))
 	})
 
@@ -82,6 +84,7 @@ func main() {
 	})
 
 	router.GET("/teapot", func(ctx *gin.Context) {
+		setCacheHeader(ctx)
 		ctx.String(http.StatusTeapot, "🫖")
 	})
 

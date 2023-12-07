@@ -67,7 +67,7 @@ func githubRepoMeta(repo string) (*RepoMeta, error) {
 		return nil, err
 	}
 
-	setDefaultHeader(req)
+	req.Header.Set("User-Agent", "hub.lol")
 	if optGithubToken != "" {
 		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", optGithubToken))
 	}
