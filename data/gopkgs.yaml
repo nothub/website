@@ -1,16 +1,19 @@
 ---
 
-- path: "hub.lol/mrpack-install"
-  repo: "https://github.com/nothub/mrpack-install.git"
+- path: "hub.lol/drem"
+  repo: "https://github.com/nothub/drem.git"
+
+- path: "hub.lol/fonk"
+  repo: "https://github.com/nothub/fonk.git"
+
+- path: "hub.lol/gml"
+  repo: "https://github.com/nothub/gml.git"
 
 - path: "hub.lol/gobonsai"
   repo: "https://github.com/nothub/gobonsai.git"
 
-- path: "hub.lol/janitord"
-  repo: "https://github.com/nothub/janitord.git"
-
-- path: "hub.lol/drem"
-  repo: "https://github.com/nothub/drem.git"
+- path: "hub.lol/gogorilla"
+  repo: "https://github.com/nothub/gogorilla.git"
 
 - path: "hub.lol/hashutils"
   repo: "https://github.com/nothub/hashutils.git"
@@ -18,8 +21,20 @@
 - path: "hub.lol/interwebs"
   repo: "https://github.com/nothub/interwebs.git"
 
+- path: "hub.lol/janitord"
+  repo: "https://github.com/nothub/janitord.git"
+
 - path: "hub.lol/keymux"
   repo: "https://github.com/nothub/keymux.git"
 
+- path: "hub.lol/mrpack-install"
+  repo: "https://github.com/nothub/mrpack-install.git"
+
+- path: "hub.lol/semver"
+  repo: "https://github.com/nothub/semver.git"
+
 - path: "hub.lol/website"
   repo: "https://github.com/nothub/website.git"
+
+- path: "hub.lol/ziesel"
+  repo: "https://github.com/nothub/ziesel.git"
