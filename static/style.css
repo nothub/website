@@ -220,7 +220,8 @@ li > section > h3 > a:link, li > section > h3 > a:visited {
 
 code {
     font-family: monospace;
-    padding: .05em .15em;
+    padding: 0 .15em;
+    font-size: 85%;
 }
 
 pre {
