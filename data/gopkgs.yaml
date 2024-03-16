@@ -30,9 +30,6 @@
 - path: "hub.lol/mrpack-install"
   repo: "https://github.com/nothub/mrpack-install.git"
 
-- path: "hub.lol/semver"
-  repo: "https://github.com/nothub/semver.git"
-
 - path: "hub.lol/website"
   repo: "https://github.com/nothub/website.git"
 
