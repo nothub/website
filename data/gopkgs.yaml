@@ -27,9 +27,6 @@
 - path: "hub.lol/keymux"
   repo: "https://github.com/nothub/keymux.git"
 
-- path: "hub.lol/mrpack-install"
-  repo: "https://github.com/nothub/mrpack-install.git"
-
 - path: "hub.lol/website"
   repo: "https://github.com/nothub/website.git"
 
