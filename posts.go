@@ -62,8 +62,6 @@ func initPosts(router *gin.Engine) (err error) {
 			gmhl.WithStyle("gruvbox"),
 			gmhl.WithFormatOptions(
 				chroma.TabWidth(4),
-				chroma.WithLineNumbers(true),
-				chroma.LineNumbersInTable(true),
 			),
 		)))
 
