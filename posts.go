@@ -60,7 +60,11 @@ func initPosts(router *gin.Engine) (err error) {
 		&gmanchor.Extender{Texter: &anchorTexter{}},
 		gmhl.NewHighlighting(
 			gmhl.WithStyle("gruvbox"),
-			gmhl.WithFormatOptions(chroma.WithLineNumbers(true)),
+			gmhl.WithFormatOptions(
+				chroma.TabWidth(4),
+				chroma.WithLineNumbers(true),
+				chroma.LineNumbersInTable(true),
+			),
 		)))
 
 	dir, err := fs.ReadDir("posts")
