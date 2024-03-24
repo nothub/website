@@ -1,14 +1,5 @@
 ---
 
-- path: "hub.lol/drem"
-  repo: "https://github.com/nothub/drem.git"
-
-- path: "hub.lol/fonk"
-  repo: "https://github.com/nothub/fonk.git"
-
-- path: "hub.lol/gml"
-  repo: "https://github.com/nothub/gml.git"
-
 - path: "hub.lol/gobonsai"
   repo: "https://github.com/nothub/gobonsai.git"
 
