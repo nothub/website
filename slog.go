@@ -1,4 +1,4 @@
-package slogging
+package main
 
 import (
 	"github.com/gin-gonic/gin"
@@ -10,7 +10,7 @@ import (
 
 var slogger = slog.New(slog.NewTextHandler(os.Stderr, nil))
 
-var Gin = func(ctx *gin.Context) {
+var slogGin = func(ctx *gin.Context) {
 	start := time.Now()
 	ctx.Next()
 	latency := time.Now().Sub(start)

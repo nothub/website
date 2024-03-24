@@ -6,7 +6,6 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"html/template"
-	"hub.lol/website/slogging"
 	"log"
 	"net/http"
 	"os"
@@ -26,7 +25,7 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
 
-	router.Use(slogging.Gin)
+	router.Use(slogGin)
 
 	// default recovery handler
 	router.Use(gin.Recovery())
