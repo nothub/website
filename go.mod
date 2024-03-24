@@ -1,6 +1,6 @@
 module hub.lol/website
 
-go 1.21
+go 1.22
 
 require (
 	github.com/alecthomas/chroma/v2 v2.13.0
