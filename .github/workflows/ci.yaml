@@ -19,11 +19,11 @@ jobs:
           cache: true
 
       - name: 'Run tests'
-        run: make test
+        run: ./scripts/test.sh
 
       - name: 'Build website'
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-        run: make
+        run: ./scripts/build.sh
 
       - name: 'Docker Hub login'
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
