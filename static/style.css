@@ -244,7 +244,7 @@ code, p > code, a > code {
 }
 
 code, pre > code {
-    white-space: pre-wrap;
+    white-space: unset;
     overflow-wrap: normal;
     hyphens: manual;
     text-align: left
