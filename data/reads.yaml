@@ -115,3 +115,7 @@
 - title: "Choosing an HTTP Status Code - Stop Making It Hard"
   url: "https://www.codetinkerer.com/2015/12/04/choosing-an-http-status-code.html"
   tags: [ "http" ]
+
+-  title: "Smallest x86 ELF Hello World"
+   url: "http://timelessname.com/elfbin/"
+   tags: [ "" ]
