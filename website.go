@@ -34,11 +34,6 @@ func main() {
 	router.SetHTMLTemplate(template.Must(template.New("").
 		ParseFS(fs, "templates/*.gohtml")))
 
-	// go module vanity url redirects
-	if err := initGoPkgs(router); err != nil {
-		log.Fatalln(err.Error())
-	}
-
 	router.GET("/", func(ctx *gin.Context) {
 		ctx.Redirect(http.StatusPermanentRedirect, "/about")
 	})
