@@ -7,7 +7,7 @@ draft: false
 ---
 
 The [dockerfile_inline](https://docs.docker.com/compose/compose-file/build/#dockerfile_inline) attribute got introduced
-to Docker Compose in [version 2.17.0](https://github.com/docker/compose/releases/tag/v2.17.0) about a year ago.
+to Docker Compose in [version 2.17.0](https://github.com/docker/compose/releases/tag/v2.17.0), about a year ago.
 
 I just found out and I really like it!
 
