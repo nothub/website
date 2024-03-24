@@ -3,7 +3,7 @@ title: "Docker Compose inline Dockerfile"
 description: "Include Dockerfiles inline as attribute in Compose files"
 date: "2024-03-24"
 tags: [ "docker" ]
-draft: true
+draft: false
 ---
 
 The [dockerfile_inline](https://docs.docker.com/compose/compose-file/build/#dockerfile_inline) attribute got introduced
