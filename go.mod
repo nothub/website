@@ -5,7 +5,7 @@ go 1.22
 require (
 	github.com/alecthomas/chroma/v2 v2.14.0
 	github.com/gin-gonic/gin v1.10.0
-	github.com/mangoumbrella/goldmark-figure v1.1.0
+	github.com/mangoumbrella/goldmark-figure v1.2.0
 	github.com/spf13/pflag v1.0.5
 	github.com/yuin/goldmark v1.7.3
 	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20230729083705-37449abec8cc
