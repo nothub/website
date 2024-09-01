@@ -13,3 +13,7 @@ var httpClient = &http.Client{
 func setCacheHeader(ctx *gin.Context) {
 	ctx.Writer.Header().Set("Cache-Control", "public, max-age=604800, immutable")
 }
+
+func setClacksHeader(ctx *gin.Context) {
+	ctx.Writer.Header().Set("X-Clacks-Overhead", "GNU Terry Pratchett")
+}

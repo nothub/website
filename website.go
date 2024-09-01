@@ -30,6 +30,8 @@ func main() {
 	// default recovery handler
 	router.Use(gin.Recovery())
 
+	router.Use(setClacksHeader)
+
 	router.SetHTMLTemplate(template.Must(template.New("").
 		ParseFS(fs, "templates/*.gohtml")))
 
