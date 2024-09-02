@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var slogger = slog.New(slog.NewTextHandler(os.Stderr, nil))
+var slogger = slog.New(slog.NewJSONHandler(os.Stderr, nil))
 
 var slogGin = func(ctx *gin.Context) {
 	start := time.Now()
