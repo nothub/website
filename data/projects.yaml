@@ -2,30 +2,16 @@
 
 - title: "mrpack-install"
   url: "https://github.com/nothub/mrpack-install"
-  desc: "Deploys a Modrinth modpack including Minecraft server"
+  desc: "A cli application for installing Minecraft servers and Modrinth modpacks"
   role: "author"
   tags: [ "minecraft", "cli" ]
   langs: [ "go" ]
 
 - title: "TinyEventBus"
   url: "https://github.com/nothub/TinyEventBus"
-  desc: "Tiny and fast pubsub implementation with subscriber priorities and event canceling for Java 8, 11 and 17"
+  desc: "Tiny and fast pubsub implementation with subscriber priorities and event canceling for Java"
   role: "author"
   tags: [ "pubsub", "library" ]
-  langs: [ "java" ]
-
-- title: "hub.lol website"
-  url: "https://github.com/nothub/website"
-  desc: "Sources of this website"
-  role: "author"
-  tags: [ "web" ]
-  langs: [ "go", "html", "js" ]
-
-- title: "rssgen"
-  url: "https://github.com/nothub/rssgen"
-  desc: "Library for generating RSS 2.0 XML files"
-  role: "author"
-  tags: [ "rss", "library" ]
   langs: [ "java" ]
 
 - title: "debian-autoinstall"
@@ -35,33 +21,19 @@
   tags: [ "debian", "cli" ]
   langs: [ "shell" ]
 
-- title: "hashutils"
-  url: "https://github.com/nothub/hashutils"
-  desc: "Implementations of the PHC and MCF hash string format"
+- title: "website"
+  url: "https://github.com/nothub/website"
+  desc: "Sources of this website"
   role: "author"
-  tags: [ "crypto", "library" ]
-  langs: [ "go" ]
+  tags: [ "web" ]
+  langs: [ "go", "html", "js" ]
 
-- title: "gogorilla"
-  url: "https://github.com/nothub/gogorilla"
-  desc: "A client for gorilla-cli, the Gorilla LLM shell command generator"
+- title: "ts3snap"
+  url: "https://github.com/nothub/ts3snap"
+  desc: "Create and restore TeamSpeak 3 server snapshots"
   role: "author"
-  tags: [ "llm", "cli" ]
+  tags: [ "teamspeak", "cli" ]
   langs: [ "go" ]
-
-- title: "gobonsai"
-  url: "https://github.com/nothub/gobonsai"
-  desc: "A bonsai tree generator (cbonsai ported to go)"
-  role: "author"
-  tags: [ "gimmick", "cli" ]
-  langs: [ "go" ]
-
-- title: "dotfiles"
-  url: "https://github.com/nothub/dotfiles"
-  desc: "My cozy ${HOME}"
-  role: "author"
-  tags: [ "linux" ]
-  langs: [ "shell", "python" ]
 
 - title: "goscm"
   url: "https://github.com/scm-manager/goscm"
@@ -72,23 +44,30 @@
 
 - title: "semver"
   url: "https://github.com/nothub/semver"
-  desc: "Tiny library for parsing and comparing semver"
+  desc: "A tiny lib and cli for parsing, comparing and manipulating semver versions"
   role: "author"
   tags: [ "library" ]
   langs: [ "go" ]
 
-- title: "python-cli-pyz-template"
-  url: "https://github.com/nothub/python-cli-pyz-template"
-  desc: "Template for packaging python cli apps as pyz archives"
+- title: "hashutils"
+  url: "https://github.com/nothub/hashutils"
+  desc: "Implementations of the PHC and MCF hash string format"
   role: "author"
-  tags: [ "cli" ]
-  langs: [ "python" ]
+  tags: [ "crypto", "library" ]
+  langs: [ "go" ]
 
-- title: "drem"
-  url: "https://github.com/nothub/drem"
-  desc: "Docker rootless environment manager"
+- title: "rssgen"
+  url: "https://github.com/nothub/rssgen"
+  desc: "Library for generating RSS 2.0 XML files"
   role: "author"
-  tags: [ "docker", "cli" ]
+  tags: [ "rss", "library" ]
+  langs: [ "java" ]
+
+- title: "gogorilla"
+  url: "https://github.com/nothub/gogorilla"
+  desc: "A client for gorilla-cli, the Gorilla LLM shell command generator"
+  role: "author"
+  tags: [ "llm", "cli" ]
   langs: [ "go" ]
 
 - title: "openttd-docker"
@@ -105,9 +84,23 @@
   tags: [ "container" ]
   langs: [ "dockerfile", "shell" ]
 
+- title: "factorio-mods"
+  url: "https://github.com/nothub/factorio-mods"
+  desc: "Some Mods for the game Factorio"
+  role: "author"
+  tags: [ "factorio" ]
+  langs: [ "lua" ]
+
+- title: "headlessbot"
+  url: "https://github.com/nothub/headlessbot"
+  desc: "A headless Minecraft bot"
+  role: "author"
+  tags: [ "cli" ]
+  langs: [ "java", "shell" ]
+
 - title: "MineCharts"
   url: "https://github.com/nothub/MineCharts-Flask"
-  desc: "Monitoring of Minecraft server player counts"
+  desc: "Standalone monitoring of Minecraft server player counts"
   role: "author"
   tags: [ "flask", "minecraft" ]
   langs: [ "python", "html", "js" ]
@@ -119,26 +112,26 @@
   tags: [ "minecraft" ]
   langs: [ "java" ]
 
-- title: "SafeTPA"
-  url: "https://github.com/nothub/SafeTPA"
-  desc: "Minecraft self-service teleport requests"
+- title: "AutoSort"
+  url: "https://modrinth.com/plugin/fastharvest"
+  desc: "Minecraft server-plugin for automatic container sorting"
   role: "author"
   tags: [ "minecraft" ]
   langs: [ "java" ]
 
-- title: "factorio-mods"
-  url: "https://github.com/nothub/factorio-mods"
-  desc: "Some Mods for the game Factorio"
+- title: "FastHarvest"
+  url: "https://modrinth.com/plugin/fastharvest"
+  desc: "Minecraft server-plugin for more pleasant crop harvesting"
   role: "author"
-  tags: [ "factorio" ]
-  langs: [ "lua" ]
+  tags: [ "minecraft" ]
+  langs: [ "java" ]
 
-- title: "reclink"
-  url: "https://github.com/nothub/reclink"
-  desc: "Link files recursively"
+- title: "Torchify"
+  url: "https://modrinth.com/plugin/torchify"
+  desc: "Minecraft server-plugin for automatic torch placement"
   role: "author"
-  tags: [ "cli" ]
-  langs: [ "python" ]
+  tags: [ "minecraft" ]
+  langs: [ "java" ]
 
 - title: "keymux"
   url: "https://github.com/nothub/keymux"
@@ -147,12 +140,19 @@
   tags: [ "cli" ]
   langs: [ "go" ]
 
-- title: "headlessbot"
-  url: "https://github.com/nothub/headlessbot"
-  desc: "A headless Minecraft bot"
+- title: "dotfiles"
+  url: "https://github.com/nothub/dotfiles"
+  desc: "My cozy ${HOME}"
   role: "author"
-  tags: [ "cli" ]
-  langs: [ "java", "shell" ]
+  tags: [ "linux" ]
+  langs: [ "shell", "python" ]
+
+- title: "gobonsai"
+  url: "https://github.com/nothub/gobonsai"
+  desc: "A bonsai tree generator (cbonsai ported to go)"
+  role: "author"
+  tags: [ "gimmick", "cli" ]
+  langs: [ "go" ]
 
 - title: "Asciiquarium"
   url: "https://github.com/nothub/asciiquarium"
@@ -168,9 +168,23 @@
   tags: [ "docker" ]
   langs: [ "go" ]
 
+- title: "adrg/xdg"
+  url: "https://github.com/adrg/xdg"
+  desc: "Go implementation of the XDG Base Directory Specification and XDG user directories"
+  role: "contrib"
+  tags: [ "xdg", "library" ]
+  langs: [ "go" ]
+
+- title: "jkoenig134/go-ts3"
+  url: "https://github.com/jkoenig134/go-ts3"
+  desc: "A Teamspeak Server http-client"
+  role: "contrib"
+  tags: [ "xdg", "library" ]
+  langs: [ "go" ]
+
 - title: "nopjmp/Dionysus"
   url: "https://github.com/nopjmp/Dionysus"
-  desc: "Minecraft 1.12.2 Paper Fork designed for high player counts and anarchy"
+  desc: "Minecraft 1.12.2 Paper Fork"
   role: "contrib"
   tags: [ "minecraft" ]
   langs: [ "java" ]
