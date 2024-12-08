@@ -133,6 +133,20 @@
   tags: [ "minecraft" ]
   langs: [ "java" ]
 
+- title: "mapart"
+  url: "https://github.com/nothub/mapart"
+  desc: "A tool to fumble around with Minecraft map files"
+  role: "author"
+  tags: [ "minecraft" ]
+  langs: [ "go" ]
+
+- title: "MapColors"
+  url: "https://github.com/nothub/MapColors"
+  desc: "Generates map-pixel to block-color mappings"
+  role: "author"
+  tags: [ "minecraft" ]
+  langs: [ "java", "shell" ]
+
 - title: "keymux"
   url: "https://github.com/nothub/keymux"
   desc: "Multiplex multiple keyboard inputs with a single key press"
