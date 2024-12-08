@@ -28,13 +28,6 @@
   tags: [ "web" ]
   langs: [ "go", "html", "js" ]
 
-- title: "ts3snap"
-  url: "https://github.com/nothub/ts3snap"
-  desc: "Create and restore TeamSpeak 3 server snapshots"
-  role: "author"
-  tags: [ "teamspeak", "cli" ]
-  langs: [ "go" ]
-
 - title: "goscm"
   url: "https://github.com/scm-manager/goscm"
   desc: "Client library for SCM-Manager"
@@ -70,6 +63,13 @@
   tags: [ "llm", "cli" ]
   langs: [ "go" ]
 
+- title: "headlessbot"
+  url: "https://github.com/nothub/headlessbot"
+  desc: "A headless Minecraft bot"
+  role: "author"
+  tags: [ "cli" ]
+  langs: [ "java", "shell" ]
+
 - title: "openttd-docker"
   url: "https://github.com/nothub/openttd-docker"
   desc: "OpenTTD container image"
@@ -81,8 +81,15 @@
   url: "https://github.com/nothub/ts3-docker"
   desc: "TeamSpeak 3 container image"
   role: "author"
-  tags: [ "container" ]
+  tags: [ "container", "ts3" ]
   langs: [ "dockerfile", "shell" ]
+
+- title: "ts3snap"
+  url: "https://github.com/nothub/ts3snap"
+  desc: "Create and restore TeamSpeak 3 server snapshots"
+  role: "author"
+  tags: [ "teamspeak", "cli", "ts3" ]
+  langs: [ "go" ]
 
 - title: "factorio-mods"
   url: "https://github.com/nothub/factorio-mods"
@@ -90,20 +97,6 @@
   role: "author"
   tags: [ "factorio" ]
   langs: [ "lua" ]
-
-- title: "headlessbot"
-  url: "https://github.com/nothub/headlessbot"
-  desc: "A headless Minecraft bot"
-  role: "author"
-  tags: [ "cli" ]
-  langs: [ "java", "shell" ]
-
-- title: "MineCharts"
-  url: "https://github.com/nothub/MineCharts-Flask"
-  desc: "Standalone monitoring of Minecraft server player counts"
-  role: "author"
-  tags: [ "flask", "minecraft" ]
-  langs: [ "python", "html", "js" ]
 
 - title: "menumusic"
   url: "https://modrinth.com/mod/menumusic"
@@ -122,13 +115,6 @@
 - title: "FastHarvest"
   url: "https://modrinth.com/plugin/fastharvest"
   desc: "Minecraft server-plugin for more pleasant crop harvesting"
-  role: "author"
-  tags: [ "minecraft" ]
-  langs: [ "java" ]
-
-- title: "Torchify"
-  url: "https://modrinth.com/plugin/torchify"
-  desc: "Minecraft server-plugin for automatic torch placement"
   role: "author"
   tags: [ "minecraft" ]
   langs: [ "java" ]
@@ -182,18 +168,11 @@
   tags: [ "docker" ]
   langs: [ "go" ]
 
-- title: "adrg/xdg"
-  url: "https://github.com/adrg/xdg"
-  desc: "Go implementation of the XDG Base Directory Specification and XDG user directories"
-  role: "contrib"
-  tags: [ "xdg", "library" ]
-  langs: [ "go" ]
-
 - title: "jkoenig134/go-ts3"
   url: "https://github.com/jkoenig134/go-ts3"
   desc: "A Teamspeak Server http-client"
   role: "contrib"
-  tags: [ "xdg", "library" ]
+  tags: [ "library", "ts3" ]
   langs: [ "go" ]
 
 - title: "nopjmp/Dionysus"

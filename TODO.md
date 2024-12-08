@@ -2,5 +2,4 @@
 - get rid of Reads page?
 - heading anchors
 - check Accept header
-- add [blogroll](data/blogroll.yaml)
 - use [image map](https://www.devever.net/~hl/imagemap-example-client#cs-balloon) somewhere?
