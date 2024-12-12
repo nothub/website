@@ -41,12 +41,12 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/website:latest
 
-      - name: 'Trigger deployment'
-        if: github.ref == 'refs/heads/trunk'
-        run: >
-          curl
-          --fail
-          --head
-          --no-progress-meter
-          --header "Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}"
-          "${{ secrets.WATCHTOWER_URL }}"
+#      - name: 'Trigger deployment'
+#        if: github.ref == 'refs/heads/trunk'
+#        run: >
+#          curl
+#          --fail
+#          --head
+#          --no-progress-meter
+#          --header "Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}"
+#          "${{ secrets.WATCHTOWER_URL }}"
