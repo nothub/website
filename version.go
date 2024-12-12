@@ -14,18 +14,8 @@ func initVersion(router *gin.Engine) (err error) {
 		return errors.New("unable to read build info from binary")
 	}
 
-	ver := bi.Main.Version
-	for _, kv := range bi.Settings {
-		switch kv.Key {
-		case "vcs.modified":
-			if kv.Value == "true" {
-				ver = ver + "+DIRTY"
-			}
-		}
-	}
-
 	router.GET("/version", func(ctx *gin.Context) {
-		ctx.String(http.StatusOK, "%s", ver)
+		ctx.String(http.StatusOK, "%s", bi.Main.Version)
 	})
 
 	return nil
