@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -80,6 +81,42 @@ func githubRepoMeta(repo string) (*RepoMeta, error) {
 		return nil, err
 	}
 	defer res.Body.Close()
+
+	// maybe rate-limited
+	// https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28
+	if res.StatusCode == 403 || res.StatusCode == 429 {
+
+		if res.Header.Get("retry-after") != "" {
+			log.Printf("github api rate limit exceeded; header detected: retry-after = %s\n", res.Header.Get("retry-after"))
+
+			v, err := strconv.Atoi(res.Header.Get("retry-after"))
+			if err != nil {
+				return nil, fmt.Errorf("error awaiting rate-limit: %w", err)
+			}
+
+			dur := time.Duration(v) * time.Second
+			log.Printf("coplying with retry-after header; sleeping for %s\n", dur)
+			time.Sleep(dur)
+			return nil, errors.New("rate-limit awaited")
+		}
+
+		if res.Header.Get("x-ratelimit-remaining") == "0" {
+			log.Printf("github api rate limit exceeded; header detected: x-ratelimit-remaining = %s\n", res.Header.Get("x-ratelimit-remaining"))
+
+			v, err := strconv.ParseInt(res.Header.Get("x-ratelimit-reset"), 10, 64)
+			if err != nil {
+				return nil, fmt.Errorf("error awaiting rate-limit: %w", err)
+			}
+
+			t := time.Unix(v, 0)
+			dur := t.Sub(time.Now())
+
+			log.Printf("coplying with x-ratelimit-* headers; sleeping for %s\n", dur)
+			time.Sleep(dur)
+			return nil, errors.New("rate-limit awaited")
+		}
+
+	}
 
 	if res.StatusCode < 200 || res.StatusCode >= 400 {
 		return nil, errors.New("http status " + res.Status)

@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
 	"runtime/debug"
 )
@@ -19,7 +18,6 @@ func initVersion(router *gin.Engine) (err error) {
 	dirty := false
 
 	for _, kv := range bi.Settings {
-		log.Printf("%s = %s\n", kv.Key, kv.Value)
 		switch kv.Key {
 		case "vcs.revision":
 			version = kv.Value
@@ -30,7 +28,7 @@ func initVersion(router *gin.Engine) (err error) {
 		}
 	}
 	if dirty {
-		version = version + "+DIRTY"
+		version = version + "+dirty"
 	}
 
 	router.GET("/version", func(ctx *gin.Context) {

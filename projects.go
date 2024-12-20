@@ -80,12 +80,20 @@ func fetchStars(projects *[]Project) {
 			continue
 		}
 
-		meta, err := githubRepoMeta(u.Path)
-		if err != nil {
-			log.Printf("stargazer lookup for %s caused %s\n", proj.Url, err.Error())
-			continue
+		var meta *RepoMeta
+		for i := 0; i < 3; i++ {
+			meta, err = githubRepoMeta(u.Path)
+			if err != nil {
+				log.Printf("stargazer lookup for %s caused: %s\n", proj.Url, err.Error())
+				continue
+			}
+			break
 		}
 
-		(*projects)[i].Stars = meta.StargazersCount
+		if meta != nil {
+			(*projects)[i].Stars = meta.StargazersCount
+		} else {
+			log.Printf("unable to fetch data for %s\n", proj.Url)
+		}
 	}
 }
