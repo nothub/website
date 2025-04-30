@@ -3,7 +3,7 @@ module hub.lol/website
 go 1.24.2
 
 require (
-	github.com/alecthomas/chroma/v2 v2.17.0
+	github.com/alecthomas/chroma/v2 v2.17.2
 	github.com/gin-gonic/gin v1.10.0
 	github.com/mangoumbrella/goldmark-figure v1.2.0
 	github.com/spf13/pflag v1.0.6
