@@ -6,7 +6,7 @@ require (
 	github.com/alecthomas/chroma/v2 v2.18.0
 	github.com/gin-gonic/gin v1.10.1
 	github.com/mangoumbrella/goldmark-figure v1.3.0
-	github.com/spf13/pflag v1.0.6
+	github.com/spf13/pflag v1.0.7
 	github.com/yuin/goldmark v1.7.12
 	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20230729083705-37449abec8cc
 	github.com/yuin/goldmark-meta v1.1.0
