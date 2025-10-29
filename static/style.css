@@ -470,3 +470,21 @@ dl > dd {
 .theme-switcher:checked + .theme-switcher-label .theme-switcher-knob {
     transform: translateX(22px);
 }
+
+/* console */
+
+.console {
+    font: 13px/1.25 ui-monospace, monospace;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--secondary);
+    padding: 6px;
+    box-sizing: content-box; /* keep rows/cols sizing predictable */
+    resize: none; /* fixed size: 120x36 */
+    outline: none;
+    tab-size: 4;
+}
+
+.console:focus {
+    border-color: var(--secondary);
+}
