@@ -10,8 +10,8 @@
 }
 
 .term_cursor {
-    color: var(--text);
-    background: var(--bg);
+    color: var(--bg);
+    background: var(--text);
 }
 
 .term_scrollbar { background: transparent no-repeat 0 0; position: relative; background-position: 0 0; float: right; width: 15px; height: 100%; }
