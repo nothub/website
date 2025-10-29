@@ -4,7 +4,6 @@ import (
 	"context"
 	"embed"
 	"errors"
-	"github.com/gin-gonic/gin"
 	"html/template"
 	"log"
 	"net/http"
@@ -12,9 +11,11 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
-//go:embed assets/* data/* posts/* static/* templates/*
+//go:embed assets/* data/* jslinux/* posts/* static/* templates/*
 var fs embed.FS
 
 func main() {
@@ -37,6 +38,10 @@ func main() {
 
 	router.GET("/", func(ctx *gin.Context) {
 		ctx.Redirect(http.StatusPermanentRedirect, "/about")
+	})
+
+	router.GET("/cli", func(ctx *gin.Context) {
+		ctx.Redirect(http.StatusPermanentRedirect, "/jslinux")
 	})
 
 	router.GET("/about", func(ctx *gin.Context) {
@@ -65,6 +70,11 @@ func main() {
 	})
 
 	router.GET("/static/*path", func(ctx *gin.Context) {
+		setCacheHeader(ctx)
+		ctx.FileFromFS(ctx.Request.URL.Path, http.FS(fs))
+	})
+
+	router.GET("/jslinux/*path", func(ctx *gin.Context) {
 		setCacheHeader(ctx)
 		ctx.FileFromFS(ctx.Request.URL.Path, http.FS(fs))
 	})
