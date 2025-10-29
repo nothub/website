@@ -106,15 +106,8 @@
   langs: [ "java" ]
 
 - title: "AutoSort"
-  url: "https://modrinth.com/plugin/fastharvest"
+  url: "https://modrinth.com/plugin/autosort"
   desc: "Minecraft server-plugin for automatic container sorting"
-  role: "author"
-  tags: [ "minecraft" ]
-  langs: [ "java" ]
-
-- title: "FastHarvest"
-  url: "https://modrinth.com/plugin/fastharvest"
-  desc: "Minecraft server-plugin for more pleasant crop harvesting"
   role: "author"
   tags: [ "minecraft" ]
   langs: [ "java" ]
