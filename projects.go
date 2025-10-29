@@ -1,12 +1,14 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"gopkg.in/yaml.v3"
 	"log"
+	"math/rand"
 	"net/http"
 	"net/url"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"gopkg.in/yaml.v3"
 )
 
 type Project struct {
@@ -95,5 +97,7 @@ func fetchStars(projects *[]Project) {
 		} else {
 			log.Printf("unable to fetch data for %s\n", proj.Url)
 		}
+
+		time.Sleep(time.Duration(rand.Intn(15)+5) * time.Second)
 	}
 }
