@@ -51,10 +51,6 @@ func main() {
 		log.Fatalln(err.Error())
 	}
 
-	if err := initReads(router); err != nil {
-		log.Fatalln(err.Error())
-	}
-
 	if err := initProjects(router); err != nil {
 		log.Fatalln(err.Error())
 	}
