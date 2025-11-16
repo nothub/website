@@ -40,7 +40,7 @@ func main() {
 		ctx.Redirect(http.StatusPermanentRedirect, "/about")
 	})
 
-	router.GET("/cli", func(ctx *gin.Context) {
+	router.GET("/shell", func(ctx *gin.Context) {
 		ctx.Redirect(http.StatusPermanentRedirect, "/jslinux")
 	})
 
