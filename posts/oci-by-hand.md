@@ -155,7 +155,8 @@ sudo ctr images import --base-name oci-by-hand:latest --digests --all-platforms 
 And run it:
 
 ```
-sudo ctr run --rm "$(sudo ctr images list | grep -F "oci-by-hand@" | awk '{print $1}')" hi
+ref="$(sudo ctr images list | grep -F "oci-by-hand@" | awk '{print $1}')"
+sudo ctr run --rm "${ref}" hi
 ```
 
 Done 😎
