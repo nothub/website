@@ -3,7 +3,7 @@ module github.com/nothub/website
 go 1.25.1
 
 require (
-	github.com/alecthomas/chroma/v2 v2.20.0
+	github.com/alecthomas/chroma/v2 v2.21.1
 	github.com/gin-gonic/gin v1.11.0
 	github.com/mangoumbrella/goldmark-figure v1.3.0
 	github.com/spf13/pflag v1.0.10
