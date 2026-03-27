@@ -16,6 +16,10 @@ sudo mount -o loop tmp/rootfs.img tmp/mount
 
 sudo cp -a includes/. tmp/mount
 
+sudo cp -a includes/. tmp/mount/
+sudo cp -a ../../data tmp/mount/root/
+sudo cp -a ../../posts tmp/mount/root/
+
 sync
 sudo umount tmp/mount
 sudo rm -rf tmp/mount
