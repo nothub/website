@@ -1,4 +1,4 @@
-👋 Hi, I am Florian Hübner and this is my corner of the internet.
+Hi, I am Florian Hübner and this is my corner of the internet.
 
 I started my professional journey in information technology in 2008. My current hat says Cloud Engineer.
 I have done some development in Go, Java, Python and Bash and infrastructure operations on-premise and in the cloud.
