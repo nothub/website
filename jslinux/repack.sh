@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-set -eu
+set -eux
 cd "$(dirname "$(realpath "$0")")/root-x86"
 
 cleanup() {
@@ -10,6 +10,8 @@ trap cleanup EXIT
 
 mkdir -p tmp
 cat blk*.bin > tmp/rootfs.img
+
+sudo e2fsck -nf tmp/rootfs.img
 
 mkdir -p tmp/mount
 sudo mount -o loop tmp/rootfs.img tmp/mount
@@ -23,6 +25,8 @@ sudo cp -a ../../posts tmp/mount/root/
 sync
 sudo umount tmp/mount
 sudo rm -rf tmp/mount
+
+sudo e2fsck -nf tmp/rootfs.img
 
 rm -f blk.txt blk*.bin
 split -b 256K -d -a 9 tmp/rootfs.img blk
