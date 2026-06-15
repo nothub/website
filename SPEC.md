@@ -17,7 +17,7 @@ tunnel, moving to a k8s cluster on Hetzner. The image is built with
 | Method | Path | Behaviour |
 |--------|------|-----------|
 | `*` | `/*` | 404 via `writeError` (catch-all; registered as `"/"` with no method) |
-| GET | `/` | 301 → `/about` (registered as `"GET /"`, takes precedence over catch-all) |
+| GET | `/` | 301 → `/about` (registered as `"GET /{$}"` — exact root match; `"GET /"` would act as a subtree catch-all for all GET requests in Go 1.22+) |
 | GET | `/shell` | 301 → `/jslinux` |
 | GET | `/about` | render `about.gohtml` |
 | GET | `/posts` | render `posts.gohtml`; RSS via content negotiation |
