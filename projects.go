@@ -6,9 +6,6 @@ import (
 	"net/http"
 	"net/url"
 	"time"
-
-	"github.com/gin-gonic/gin"
-	"gopkg.in/yaml.v3"
 )
 
 type Project struct {
@@ -21,19 +18,11 @@ type Project struct {
 	Stars int      `yaml:"stars"`
 }
 
-func initProjects(router *gin.Engine) (err error) {
+func initProjects(mux *http.ServeMux) (err error) {
 	log.Println("loading projects")
 
-	// load projects from data
-	bytes, err := fs.ReadFile("data/projects.yaml")
-	if err != nil {
-		return err
-	}
+	// TODO: load and unmarshal projects from data/projects.yaml
 	var projects []Project
-	err = yaml.Unmarshal(bytes, &projects)
-	if err != nil {
-		return err
-	}
 
 	// register tags
 	for _, project := range projects {
@@ -61,9 +50,7 @@ func initProjects(router *gin.Engine) (err error) {
 		}
 	}()
 
-	router.GET("/projects", func(ctx *gin.Context) {
-		ctx.HTML(http.StatusOK, "projects.gohtml", projects)
-	})
+	// TODO: GET /projects → render projects.gohtml
 
 	return nil
 }

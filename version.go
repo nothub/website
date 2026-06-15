@@ -2,12 +2,11 @@ package main
 
 import (
 	"errors"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"runtime/debug"
 )
 
-func initVersion(router *gin.Engine) (err error) {
+func initVersion(mux *http.ServeMux) (err error) {
 
 	bi, ok := debug.ReadBuildInfo()
 	if !ok {
@@ -31,9 +30,8 @@ func initVersion(router *gin.Engine) (err error) {
 		version = version + "+dirty"
 	}
 
-	router.GET("/version", func(ctx *gin.Context) {
-		ctx.String(http.StatusOK, "%s", version)
-	})
+	// TODO: GET /version → plain text version string
+	_ = version
 
 	return nil
 }

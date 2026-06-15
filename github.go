@@ -95,7 +95,7 @@ func githubRepoMeta(repo string) (*RepoMeta, error) {
 			}
 
 			dur := time.Duration(v) * time.Second
-			log.Printf("coplying with retry-after header; sleeping for %s\n", dur)
+			log.Printf("complying with retry-after header; sleeping for %s\n", dur)
 			time.Sleep(dur)
 			return nil, errors.New("rate-limit awaited")
 		}
@@ -111,7 +111,7 @@ func githubRepoMeta(repo string) (*RepoMeta, error) {
 			t := time.Unix(v, 0)
 			dur := t.Sub(time.Now())
 
-			log.Printf("coplying with x-ratelimit-* headers; sleeping for %s\n", dur)
+			log.Printf("complying with x-ratelimit-* headers; sleeping for %s\n", dur)
 			time.Sleep(dur)
 			return nil, errors.New("rate-limit awaited")
 		}

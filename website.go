@@ -4,7 +4,6 @@ import (
 	"context"
 	"embed"
 	"errors"
-	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -12,7 +11,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/gin-gonic/gin"
+	_ "github.com/elnormous/contenttype"
 )
 
 //go:embed assets/* data/* jslinux/* posts/* static/* templates/*
@@ -22,81 +21,43 @@ func main() {
 	// disable logging decoration
 	log.SetFlags(0)
 
-	gin.DisableConsoleColor()
-	gin.SetMode(gin.ReleaseMode)
-	router := gin.New()
+	mux := http.NewServeMux()
 
-	router.Use(slogGin)
+	// TODO: slog middleware
+	// TODO: recovery middleware
+	// TODO: setClacksHeader middleware
+	// TODO: set up HTML templates
 
-	// default recovery handler
-	router.Use(gin.Recovery())
+	// TODO: GET / → redirect to /about
+	// TODO: GET /shell → redirect to /jslinux
+	// TODO: GET /about → render about.gohtml
 
-	router.Use(setClacksHeader)
-
-	router.SetHTMLTemplate(template.Must(template.New("").
-		ParseFS(fs, "templates/*.gohtml")))
-
-	router.GET("/", func(ctx *gin.Context) {
-		ctx.Redirect(http.StatusPermanentRedirect, "/about")
-	})
-
-	router.GET("/shell", func(ctx *gin.Context) {
-		ctx.Redirect(http.StatusPermanentRedirect, "/jslinux")
-	})
-
-	router.GET("/about", func(ctx *gin.Context) {
-		ctx.HTML(http.StatusOK, "about.gohtml", nil)
-	})
-
-	if err := initPosts(router); err != nil {
+	if err := initPosts(mux); err != nil {
 		log.Fatalln(err.Error())
 	}
 
-	if err := initVersion(router); err != nil {
+	if err := initVersion(mux); err != nil {
 		log.Fatalln(err.Error())
 	}
 
-	if err := initProjects(router); err != nil {
+	if err := initProjects(mux); err != nil {
 		log.Fatalln(err.Error())
 	}
 
-	if err := initTags(router); err != nil {
+	if err := initTags(mux); err != nil {
 		log.Fatalln(err.Error())
 	}
 
-	router.GET("/assets/*path", func(ctx *gin.Context) {
-		setCacheHeader(ctx)
-		ctx.FileFromFS(ctx.Request.URL.Path, http.FS(fs))
-	})
-
-	router.GET("/static/*path", func(ctx *gin.Context) {
-		setCacheHeader(ctx)
-		ctx.FileFromFS(ctx.Request.URL.Path, http.FS(fs))
-	})
-
-	router.GET("/jslinux/*path", func(ctx *gin.Context) {
-		setCacheHeader(ctx)
-		ctx.FileFromFS(ctx.Request.URL.Path, http.FS(fs))
-	})
-
-	router.GET("/robots.txt", func(ctx *gin.Context) {
-		ctx.Request.URL.Path = "/static/robots.txt"
-		router.HandleContext(ctx)
-	})
-
-	router.GET("/sitemap.xml", func(ctx *gin.Context) {
-		ctx.Request.URL.Path = "/static/sitemap.xml"
-		router.HandleContext(ctx)
-	})
-
-	router.GET("/teapot", func(ctx *gin.Context) {
-		setCacheHeader(ctx)
-		ctx.String(http.StatusTeapot, "🫖")
-	})
+	// TODO: GET /assets/ → serve embedded FS with cache header
+	// TODO: GET /static/ → serve embedded FS with cache header
+	// TODO: GET /jslinux/ → serve embedded FS with cache header
+	// TODO: GET /robots.txt → serve static/robots.txt
+	// TODO: GET /sitemap.xml → serve static/sitemap.xml
+	// TODO: GET /teapot → 418
 
 	srv := &http.Server{
 		Addr:    ":8080",
-		Handler: router,
+		Handler: mux,
 	}
 
 	go func() {

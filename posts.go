@@ -11,7 +11,6 @@ import (
 	"time"
 
 	chroma "github.com/alecthomas/chroma/v2/formatters/html"
-	"github.com/gin-gonic/gin"
 
 	gmfigure "github.com/mangoumbrella/goldmark-figure"
 	"github.com/yuin/goldmark"
@@ -48,7 +47,7 @@ func (*anchorTexter) AnchorText(h *gmanchor.HeaderInfo) []byte {
 	return []byte("¶")
 }
 
-func initPosts(router *gin.Engine) (err error) {
+func initPosts(mux *http.ServeMux) (err error) {
 	log.Println("loading posts")
 
 	gm := goldmark.New(goldmark.WithParserOptions(gmparser.WithAutoHeadingID()), goldmark.WithExtensions(
@@ -116,33 +115,10 @@ func initPosts(router *gin.Engine) (err error) {
 		}
 	}
 
-	router.GET("/posts", func(ctx *gin.Context) {
-		ctx.HTML(http.StatusOK, "posts.gohtml", posts)
-	})
-
-	router.GET("/posts/*path", func(ctx *gin.Context) {
-		path := strings.TrimSpace(strings.TrimPrefix(ctx.Param("path"), "/"))
-		switch path {
-		case "":
-			// rewrite /posts/ to /posts
-			ctx.Request.URL.Path = "/posts"
-			router.HandleContext(ctx)
-		case "rss.xml":
-			// redirect /posts/rss.xml to /rss.xml
-			ctx.Redirect(http.StatusPermanentRedirect, "/rss.xml")
-		default:
-			if post, ok := posts[path]; ok {
-				ctx.HTML(http.StatusOK, "post.gohtml", post)
-			} else {
-				ctx.AbortWithStatus(http.StatusNotFound)
-			}
-		}
-	})
-
-	router.GET("/rss.xml", func(ctx *gin.Context) {
-		// TODO
-		ctx.AbortWithStatus(http.StatusNotImplemented)
-	})
+	// TODO: GET /posts → render posts.gohtml with all posts
+	// TODO: GET /posts/{slug} → render post.gohtml; redirect /posts/ to /posts; 404 for unknown slugs
+	// TODO: GET /rss.xml → render RSS feed
+	// TODO: GET /posts/rss.xml → redirect to /rss.xml
 
 	return nil
 }
