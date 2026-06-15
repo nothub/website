@@ -2,6 +2,7 @@ package main
 
 import (
 	"testing"
+	"testing/fstest"
 	"time"
 )
 
@@ -75,5 +76,82 @@ func TestParseMeta(t *testing.T) {
 				tt.check(t, m)
 			}
 		})
+	}
+}
+
+func makePost(title, date string, draft bool) string {
+	return "---\ntitle: " + title + "\ndescription: desc\ndate: " + date + "\ntags: []\ndraft: " + boolStr(draft) + "\n---\n\n# " + title + "\n"
+}
+
+func boolStr(b bool) string {
+	if b {
+		return "true"
+	}
+	return "false"
+}
+
+func TestLoadPostsSlugs(t *testing.T) {
+	fsys := fstest.MapFS{
+		"posts/alpha/index.md": {Data: []byte(makePost("Alpha", "2024-03-01", false))},
+		"posts/beta/index.md":  {Data: []byte(makePost("Beta", "2024-01-01", false))},
+	}
+	entries, err := loadPosts(fsys, newGoldmark(), false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(entries) != 2 {
+		t.Fatalf("got %d entries, want 2", len(entries))
+	}
+	slugs := map[string]bool{}
+	for _, e := range entries {
+		slugs[e.Slug] = true
+	}
+	if !slugs["alpha"] || !slugs["beta"] {
+		t.Errorf("slug extraction wrong, got %v", slugs)
+	}
+}
+
+func TestLoadPostsDraftFiltering(t *testing.T) {
+	fsys := fstest.MapFS{
+		"posts/pub/index.md":   {Data: []byte(makePost("Public", "2024-03-01", false))},
+		"posts/draft/index.md": {Data: []byte(makePost("Draft", "2024-02-01", true))},
+	}
+
+	entries, err := loadPosts(fsys, newGoldmark(), false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(entries) != 1 || entries[0].Slug != "pub" {
+		t.Errorf("without --drafts: got %v, want only pub", entries)
+	}
+
+	entries, err = loadPosts(fsys, newGoldmark(), true)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(entries) != 2 {
+		t.Errorf("with --drafts: got %d entries, want 2", len(entries))
+	}
+}
+
+func TestLoadPostsNewestFirst(t *testing.T) {
+	fsys := fstest.MapFS{
+		"posts/old/index.md": {Data: []byte(makePost("Old", "2023-01-01", false))},
+		"posts/mid/index.md": {Data: []byte(makePost("Mid", "2024-01-01", false))},
+		"posts/new/index.md": {Data: []byte(makePost("New", "2025-01-01", false))},
+	}
+	entries, err := loadPosts(fsys, newGoldmark(), false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(entries) != 3 {
+		t.Fatalf("got %d entries, want 3", len(entries))
+	}
+	for i := 1; i < len(entries); i++ {
+		if entries[i].Meta.Date.After(entries[i-1].Meta.Date) {
+			t.Errorf("not sorted newest-first: %s (%v) after %s (%v)",
+				entries[i].Slug, entries[i].Meta.Date,
+				entries[i-1].Slug, entries[i-1].Meta.Date)
+		}
 	}
 }

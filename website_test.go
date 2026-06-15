@@ -108,6 +108,25 @@ func TestRSSFeed(t *testing.T) {
 	}
 }
 
+func TestMarkdownContentNegotiation(t *testing.T) {
+	h := testHandler(t)
+	r := httptest.NewRequest("GET", "/posts/guestfish", nil)
+	r.Header.Set("Accept", "text/markdown")
+	w := httptest.NewRecorder()
+	h.ServeHTTP(w, r)
+
+	if w.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200", w.Code)
+	}
+	ct := w.Header().Get("Content-Type")
+	if ct != "text/markdown; charset=utf-8" {
+		t.Errorf("Content-Type = %q, want text/markdown; charset=utf-8", ct)
+	}
+	if body := w.Body.String(); len(body) == 0 {
+		t.Error("body is empty")
+	}
+}
+
 func TestPostsSortedNewestFirst(t *testing.T) {
 	h := testHandler(t)
 	r := httptest.NewRequest("GET", "/rss.xml", nil)

@@ -76,8 +76,6 @@ func fetchStars(projects *[]Project) {
 			continue
 		}
 
-		time.Sleep(30 * time.Second)
-
 		var meta *RepoMeta
 		backoff := []time.Duration{0, 5 * time.Second, 10 * time.Second, 20 * time.Second}
 		for attempt, wait := range backoff {
@@ -107,6 +105,10 @@ func fetchStars(projects *[]Project) {
 			(*projects)[i].Stars = meta.StargazersCount
 		} else {
 			slog.Warn("failed to fetch stars", "url", proj.Url)
+		}
+
+		if i < len(*projects)-1 {
+			time.Sleep(30 * time.Second)
 		}
 	}
 }

@@ -7,6 +7,7 @@ import (
 	"html/template"
 	iofs "io/fs"
 	"log"
+	"log/slog"
 	"net/http"
 	"slices"
 	"time"
@@ -53,10 +54,8 @@ func (*anchorTexter) AnchorText(h *gmanchor.HeaderInfo) []byte {
 	return []byte("¶")
 }
 
-func initPosts(mux *http.ServeMux, tmpl *template.Template) (err error) {
-	log.Println("loading posts")
-
-	gm := goldmark.New(goldmark.WithParserOptions(gmparser.WithAutoHeadingID()), goldmark.WithExtensions(
+func newGoldmark() goldmark.Markdown {
+	return goldmark.New(goldmark.WithParserOptions(gmparser.WithAutoHeadingID()), goldmark.WithExtensions(
 		gmext.Footnote,
 		gmext.Strikethrough,
 		gmext.Table,
@@ -69,10 +68,12 @@ func initPosts(mux *http.ServeMux, tmpl *template.Template) (err error) {
 				chroma.TabWidth(4),
 			),
 		)))
+}
 
-	dir, err := fs.ReadDir("posts")
+func loadPosts(fsys iofs.FS, gm goldmark.Markdown, loadDrafts bool) ([]PostEntry, error) {
+	dir, err := iofs.ReadDir(fsys, "posts")
 	if err != nil {
-		log.Fatalln(err.Error())
+		return nil, err
 	}
 
 	posts := make(map[string]Post)
@@ -85,7 +86,7 @@ func initPosts(mux *http.ServeMux, tmpl *template.Template) (err error) {
 
 		slug := entry.Name()
 
-		byts, err := fs.ReadFile("posts/" + slug + "/index.md")
+		byts, err := iofs.ReadFile(fsys, "posts/"+slug+"/index.md")
 		if err != nil {
 			log.Printf("skipping posts/%s: no index.md (%s)\n", slug, err)
 			continue
@@ -93,17 +94,16 @@ func initPosts(mux *http.ServeMux, tmpl *template.Template) (err error) {
 
 		var buf bytes.Buffer
 		ctx := gmparser.NewContext()
-		err = gm.Convert(byts, &buf, gmparser.WithContext(ctx))
-		if err != nil {
-			log.Fatalln(err.Error())
+		if err := gm.Convert(byts, &buf, gmparser.WithContext(ctx)); err != nil {
+			return nil, err
 		}
 
 		meta, err := parseMeta(gmmeta.Get(ctx))
 		if err != nil {
-			log.Fatalln(err.Error())
+			return nil, err
 		}
 
-		if !meta.Draft || optLoadDrafts {
+		if !meta.Draft || loadDrafts {
 			log.Printf("registering post: %s\n", slug)
 			posts[slug] = Post{Meta: meta, Content: template.HTML(buf.String())}
 		} else {
@@ -114,13 +114,28 @@ func initPosts(mux *http.ServeMux, tmpl *template.Template) (err error) {
 	sorted := make([]PostEntry, 0, len(posts))
 	for slug, p := range posts {
 		sorted = append(sorted, PostEntry{Slug: slug, Post: p})
-		for _, tag := range p.Meta.Tags {
-			linkTag(tag, "Post: "+p.Meta.Title, "/posts/"+slug)
-		}
 	}
 	slices.SortFunc(sorted, func(a, b PostEntry) int {
 		return b.Meta.Date.Compare(a.Meta.Date)
 	})
+	return sorted, nil
+}
+
+func initPosts(mux *http.ServeMux, tmpl *template.Template) (err error) {
+	log.Println("loading posts")
+
+	sorted, err := loadPosts(fs, newGoldmark(), optLoadDrafts)
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+
+	posts := make(map[string]Post, len(sorted))
+	for _, e := range sorted {
+		posts[e.Slug] = e.Post
+		for _, tag := range e.Meta.Tags {
+			linkTag(tag, "Post: "+e.Meta.Title, "/posts/"+e.Slug)
+		}
+	}
 
 	mux.HandleFunc("GET /posts", func(w http.ResponseWriter, r *http.Request) {
 		available := []contenttype.MediaType{
@@ -135,7 +150,7 @@ func initPosts(mux *http.ServeMux, tmpl *template.Template) (err error) {
 			return
 		}
 		if err := tmpl.ExecuteTemplate(w, "posts.gohtml", sorted); err != nil {
-			log.Printf("posts template error: %s\n", err)
+			slog.Warn("template error", "tmpl", "posts.gohtml", "err", err)
 		}
 	})
 
@@ -168,7 +183,7 @@ func initPosts(mux *http.ServeMux, tmpl *template.Template) (err error) {
 			return
 		}
 		if err := tmpl.ExecuteTemplate(w, "post.gohtml", p); err != nil {
-			log.Printf("post template error: %s\n", err)
+			slog.Warn("template error", "tmpl", "post.gohtml", "err", err)
 		}
 	})
 
