@@ -1,4 +1,4 @@
-package main
+package github
 
 import (
 	"encoding/json"
@@ -10,6 +10,10 @@ import (
 	"strings"
 	"time"
 )
+
+var client = &http.Client{
+	Timeout: time.Second * 10,
+}
 
 type RateLimitError struct {
 	RetryAfter time.Duration
@@ -58,7 +62,7 @@ type RepoMeta struct {
 	} `json:"organization"`
 }
 
-func githubRepoMeta(repo string) (*RepoMeta, error) {
+func FetchRepoMeta(repo string) (*RepoMeta, error) {
 	repo = strings.TrimSuffix(repo, ".git")
 	split := strings.Split(repo, "/")
 	if len(split) < 2 {
@@ -78,7 +82,7 @@ func githubRepoMeta(repo string) (*RepoMeta, error) {
 	req.Header.Set("X-GitHub-Api-Version", "2022-11-28")
 	req.Close = true
 
-	res, err := httpClient.Do(req)
+	res, err := client.Do(req)
 	if err != nil {
 		return nil, err
 	}

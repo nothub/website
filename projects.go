@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/nothub/website/internal/github"
 	"gopkg.in/yaml.v3"
 )
 
@@ -76,17 +77,17 @@ func fetchStars(projects *[]Project) {
 			continue
 		}
 
-		var meta *RepoMeta
+		var meta *github.RepoMeta
 		backoff := []time.Duration{0, 5 * time.Second, 10 * time.Second, 20 * time.Second}
 		for attempt, wait := range backoff {
 			if wait > 0 {
 				time.Sleep(wait)
 			}
-			meta, err = githubRepoMeta(u.Path)
+			meta, err = github.FetchRepoMeta(u.Path)
 			if err == nil {
 				break
 			}
-			var rle RateLimitError
+			var rle github.RateLimitError
 			if errors.As(err, &rle) {
 				cap := 90 * time.Minute
 				dur := rle.RetryAfter
@@ -95,7 +96,7 @@ func fetchStars(projects *[]Project) {
 				}
 				log.Printf("rate limited fetching %s; waiting %s\n", proj.Url, dur)
 				time.Sleep(dur)
-				meta, err = githubRepoMeta(u.Path)
+				meta, err = github.FetchRepoMeta(u.Path)
 				break
 			}
 			log.Printf("attempt %d for %s: %s\n", attempt+1, proj.Url, err)

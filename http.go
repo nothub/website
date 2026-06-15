@@ -4,14 +4,9 @@ import (
 	"html/template"
 	"log/slog"
 	"net/http"
-	"time"
 
 	"github.com/elnormous/contenttype"
 )
-
-var httpClient = &http.Client{
-	Timeout: time.Second * 10,
-}
 
 func setCacheHeader(w http.ResponseWriter) {
 	w.Header().Set("Cache-Control", "public, max-age=604800, immutable")
