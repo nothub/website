@@ -113,6 +113,7 @@ function get_absolute_url(fname)
     if (fname.indexOf(":") >= 0)
         return fname;
     path = window.location.pathname;
+    if (path[path.length - 1] !== '/') path += '/';
     p = path.lastIndexOf("/");
     if (p < 0)
         return fname;
@@ -590,7 +591,7 @@ function start_vm(user, pwd)
     }
     Module.preRun = start;
 
-    loadScript(vm_url, null);
+    loadScript("/jslinux/" + vm_url, null);
 }
 
 function on_login()
