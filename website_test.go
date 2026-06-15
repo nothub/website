@@ -68,6 +68,19 @@ func TestNotFound(t *testing.T) {
 	}
 }
 
+func TestStaticFiles(t *testing.T) {
+	h := testHandler(t)
+	paths := []string{"/static/style.css", "/static/normalize.css", "/static/robots.txt"}
+	for _, path := range paths {
+		r := httptest.NewRequest("GET", path, nil)
+		w := httptest.NewRecorder()
+		h.ServeHTTP(w, r)
+		if w.Code != http.StatusOK {
+			t.Errorf("GET %s status = %d, want 200", path, w.Code)
+		}
+	}
+}
+
 func TestTeapot(t *testing.T) {
 	h := testHandler(t)
 	r := httptest.NewRequest("GET", "/teapot", nil)

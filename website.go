@@ -52,15 +52,15 @@ func buildHandler(tmpl *template.Template, logger *slog.Logger, clacksRand *rand
 
 	mux.HandleFunc("GET /static/", func(w http.ResponseWriter, r *http.Request) {
 		setCacheHeader(w)
-		http.FileServerFS(staticFS).ServeHTTP(w, r)
+		http.StripPrefix("/static", http.FileServerFS(staticFS)).ServeHTTP(w, r)
 	})
 	mux.HandleFunc("GET /assets/", func(w http.ResponseWriter, r *http.Request) {
 		setCacheHeader(w)
-		http.FileServerFS(assetsFS).ServeHTTP(w, r)
+		http.StripPrefix("/assets", http.FileServerFS(assetsFS)).ServeHTTP(w, r)
 	})
 	mux.HandleFunc("GET /jslinux/", func(w http.ResponseWriter, r *http.Request) {
 		setCacheHeader(w)
-		http.FileServerFS(jslinuxFS).ServeHTTP(w, r)
+		http.StripPrefix("/jslinux", http.FileServerFS(jslinuxFS)).ServeHTTP(w, r)
 	})
 
 	mux.HandleFunc("GET /robots.txt", func(w http.ResponseWriter, r *http.Request) {
