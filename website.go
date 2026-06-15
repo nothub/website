@@ -53,6 +53,10 @@ func buildHandler(tmpl *template.Template, logger *slog.Logger, clacksRand *rand
 		setCacheHeader(w)
 		http.StripPrefix("/static", http.FileServerFS(staticFS)).ServeHTTP(w, r)
 	})
+	mux.HandleFunc("GET /jslinux", func(w http.ResponseWriter, r *http.Request) {
+		setCacheHeader(w)
+		http.ServeFileFS(w, r, jslinuxFS, "index.html")
+	})
 	mux.HandleFunc("GET /jslinux/", func(w http.ResponseWriter, r *http.Request) {
 		setCacheHeader(w)
 		http.StripPrefix("/jslinux", http.FileServerFS(jslinuxFS)).ServeHTTP(w, r)
