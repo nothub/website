@@ -40,8 +40,8 @@ func TestShellRedirect(t *testing.T) {
 	if w.Code != http.StatusMovedPermanently {
 		t.Errorf("GET /shell status = %d, want 301", w.Code)
 	}
-	if loc := w.Header().Get("Location"); loc != "/jslinux" {
-		t.Errorf("GET /shell Location = %q, want /jslinux", loc)
+	if loc := w.Header().Get("Location"); loc != "/jslinux/" {
+		t.Errorf("GET /shell Location = %q, want /jslinux/", loc)
 	}
 }
 

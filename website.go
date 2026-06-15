@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -38,7 +39,7 @@ func buildHandler(tmpl *template.Template, logger *slog.Logger, clacksRand *rand
 	}
 
 	mux.Handle("GET /{$}", http.RedirectHandler("/about", http.StatusMovedPermanently))
-	mux.Handle("GET /shell", http.RedirectHandler("/jslinux", http.StatusMovedPermanently))
+	mux.Handle("GET /shell", http.RedirectHandler("/jslinux/", http.StatusMovedPermanently))
 
 	mux.HandleFunc("GET /about", func(w http.ResponseWriter, r *http.Request) {
 		if err := tmpl.ExecuteTemplate(w, "about.gohtml", nil); err != nil {
@@ -48,18 +49,11 @@ func buildHandler(tmpl *template.Template, logger *slog.Logger, clacksRand *rand
 
 	staticFS, _ := iofs.Sub(fs, "static")
 	jslinuxFS, _ := iofs.Sub(fs, "jslinux")
+	jslinuxServer := http.StripPrefix("/jslinux", http.FileServerFS(jslinuxFS))
 
 	mux.HandleFunc("GET /static/", func(w http.ResponseWriter, r *http.Request) {
 		setCacheHeader(w)
 		http.StripPrefix("/static", http.FileServerFS(staticFS)).ServeHTTP(w, r)
-	})
-	mux.HandleFunc("GET /jslinux", func(w http.ResponseWriter, r *http.Request) {
-		setCacheHeader(w)
-		http.ServeFileFS(w, r, jslinuxFS, "index.html")
-	})
-	mux.HandleFunc("GET /jslinux/", func(w http.ResponseWriter, r *http.Request) {
-		setCacheHeader(w)
-		http.StripPrefix("/jslinux", http.FileServerFS(jslinuxFS)).ServeHTTP(w, r)
 	})
 
 	mux.HandleFunc("GET /robots.txt", func(w http.ResponseWriter, r *http.Request) {
@@ -83,9 +77,24 @@ func buildHandler(tmpl *template.Template, logger *slog.Logger, clacksRand *rand
 		writeError(w, r, http.StatusNotFound, tmpl)
 	})
 
-	var handler http.Handler = middleware.Clacks(clacksRand)(mux)
-	handler = middleware.TrailingSlash(handler)
-	handler = middleware.Recovery(logger)(handler)
+	// jslinux must be served at /jslinux/ (with trailing slash) so that
+	// relative URLs in its JS resolve correctly via window.location.pathname.
+	// Dispatch it before TrailingSlash so the slash is never stripped.
+	muxHandler := middleware.TrailingSlash(middleware.Clacks(clacksRand)(mux))
+	inner := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/jslinux" {
+			http.Redirect(w, r, "/jslinux/", http.StatusMovedPermanently)
+			return
+		}
+		if strings.HasPrefix(r.URL.Path, "/jslinux/") {
+			setCacheHeader(w)
+			jslinuxServer.ServeHTTP(w, r)
+			return
+		}
+		muxHandler.ServeHTTP(w, r)
+	})
+
+	var handler http.Handler = middleware.Recovery(logger)(inner)
 	handler = middleware.RealIP(logger, trustProxy)(handler)
 	handler = middleware.Logger(logger)(handler)
 	return handler
