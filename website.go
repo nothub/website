@@ -18,7 +18,7 @@ import (
 	"github.com/nothub/website/internal/middleware"
 )
 
-//go:embed assets/* data/* jslinux/* posts/* static/* templates/*
+//go:embed data/* jslinux/* posts/* static/* templates/*
 var fs embed.FS
 
 func buildHandler(tmpl *template.Template, logger *slog.Logger, clacksRand *rand.Rand, trustProxy bool) http.Handler {
@@ -47,16 +47,11 @@ func buildHandler(tmpl *template.Template, logger *slog.Logger, clacksRand *rand
 	})
 
 	staticFS, _ := iofs.Sub(fs, "static")
-	assetsFS, _ := iofs.Sub(fs, "assets")
 	jslinuxFS, _ := iofs.Sub(fs, "jslinux")
 
 	mux.HandleFunc("GET /static/", func(w http.ResponseWriter, r *http.Request) {
 		setCacheHeader(w)
 		http.StripPrefix("/static", http.FileServerFS(staticFS)).ServeHTTP(w, r)
-	})
-	mux.HandleFunc("GET /assets/", func(w http.ResponseWriter, r *http.Request) {
-		setCacheHeader(w)
-		http.StripPrefix("/assets", http.FileServerFS(assetsFS)).ServeHTTP(w, r)
 	})
 	mux.HandleFunc("GET /jslinux/", func(w http.ResponseWriter, r *http.Request) {
 		setCacheHeader(w)

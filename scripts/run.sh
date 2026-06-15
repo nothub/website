@@ -19,5 +19,5 @@ scripts/build.sh
 podman stop -i "${CONTAINER}" 2> /dev/null
 podman rm -f "${CONTAINER}" 2> /dev/null
 podman load -i image.tar.gz
-printf "Visit: https://127.0.0.1:%s\n" "$PORT"
+printf "Visit: http://127.0.0.1:%s\n" "$PORT"
 podman run -it --rm -p "${PORT}:8080" --name "${CONTAINER}" "docker.io/n0thub/website:dev"

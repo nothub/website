@@ -203,7 +203,7 @@ func initPosts(mux *http.ServeMux, tmpl *template.Template) (err error) {
 			writeError(w, r, http.StatusNotFound, tmpl)
 			return
 		}
-		http.FileServerFS(postFS).ServeHTTP(w, r)
+		http.StripPrefix("/posts/"+slug, http.FileServerFS(postFS)).ServeHTTP(w, r)
 	})
 
 	return nil
