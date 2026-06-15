@@ -3,6 +3,9 @@
 set -eu
 cd "$(dirname "$(realpath "$0")")/.."
 
-./jslinux/repack.sh
-
-GOOS=linux GOARCH=amd64 go build -tags osusergo,netgo,timetzdata -ldflags="-s -w" -o website
+TAG="${TAG:-dev}"
+CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o website .
+go tool ocipack \
+    -tag "ghcr.io/nothub/website:${TAG}" \
+    website image.tar.gz
+rm -f website

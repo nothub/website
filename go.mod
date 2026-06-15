@@ -1,6 +1,6 @@
 module github.com/nothub/website
 
-go 1.26.2
+go 1.26.4
 
 require (
 	github.com/alecthomas/chroma/v2 v2.26.1
@@ -15,6 +15,9 @@ require (
 )
 
 require (
+	codeberg.org/fhuebner/ocipack v0.2.0 // indirect
 	github.com/dlclark/regexp2/v2 v2.1.1 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
+
+tool codeberg.org/fhuebner/ocipack/cmd/ocipack
