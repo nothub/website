@@ -4,60 +4,113 @@ import (
 	"context"
 	"embed"
 	"errors"
+	"html/template"
+	iofs "io/fs"
 	"log"
+	"log/slog"
+	"math/rand"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
-	_ "github.com/elnormous/contenttype"
+	"github.com/nothub/website/internal/middleware"
 )
 
 //go:embed assets/* data/* jslinux/* posts/* static/* templates/*
 var fs embed.FS
 
-func main() {
-	// disable logging decoration
-	log.SetFlags(0)
-
+func buildHandler(tmpl *template.Template, logger *slog.Logger, clacksRand *rand.Rand, trustProxy bool) http.Handler {
 	mux := http.NewServeMux()
 
-	// TODO: slog middleware
-	// TODO: recovery middleware
-	// TODO: setClacksHeader middleware
-	// TODO: set up HTML templates
-
-	// TODO: GET / → redirect to /about
-	// TODO: GET /shell → redirect to /jslinux
-	// TODO: GET /about → render about.gohtml
-
-	if err := initPosts(mux); err != nil {
+	if err := initPosts(mux, tmpl); err != nil {
 		log.Fatalln(err.Error())
 	}
-
+	if err := initProjects(mux, tmpl); err != nil {
+		log.Fatalln(err.Error())
+	}
+	if err := initTags(mux, tmpl); err != nil {
+		log.Fatalln(err.Error())
+	}
 	if err := initVersion(mux); err != nil {
 		log.Fatalln(err.Error())
 	}
 
-	if err := initProjects(mux); err != nil {
-		log.Fatalln(err.Error())
+	mux.Handle("GET /{$}", http.RedirectHandler("/about", http.StatusMovedPermanently))
+	mux.Handle("GET /shell", http.RedirectHandler("/jslinux", http.StatusMovedPermanently))
+
+	mux.HandleFunc("GET /about", func(w http.ResponseWriter, r *http.Request) {
+		if err := tmpl.ExecuteTemplate(w, "about.gohtml", nil); err != nil {
+			slog.Warn("template error", "err", err)
+		}
+	})
+
+	staticFS, _ := iofs.Sub(fs, "static")
+	assetsFS, _ := iofs.Sub(fs, "assets")
+	jslinuxFS, _ := iofs.Sub(fs, "jslinux")
+
+	mux.HandleFunc("GET /static/", func(w http.ResponseWriter, r *http.Request) {
+		setCacheHeader(w)
+		http.FileServerFS(staticFS).ServeHTTP(w, r)
+	})
+	mux.HandleFunc("GET /assets/", func(w http.ResponseWriter, r *http.Request) {
+		setCacheHeader(w)
+		http.FileServerFS(assetsFS).ServeHTTP(w, r)
+	})
+	mux.HandleFunc("GET /jslinux/", func(w http.ResponseWriter, r *http.Request) {
+		setCacheHeader(w)
+		http.FileServerFS(jslinuxFS).ServeHTTP(w, r)
+	})
+
+	mux.HandleFunc("GET /robots.txt", func(w http.ResponseWriter, r *http.Request) {
+		data, _ := fs.ReadFile("static/robots.txt")
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+		w.Write(data)
+	})
+	mux.HandleFunc("GET /sitemap.xml", func(w http.ResponseWriter, r *http.Request) {
+		data, _ := fs.ReadFile("static/sitemap.xml")
+		w.Header().Set("Content-Type", "application/xml; charset=utf-8")
+		w.Write(data)
+	})
+
+	mux.HandleFunc("GET /teapot", func(w http.ResponseWriter, r *http.Request) {
+		setCacheHeader(w)
+		w.WriteHeader(http.StatusTeapot)
+		w.Write([]byte("🫖"))
+	})
+
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		writeError(w, r, http.StatusNotFound, tmpl)
+	})
+
+	var handler http.Handler = middleware.Clacks(clacksRand)(mux)
+	handler = middleware.TrailingSlash(handler)
+	handler = middleware.Recovery(logger)(handler)
+	handler = middleware.RealIP(logger, trustProxy)(handler)
+	handler = middleware.Logger(logger)(handler)
+	return handler
+}
+
+func main() {
+	log.SetFlags(0)
+	initFlags()
+
+	tmpl := template.Must(template.New("").ParseFS(fs, "templates/*.gohtml"))
+
+	required := []string{"error.gohtml", "about.gohtml", "posts.gohtml", "post.gohtml", "projects.gohtml", "tags.gohtml"}
+	for _, name := range required {
+		if tmpl.Lookup(name) == nil {
+			log.Fatalf("required template %q not found in templates/", name)
+		}
 	}
 
-	if err := initTags(mux); err != nil {
-		log.Fatalln(err.Error())
-	}
-
-	// TODO: GET /assets/ → serve embedded FS with cache header
-	// TODO: GET /static/ → serve embedded FS with cache header
-	// TODO: GET /jslinux/ → serve embedded FS with cache header
-	// TODO: GET /robots.txt → serve static/robots.txt
-	// TODO: GET /sitemap.xml → serve static/sitemap.xml
-	// TODO: GET /teapot → 418
+	clacksRand := rand.New(rand.NewSource(time.Now().UnixNano()))
+	handler := buildHandler(tmpl, slogger, clacksRand, optTrustProxy)
 
 	srv := &http.Server{
 		Addr:    ":8080",
-		Handler: mux,
+		Handler: handler,
 	}
 
 	go func() {
@@ -76,15 +129,12 @@ func main() {
 		log.Printf("signal received: %s\n", sig.String())
 		switch sig {
 		case syscall.SIGHUP:
-			// TODO: reload config & data
 			log.Fatalf("unhandled signal: %s\n", sig.String())
 		case syscall.SIGINT, syscall.SIGTERM:
 			log.Println("shutting down server...")
 			ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 			err := srv.Shutdown(ctx)
-			if cancel != nil {
-				cancel()
-			}
+			cancel()
 			if err != nil {
 				log.Fatalf("server shutdown error: %s\n", err)
 			}

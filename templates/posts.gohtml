@@ -6,12 +6,12 @@
 <main>
     <h1>Posts</h1>
     <p>A few things I wrote down for some reason.</p>
-    {{ range $slug, $post := . }}
+    {{ range . }}
         <section>
-            <a href="./posts/{{ $slug }}"><h2>{{ $post.Meta.Title }}</h2></a>
-            <time>{{ $post.Meta.DateString }}</time>
-            [ {{ range $post.Meta.Tags }}<a class="tag" href="/tags/{{ . }}">{{ . }}</a> {{ end }}]
-            <p>{{ $post.Meta.Desc }}</p>
+            <a href="/posts/{{ .Slug }}"><h2>{{ .Meta.Title }}</h2></a>
+            <time>{{ .Meta.DateString }}</time>
+            [ {{ range .Meta.Tags }}<a class="tag" href="/tags/{{ . }}">{{ . }}</a> {{ end }}]
+            <p>{{ .Meta.Desc }}</p>
         </section>
     {{ end }}
 </main>

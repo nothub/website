@@ -2,12 +2,12 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"runtime/debug"
 )
 
 func initVersion(mux *http.ServeMux) (err error) {
-
 	bi, ok := debug.ReadBuildInfo()
 	if !ok {
 		return errors.New("unable to read build info from binary")
@@ -30,8 +30,10 @@ func initVersion(mux *http.ServeMux) (err error) {
 		version = version + "+dirty"
 	}
 
-	// TODO: GET /version → plain text version string
-	_ = version
+	mux.HandleFunc("GET /version", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+		fmt.Fprint(w, version)
+	})
 
 	return nil
 }

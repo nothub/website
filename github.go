@@ -5,14 +5,19 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
 )
 
-// TODO: use some ready to go api lib?
+type RateLimitError struct {
+	RetryAfter time.Duration
+}
+
+func (e RateLimitError) Error() string {
+	return fmt.Sprintf("github rate limit exceeded; retry after %s", e.RetryAfter)
+}
 
 type RepoMeta struct {
 	Name     string `json:"name"`
@@ -69,9 +74,6 @@ func githubRepoMeta(repo string) (*RepoMeta, error) {
 	}
 
 	req.Header.Set("User-Agent", "hub.lol")
-	if optGithubToken != "" {
-		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", optGithubToken))
-	}
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("X-GitHub-Api-Version", "2022-11-28")
 	req.Close = true
@@ -82,40 +84,21 @@ func githubRepoMeta(repo string) (*RepoMeta, error) {
 	}
 	defer res.Body.Close()
 
-	// maybe rate-limited
-	// https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28
+	// https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
 	if res.StatusCode == 403 || res.StatusCode == 429 {
-
-		if res.Header.Get("retry-after") != "" {
-			log.Printf("github api rate limit exceeded; header detected: retry-after = %s\n", res.Header.Get("retry-after"))
-
-			v, err := strconv.Atoi(res.Header.Get("retry-after"))
-			if err != nil {
-				return nil, fmt.Errorf("error awaiting rate-limit: %w", err)
+		var dur time.Duration
+		if v := res.Header.Get("Retry-After"); v != "" {
+			secs, err := strconv.Atoi(v)
+			if err == nil {
+				dur = time.Duration(secs) * time.Second
 			}
-
-			dur := time.Duration(v) * time.Second
-			log.Printf("complying with retry-after header; sleeping for %s\n", dur)
-			time.Sleep(dur)
-			return nil, errors.New("rate-limit awaited")
-		}
-
-		if res.Header.Get("x-ratelimit-remaining") == "0" {
-			log.Printf("github api rate limit exceeded; header detected: x-ratelimit-remaining = %s\n", res.Header.Get("x-ratelimit-remaining"))
-
-			v, err := strconv.ParseInt(res.Header.Get("x-ratelimit-reset"), 10, 64)
-			if err != nil {
-				return nil, fmt.Errorf("error awaiting rate-limit: %w", err)
+		} else if v := res.Header.Get("X-RateLimit-Reset"); v != "" {
+			unix, err := strconv.ParseInt(v, 10, 64)
+			if err == nil {
+				dur = time.Until(time.Unix(unix, 0))
 			}
-
-			t := time.Unix(v, 0)
-			dur := t.Sub(time.Now())
-
-			log.Printf("complying with x-ratelimit-* headers; sleeping for %s\n", dur)
-			time.Sleep(dur)
-			return nil, errors.New("rate-limit awaited")
 		}
-
+		return nil, RateLimitError{RetryAfter: dur}
 	}
 
 	if res.StatusCode < 200 || res.StatusCode >= 400 {
@@ -128,12 +111,9 @@ func githubRepoMeta(repo string) (*RepoMeta, error) {
 	}
 
 	var meta RepoMeta
-	err = json.Unmarshal(buf, &meta)
-	if err != nil {
+	if err := json.Unmarshal(buf, &meta); err != nil {
 		return nil, err
 	}
-
-	log.Printf("project %s has %v stargazers\n", meta.FullName, meta.StargazersCount)
 
 	return &meta, nil
 }

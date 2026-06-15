@@ -1,19 +1,12 @@
 package main
 
-import (
-	"flag"
-	"os"
-)
+import "flag"
 
 var optLoadDrafts bool
-var optGithubToken string
+var optTrustProxy bool
 
-func init() {
+func initFlags() {
 	flag.BoolVar(&optLoadDrafts, "drafts", false, "")
-	flag.StringVar(&optGithubToken, "github-token", "", "")
+	flag.BoolVar(&optTrustProxy, "trust-proxy", false, "trust X-Forwarded-For header set by upstream proxy")
 	flag.Parse()
-
-	if optGithubToken == "" {
-		optGithubToken = os.Getenv("GITHUB_TOKEN")
-	}
 }

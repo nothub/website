@@ -1,11 +1,15 @@
 package main
 
 import (
+	"errors"
+	"html/template"
 	"log"
-	"math/rand"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"time"
+
+	"gopkg.in/yaml.v3"
 )
 
 type Project struct {
@@ -18,13 +22,19 @@ type Project struct {
 	Stars int      `yaml:"stars"`
 }
 
-func initProjects(mux *http.ServeMux) (err error) {
+func initProjects(mux *http.ServeMux, tmpl *template.Template) (err error) {
 	log.Println("loading projects")
 
-	// TODO: load and unmarshal projects from data/projects.yaml
-	var projects []Project
+	data, err := fs.ReadFile("data/projects.yaml")
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
 
-	// register tags
+	var projects []Project
+	if err := yaml.Unmarshal(data, &projects); err != nil {
+		log.Fatalln(err.Error())
+	}
+
 	for _, project := range projects {
 		for _, tag := range project.Tags {
 			linkTag(tag, "Project: "+project.Title, project.Url)
@@ -34,23 +44,20 @@ func initProjects(mux *http.ServeMux) (err error) {
 		}
 	}
 
-	// fetch stars on startup
 	go fetchStars(&projects)
 
-	// fetch stars again every day
 	ticker := time.NewTicker(24 * time.Hour)
 	go func() {
-		// when the server is shut down, this go routine will not be shutdown
-		// gracefully (it will just be killed), so do not do fancy stuff in here!
-		for {
-			select {
-			case <-ticker.C:
-				fetchStars(&projects)
-			}
+		for range ticker.C {
+			fetchStars(&projects)
 		}
 	}()
 
-	// TODO: GET /projects → render projects.gohtml
+	mux.HandleFunc("GET /projects", func(w http.ResponseWriter, r *http.Request) {
+		if err := tmpl.ExecuteTemplate(w, "projects.gohtml", projects); err != nil {
+			slog.Warn("template error", "err", err)
+		}
+	})
 
 	return nil
 }
@@ -59,32 +66,47 @@ func fetchStars(projects *[]Project) {
 	log.Printf("fetching github stars for %v projects\n", len(*projects))
 
 	for i, proj := range *projects {
-
 		u, err := url.Parse(proj.Url)
 		if err != nil {
-			log.Fatalf("invalid project url %s caused %s\n", proj.Url, err.Error())
+			log.Printf("invalid project url %s: %s\n", proj.Url, err)
+			continue
 		}
 
 		if u.Host != "github.com" {
 			continue
 		}
 
+		time.Sleep(30 * time.Second)
+
 		var meta *RepoMeta
-		for i := 0; i < 3; i++ {
-			meta, err = githubRepoMeta(u.Path)
-			if err != nil {
-				log.Printf("stargazer lookup for %s caused: %s\n", proj.Url, err.Error())
-				continue
+		backoff := []time.Duration{0, 5 * time.Second, 10 * time.Second, 20 * time.Second}
+		for attempt, wait := range backoff {
+			if wait > 0 {
+				time.Sleep(wait)
 			}
-			break
+			meta, err = githubRepoMeta(u.Path)
+			if err == nil {
+				break
+			}
+			var rle RateLimitError
+			if errors.As(err, &rle) {
+				cap := 90 * time.Minute
+				dur := rle.RetryAfter
+				if dur > cap {
+					dur = cap
+				}
+				log.Printf("rate limited fetching %s; waiting %s\n", proj.Url, dur)
+				time.Sleep(dur)
+				meta, err = githubRepoMeta(u.Path)
+				break
+			}
+			log.Printf("attempt %d for %s: %s\n", attempt+1, proj.Url, err)
 		}
 
 		if meta != nil {
 			(*projects)[i].Stars = meta.StargazersCount
 		} else {
-			log.Printf("unable to fetch data for %s\n", proj.Url)
+			slog.Warn("failed to fetch stars", "url", proj.Url)
 		}
-
-		time.Sleep(time.Duration(rand.Intn(15)+5) * time.Second)
 	}
 }

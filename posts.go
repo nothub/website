@@ -5,13 +5,14 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
+	iofs "io/fs"
 	"log"
 	"net/http"
-	"strings"
+	"slices"
 	"time"
 
 	chroma "github.com/alecthomas/chroma/v2/formatters/html"
-
+	"github.com/elnormous/contenttype"
 	gmfigure "github.com/mangoumbrella/goldmark-figure"
 	"github.com/yuin/goldmark"
 	gmhl "github.com/yuin/goldmark-highlighting/v2"
@@ -24,6 +25,11 @@ import (
 type Post struct {
 	Meta    Meta
 	Content template.HTML
+}
+
+type PostEntry struct {
+	Slug string
+	Post
 }
 
 type Meta struct {
@@ -47,7 +53,7 @@ func (*anchorTexter) AnchorText(h *gmanchor.HeaderInfo) []byte {
 	return []byte("¶")
 }
 
-func initPosts(mux *http.ServeMux) (err error) {
+func initPosts(mux *http.ServeMux, tmpl *template.Template) (err error) {
 	log.Println("loading posts")
 
 	gm := goldmark.New(goldmark.WithParserOptions(gmparser.WithAutoHeadingID()), goldmark.WithExtensions(
@@ -69,19 +75,20 @@ func initPosts(mux *http.ServeMux) (err error) {
 		log.Fatalln(err.Error())
 	}
 
-	var posts = make(map[string]Post)
+	posts := make(map[string]Post)
 
 	for _, entry := range dir {
-		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".md") {
-			log.Printf("skipping %s\n", entry.Name())
+		if !entry.IsDir() {
+			log.Printf("skipping non-directory entry in posts/: %s\n", entry.Name())
 			continue
 		}
 
-		slug := strings.TrimSuffix(entry.Name(), ".md")
+		slug := entry.Name()
 
-		byts, err := fs.ReadFile("posts/" + entry.Name())
+		byts, err := fs.ReadFile("posts/" + slug + "/index.md")
 		if err != nil {
-			log.Fatalln(err.Error())
+			log.Printf("skipping posts/%s: no index.md (%s)\n", slug, err)
+			continue
 		}
 
 		var buf bytes.Buffer
@@ -98,29 +105,143 @@ func initPosts(mux *http.ServeMux) (err error) {
 
 		if !meta.Draft || optLoadDrafts {
 			log.Printf("registering post: %s\n", slug)
-			posts[slug] = Post{
-				Meta:    meta,
-				Content: template.HTML(buf.String()),
-			}
+			posts[slug] = Post{Meta: meta, Content: template.HTML(buf.String())}
 		} else {
 			log.Printf("skipping draft: %s\n", slug)
 		}
 	}
 
-	// TODO: sort posts descending by date
-
-	for slug, post := range posts {
-		for _, tag := range post.Meta.Tags {
-			linkTag(tag, "Post: "+post.Meta.Title, "/posts/"+slug)
+	sorted := make([]PostEntry, 0, len(posts))
+	for slug, p := range posts {
+		sorted = append(sorted, PostEntry{Slug: slug, Post: p})
+		for _, tag := range p.Meta.Tags {
+			linkTag(tag, "Post: "+p.Meta.Title, "/posts/"+slug)
 		}
 	}
+	slices.SortFunc(sorted, func(a, b PostEntry) int {
+		return b.Meta.Date.Compare(a.Meta.Date)
+	})
 
-	// TODO: GET /posts → render posts.gohtml with all posts
-	// TODO: GET /posts/{slug} → render post.gohtml; redirect /posts/ to /posts; 404 for unknown slugs
-	// TODO: GET /rss.xml → render RSS feed
-	// TODO: GET /posts/rss.xml → redirect to /rss.xml
+	mux.HandleFunc("GET /posts", func(w http.ResponseWriter, r *http.Request) {
+		available := []contenttype.MediaType{
+			contenttype.NewMediaType("text/html"),
+			contenttype.NewMediaType("application/rss+xml"),
+			contenttype.NewMediaType("application/atom+xml"),
+		}
+		accepted, _, _ := contenttype.GetAcceptableMediaType(r, available)
+		mt := accepted.Type + "/" + accepted.Subtype
+		if mt == "application/rss+xml" || mt == "application/atom+xml" {
+			serveRSS(w, sorted)
+			return
+		}
+		if err := tmpl.ExecuteTemplate(w, "posts.gohtml", sorted); err != nil {
+			log.Printf("posts template error: %s\n", err)
+		}
+	})
+
+	mux.Handle("GET /posts/rss.xml", http.RedirectHandler("/rss.xml", http.StatusMovedPermanently))
+
+	mux.HandleFunc("GET /rss.xml", func(w http.ResponseWriter, r *http.Request) {
+		serveRSS(w, sorted)
+	})
+
+	mux.HandleFunc("GET /posts/{slug}", func(w http.ResponseWriter, r *http.Request) {
+		slug := r.PathValue("slug")
+		p, ok := posts[slug]
+		if !ok {
+			writeError(w, r, http.StatusNotFound, tmpl)
+			return
+		}
+		available := []contenttype.MediaType{
+			contenttype.NewMediaType("text/html"),
+			contenttype.NewMediaType("text/markdown"),
+		}
+		accepted, _, _ := contenttype.GetAcceptableMediaType(r, available)
+		if accepted.Type+"/"+accepted.Subtype == "text/markdown" {
+			raw, err := fs.ReadFile("posts/" + slug + "/index.md")
+			if err != nil {
+				writeError(w, r, http.StatusInternalServerError, tmpl)
+				return
+			}
+			w.Header().Set("Content-Type", "text/markdown; charset=utf-8")
+			w.Write(raw)
+			return
+		}
+		if err := tmpl.ExecuteTemplate(w, "post.gohtml", p); err != nil {
+			log.Printf("post template error: %s\n", err)
+		}
+	})
+
+	mux.HandleFunc("GET /posts/{slug}/", func(w http.ResponseWriter, r *http.Request) {
+		slug := r.PathValue("slug")
+		if _, ok := posts[slug]; !ok {
+			writeError(w, r, http.StatusNotFound, tmpl)
+			return
+		}
+		postFS, err := iofs.Sub(fs, "posts/"+slug)
+		if err != nil {
+			writeError(w, r, http.StatusNotFound, tmpl)
+			return
+		}
+		file := r.URL.Path[len("/posts/"+slug+"/"):]
+		if file == "" || file == "index.md" {
+			writeError(w, r, http.StatusNotFound, tmpl)
+			return
+		}
+		http.FileServerFS(postFS).ServeHTTP(w, r)
+	})
 
 	return nil
+}
+
+func serveRSS(w http.ResponseWriter, posts []PostEntry) {
+	w.Header().Set("Content-Type", "application/rss+xml; charset=utf-8")
+	w.Write([]byte(buildRSS(posts)))
+}
+
+func buildRSS(posts []PostEntry) string {
+	var b bytes.Buffer
+	b.WriteString(`<?xml version="1.0" encoding="UTF-8"?>`)
+	b.WriteString("\n")
+	b.WriteString(`<rss version="2.0">`)
+	b.WriteString("\n")
+	b.WriteString(`  <!-- In memory of Aaron Swartz (1986–2013) — https://www.aaronsw.com -->`)
+	b.WriteString("\n")
+	b.WriteString("  <channel>\n")
+	b.WriteString("    <title>hub.lol</title>\n")
+	b.WriteString("    <link>https://hub.lol</link>\n")
+	for _, e := range posts {
+		b.WriteString("    <item>\n")
+		b.WriteString("      <title>" + xmlEscape(e.Meta.Title) + "</title>\n")
+		b.WriteString("      <link>https://hub.lol/posts/" + e.Slug + "</link>\n")
+		b.WriteString("      <description>" + xmlEscape(e.Meta.Desc) + "</description>\n")
+		b.WriteString("      <pubDate>" + e.Meta.Date.Format(time.RFC1123Z) + "</pubDate>\n")
+		b.WriteString("    </item>\n")
+	}
+	b.WriteString("  </channel>\n")
+	b.WriteString("</rss>\n")
+	return b.String()
+}
+
+func xmlEscape(s string) string {
+	var b bytes.Buffer
+	for _, c := range s {
+		switch c {
+		case '&':
+			b.WriteString("&amp;")
+		case '<':
+			b.WriteString("&lt;")
+		case '>':
+			b.WriteString("&gt;")
+		case '"':
+			b.WriteString("&quot;")
+		case '\'':
+			b.WriteString("&apos;")
+		default:
+			b.WriteRune(c)
+		}
+	}
+	return b.String()
 }
 
 func parseMeta(rawMeta map[string]any) (meta Meta, err error) {
@@ -150,7 +271,7 @@ func parseMeta(rawMeta map[string]any) (meta Meta, err error) {
 	for val, rawTag := range rawTags {
 		_, typeOk := rawTag.(string)
 		if !typeOk {
-			return meta, errors.New(fmt.Sprintf("tag %q has wrong type", val))
+			return meta, errors.New(fmt.Sprintf("tag at index %d has wrong type", val))
 		}
 		meta.Tags = append(meta.Tags, rawTag.(string))
 	}

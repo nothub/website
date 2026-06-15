@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head.gohtml" -}}
+<body>
+{{ template "nav.gohtml" -}}
+<main style="text-align:center;padding:2rem">
+    {{ if eq . 404 }}
+        <img alt="404 gopher" src="/static/gophers/404.svg" style="max-height:300px">
+        <h1>404 — Not Found</h1>
+    {{ else if eq . 429 }}
+        <img alt="429 gopher" src="/static/gophers/429.svg" style="max-height:300px">
+        <h1>429 — Too Many Requests</h1>
+    {{ else if eq . 500 }}
+        <img alt="500 gopher" src="/static/gophers/500.svg" style="max-height:300px">
+        <h1>500 — Internal Server Error</h1>
+    {{ else }}
+        <h1>Error {{ . }}</h1>
+    {{ end }}
+</main>
+{{ template "footer.gohtml" -}}
+</body>
+</html>
