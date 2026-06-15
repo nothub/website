@@ -4,4 +4,6 @@ set -eu
 cd "$(dirname "$(realpath "$0")")/.."
 
 # shellcheck disable=SC2046
-go test -v -race -vet=all $(go list ./... | grep -v '/assets$')
+go test -v -race -vet=all -count=1 $(go list ./... | grep -v '/assets$')
+
+./scripts/e2e.sh
