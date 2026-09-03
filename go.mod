@@ -7,7 +7,7 @@ require (
 	github.com/elnormous/contenttype v1.0.4
 	github.com/mangoumbrella/goldmark-figure v1.4.0
 	github.com/spf13/pflag v1.0.10
-	github.com/yuin/goldmark v1.8.2
+	github.com/yuin/goldmark v1.8.5
 	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20230729083705-37449abec8cc
 	github.com/yuin/goldmark-meta v1.1.0
 	go.abhg.dev/goldmark/anchor v0.2.0
