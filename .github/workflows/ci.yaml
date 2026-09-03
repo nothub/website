@@ -35,13 +35,3 @@ jobs:
           --dest-creds "$DOCKERHUB_USERNAME:$DOCKERHUB_TOKEN"
           oci-archive:image.tar.gz
           docker://docker.io/$DOCKERHUB_USERNAME/website:latest
-
-#      - name: 'Trigger deployment'
-#        if: github.ref == 'refs/heads/trunk'
-#        run: >
-#          curl
-#          --fail
-#          --head
-#          --no-progress-meter
-#          --header "Authorization: Bearer ${{ secrets.WATCHTOWER_TOKEN }}"
-#          "${{ secrets.WATCHTOWER_URL }}"
