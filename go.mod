@@ -3,7 +3,7 @@ module github.com/nothub/website
 go 1.26.4
 
 require (
-	github.com/alecthomas/chroma/v2 v2.26.1
+	github.com/alecthomas/chroma/v2 v2.27.0
 	github.com/elnormous/contenttype v1.0.4
 	github.com/mangoumbrella/goldmark-figure v1.4.0
 	github.com/spf13/pflag v1.0.10
@@ -17,7 +17,7 @@ require (
 
 require (
 	codeberg.org/fhuebner/ocipack v0.2.0 // indirect
-	github.com/dlclark/regexp2/v2 v2.1.1 // indirect
+	github.com/dlclark/regexp2/v2 v2.2.1 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
 
