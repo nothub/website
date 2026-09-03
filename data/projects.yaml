@@ -141,14 +141,14 @@
   langs: [ "shell", "python" ]
 
 - title: "ocipack"
-  url: "https://codeberg.org/fhuebner/ocipack"
+  url: "https://github.com/nothub/ocipack"
   desc: "Zero-dependency Go library for packaging static binaries in minimal OCI image tarballs"
   role: "author"
   tags: [ "container", "library" ]
   langs: [ "go" ]
 
 - title: "gobonsai"
-  url: "https://codeberg.org/fhuebner/gobonsai"
+  url: "https://github.com/nothub/gobonsai"
   desc: "A bonsai tree generator (cbonsai ported to go)"
   role: "author"
   tags: [ "gimmick", "cli" ]

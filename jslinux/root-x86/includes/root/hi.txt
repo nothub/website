@@ -7,5 +7,4 @@ I live in northern Germany.
 
 email: contact@hub.lol
 github: https://github.com/nothub
-codeberg: https://codeberg.org/fhuebner
 linkedin: https://www.linkedin.com/in/flhuebner

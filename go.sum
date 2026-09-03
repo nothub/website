@@ -1,5 +1,3 @@
-codeberg.org/fhuebner/ocipack v0.2.0 h1:CJIPWCAT3i0NPMPlQ1GOe3RA0n5Surw4Ya4Fgz2oEmI=
-codeberg.org/fhuebner/ocipack v0.2.0/go.mod h1:x923/XB+Cc4djsR/L2oMghKIwBWfx4NN6K+xHEs4rkM=
 github.com/alecthomas/assert/v2 v2.11.0 h1:2Q9r3ki8+JYXvGsDyBXwH3LcJ+WK5D0gc5E8vS6K3D0=
 github.com/alecthomas/assert/v2 v2.11.0/go.mod h1:Bze95FyfUr7x34QZrjL+XP+0qgp/zg8yS+TtBj1WA3k=
 github.com/alecthomas/chroma/v2 v2.2.0/go.mod h1:vf4zrexSH54oEjJ7EdB65tGNHmH3pGZmVkgTP5RHvAs=
@@ -21,6 +19,8 @@ github.com/hexops/gotextdiff v1.0.3 h1:gitA9+qJrrTCsiCl7+kh75nPqQt1cx4ZkudSTLoUq
 github.com/hexops/gotextdiff v1.0.3/go.mod h1:pSWU5MAI3yDq+fZBTazCSJysOMbxWL1BSow5/V2vxeg=
 github.com/mangoumbrella/goldmark-figure v1.4.0 h1:2N0Gg1YPKjwuPSVsznA+A34iYGm6qQwQeZI8pa3XY+0=
 github.com/mangoumbrella/goldmark-figure v1.4.0/go.mod h1:iIL+fhdmCQDpE0l/TKtGhokWzIbo5lo/Y2OIAcx6usI=
+github.com/nothub/ocipack v0.2.0 h1:p3dV9bT3NWOVSxHj4n0tNVnFOA1A6OsKobYY2UyqG6c=
+github.com/nothub/ocipack v0.2.0/go.mod h1:x923/XB+Cc4djsR/L2oMghKIwBWfx4NN6K+xHEs4rkM=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/spf13/pflag v1.0.10 h1:4EBh2KAYBwaONj6b2Ye1GiHfwjqyROoF4RwYO+vPwFk=
