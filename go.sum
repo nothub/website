@@ -19,8 +19,8 @@ github.com/hexops/gotextdiff v1.0.3 h1:gitA9+qJrrTCsiCl7+kh75nPqQt1cx4ZkudSTLoUq
 github.com/hexops/gotextdiff v1.0.3/go.mod h1:pSWU5MAI3yDq+fZBTazCSJysOMbxWL1BSow5/V2vxeg=
 github.com/mangoumbrella/goldmark-figure v1.4.0 h1:2N0Gg1YPKjwuPSVsznA+A34iYGm6qQwQeZI8pa3XY+0=
 github.com/mangoumbrella/goldmark-figure v1.4.0/go.mod h1:iIL+fhdmCQDpE0l/TKtGhokWzIbo5lo/Y2OIAcx6usI=
-github.com/nothub/ocipack v0.2.0 h1:p3dV9bT3NWOVSxHj4n0tNVnFOA1A6OsKobYY2UyqG6c=
-github.com/nothub/ocipack v0.2.0/go.mod h1:x923/XB+Cc4djsR/L2oMghKIwBWfx4NN6K+xHEs4rkM=
+github.com/nothub/ocipack v0.3.0 h1:3rlnoNN4/s1vPCyXWDoCDM4rcfQBixXS8NEqjrtlKpg=
+github.com/nothub/ocipack v0.3.0/go.mod h1:zVUBzZZPNs+X4tGqHJozSLcAqKh1QAl4/gp2Svhzt1E=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/spf13/pflag v1.0.10 h1:4EBh2KAYBwaONj6b2Ye1GiHfwjqyROoF4RwYO+vPwFk=

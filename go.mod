@@ -1,6 +1,6 @@
 module github.com/nothub/website
 
-go 1.26.4
+go 1.27.1
 
 require (
 	github.com/alecthomas/chroma/v2 v2.27.0
@@ -15,13 +15,9 @@ require (
 )
 
 require (
-	codeberg.org/fhuebner/ocipack v0.2.0 // indirect
 	github.com/dlclark/regexp2/v2 v2.2.1 // indirect
+	github.com/nothub/ocipack v0.3.0 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
 
-// ocipack moved to github, but its go.mod still declares the codeberg module
-// path, so the module identity has to stay codeberg until upstream retags.
-replace codeberg.org/fhuebner/ocipack => github.com/nothub/ocipack v0.2.0
-
-tool codeberg.org/fhuebner/ocipack/cmd/ocipack
+tool github.com/nothub/ocipack/cmd/ocipack
