@@ -119,8 +119,9 @@ func main() {
 	handler := buildHandler(tmpl, slogger, optTrustProxy)
 
 	srv := &http.Server{
-		Addr:    ":8080",
-		Handler: handler,
+		Addr:              ":8080",
+		Handler:           handler,
+		ReadHeaderTimeout: 10 * time.Second,
 	}
 
 	go func() {
