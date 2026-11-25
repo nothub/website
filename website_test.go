@@ -185,3 +185,20 @@ func TestAtomNotOffered(t *testing.T) {
 		t.Errorf("Atom request got Content-Type %q", ct)
 	}
 }
+
+func TestRSSChannelDescription(t *testing.T) {
+	h := testHandler(t)
+	w := httptest.NewRecorder()
+	h.ServeHTTP(w, httptest.NewRequest("GET", "/rss.xml", nil))
+	var rss struct {
+		Channel struct {
+			Description string `xml:"description"`
+		} `xml:"channel"`
+	}
+	if err := xml.Unmarshal(w.Body.Bytes(), &rss); err != nil {
+		t.Fatal(err)
+	}
+	if rss.Channel.Description == "" {
+		t.Error("RSS channel has no description")
+	}
+}

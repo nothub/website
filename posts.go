@@ -225,6 +225,7 @@ func buildRSS(posts []PostEntry) string {
 	b.WriteString("  <channel>\n")
 	b.WriteString("    <title>hub.lol</title>\n")
 	b.WriteString("    <link>https://hub.lol</link>\n")
+	b.WriteString("    <description>Posts from hub.lol</description>\n")
 	for _, e := range posts {
 		b.WriteString("    <item>\n")
 		b.WriteString("      <title>" + xmlEscape(e.Meta.Title) + "</title>\n")
