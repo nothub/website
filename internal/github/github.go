@@ -88,21 +88,8 @@ func FetchRepoMeta(repo string) (*RepoMeta, error) {
 	}
 	defer res.Body.Close()
 
-	// https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
-	if res.StatusCode == 403 || res.StatusCode == 429 {
-		var dur time.Duration
-		if v := res.Header.Get("Retry-After"); v != "" {
-			secs, err := strconv.Atoi(v)
-			if err == nil {
-				dur = time.Duration(secs) * time.Second
-			}
-		} else if v := res.Header.Get("X-RateLimit-Reset"); v != "" {
-			unix, err := strconv.ParseInt(v, 10, 64)
-			if err == nil {
-				dur = time.Until(time.Unix(unix, 0))
-			}
-		}
-		return nil, RateLimitError{RetryAfter: dur}
+	if rle, ok := rateLimit(res); ok {
+		return nil, rle
 	}
 
 	if res.StatusCode < 200 || res.StatusCode >= 400 {
@@ -120,4 +107,32 @@ func FetchRepoMeta(repo string) (*RepoMeta, error) {
 	}
 
 	return &meta, nil
+}
+
+// rateLimit reports whether res is a rate-limit response. GitHub also sends 403
+// for plain permission errors, so a 403 only counts when it carries a
+// Retry-After or an exhausted X-RateLimit-Remaining.
+// https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
+func rateLimit(res *http.Response) (RateLimitError, bool) {
+	retryAfter := res.Header.Get("Retry-After")
+	switch {
+	case res.StatusCode == 429:
+	case res.StatusCode == 403 && (retryAfter != "" || res.Header.Get("X-RateLimit-Remaining") == "0"):
+	default:
+		return RateLimitError{}, false
+	}
+
+	var dur time.Duration
+	if retryAfter != "" {
+		secs, err := strconv.Atoi(retryAfter)
+		if err == nil {
+			dur = time.Duration(secs) * time.Second
+		}
+	} else if v := res.Header.Get("X-RateLimit-Reset"); v != "" {
+		unix, err := strconv.ParseInt(v, 10, 64)
+		if err == nil {
+			dur = time.Until(time.Unix(unix, 0))
+		}
+	}
+	return RateLimitError{RetryAfter: dur}, true
 }
