@@ -47,13 +47,18 @@ func buildHandler(tmpl *template.Template, logger *slog.Logger, trustProxy bool)
 	})
 
 	staticFS, _ := iofs.Sub(fs, "static")
+	staticServer, err := revalidatingFileServer(staticFS)
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
 	jslinuxFS, _ := iofs.Sub(fs, "jslinux")
-	jslinuxServer := http.StripPrefix("/jslinux", http.FileServerFS(jslinuxFS))
+	jslinuxFiles, err := revalidatingFileServer(jslinuxFS)
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
+	jslinuxServer := http.StripPrefix("/jslinux", jslinuxFiles)
 
-	mux.HandleFunc("GET /static/", func(w http.ResponseWriter, r *http.Request) {
-		setCacheHeader(w)
-		http.StripPrefix("/static", http.FileServerFS(staticFS)).ServeHTTP(w, r)
-	})
+	mux.Handle("GET /static/", http.StripPrefix("/static", staticServer))
 
 	mux.HandleFunc("GET /robots.txt", func(w http.ResponseWriter, r *http.Request) {
 		data, _ := fs.ReadFile("static/robots.txt")
@@ -86,7 +91,6 @@ func buildHandler(tmpl *template.Template, logger *slog.Logger, trustProxy bool)
 			return
 		}
 		if strings.HasPrefix(r.URL.Path, "/jslinux/") {
-			setCacheHeader(w)
 			jslinuxServer.ServeHTTP(w, r)
 			return
 		}

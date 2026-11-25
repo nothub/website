@@ -202,3 +202,26 @@ func TestRSSChannelDescription(t *testing.T) {
 		t.Error("RSS channel has no description")
 	}
 }
+
+func TestAssetRevalidation(t *testing.T) {
+	h := testHandler(t)
+	for _, path := range []string{"/static/style.css", "/jslinux/jslinux.js"} {
+		w := httptest.NewRecorder()
+		h.ServeHTTP(w, httptest.NewRequest("GET", path, nil))
+		if cc := w.Header().Get("Cache-Control"); cc != "no-cache" {
+			t.Errorf("GET %s Cache-Control = %q, want no-cache", path, cc)
+		}
+		etag := w.Header().Get("ETag")
+		if etag == "" {
+			t.Fatalf("GET %s has no ETag", path)
+		}
+
+		r := httptest.NewRequest("GET", path, nil)
+		r.Header.Set("If-None-Match", etag)
+		w = httptest.NewRecorder()
+		h.ServeHTTP(w, r)
+		if w.Code != http.StatusNotModified {
+			t.Errorf("GET %s with matching If-None-Match status = %d, want 304", path, w.Code)
+		}
+	}
+}
