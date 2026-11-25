@@ -28,12 +28,12 @@ func initProjects(mux *http.ServeMux, tmpl *template.Template) (err error) {
 
 	data, err := fs.ReadFile("data/projects.yaml")
 	if err != nil {
-		log.Fatalln(err.Error())
+		return err
 	}
 
 	var projects []Project
 	if err := yaml.Unmarshal(data, &projects); err != nil {
-		log.Fatalln(err.Error())
+		return err
 	}
 
 	for _, project := range projects {

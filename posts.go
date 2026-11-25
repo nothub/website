@@ -126,7 +126,7 @@ func initPosts(mux *http.ServeMux, tmpl *template.Template) (err error) {
 
 	sorted, err := loadPosts(fs, newGoldmark(), optLoadDrafts)
 	if err != nil {
-		log.Fatalln(err.Error())
+		return err
 	}
 
 	posts := make(map[string]Post, len(sorted))
