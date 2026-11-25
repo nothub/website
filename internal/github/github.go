@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -14,6 +15,8 @@ import (
 var client = &http.Client{
 	Timeout: time.Second * 10,
 }
+
+var apiURL = "https://api.github.com"
 
 type RateLimitError struct {
 	RetryAfter time.Duration
@@ -71,10 +74,36 @@ func FetchRepoMeta(repo string) (*RepoMeta, error) {
 
 	path := fmt.Sprintf("%s/%s", split[len(split)-2], split[len(split)-1])
 
-	u := "https://api.github.com/repos/" + path
+	var meta RepoMeta
+	if _, err := getJSON(apiURL+"/repos/"+path, &meta); err != nil {
+		return nil, err
+	}
+	return &meta, nil
+}
+
+// FetchUserRepos returns all public repos owned by user, following the
+// pagination links. The API returns at most 100 repos per page.
+func FetchUserRepos(user string) ([]RepoMeta, error) {
+	var all []RepoMeta
+	next := apiURL + "/users/" + url.PathEscape(user) + "/repos?per_page=100&type=owner"
+	for next != "" {
+		var page []RepoMeta
+		var err error
+		next, err = getJSON(next, &page)
+		if err != nil {
+			return nil, err
+		}
+		all = append(all, page...)
+	}
+	return all, nil
+}
+
+// getJSON decodes the response body of a GET to u into v and returns the
+// URL of the next page from the Link header, or "" on the last page.
+func getJSON(u string, v any) (next string, err error) {
 	req, err := http.NewRequest(http.MethodGet, u, nil)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	req.Header.Set("User-Agent", "hub.lol")
@@ -84,29 +113,41 @@ func FetchRepoMeta(repo string) (*RepoMeta, error) {
 
 	res, err := client.Do(req)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	defer res.Body.Close()
 
 	if rle, ok := rateLimit(res); ok {
-		return nil, rle
+		return "", rle
 	}
 
 	if res.StatusCode < 200 || res.StatusCode >= 400 {
-		return nil, errors.New("http status " + res.Status)
+		return "", errors.New("http status " + res.Status)
 	}
 
 	buf, err := io.ReadAll(res.Body)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	var meta RepoMeta
-	if err := json.Unmarshal(buf, &meta); err != nil {
-		return nil, err
+	if err := json.Unmarshal(buf, v); err != nil {
+		return "", err
 	}
 
-	return &meta, nil
+	return nextLink(res.Header.Get("Link")), nil
+}
+
+// nextLink extracts the rel="next" target from a Link header such as
+// `<https://...&page=2>; rel="next", <https://...&page=3>; rel="last"`.
+// https://docs.github.com/en/rest/using-the-rest-api/using-pagination-in-the-rest-api
+func nextLink(header string) string {
+	for _, part := range strings.Split(header, ",") {
+		target, params, ok := strings.Cut(part, ";")
+		if ok && strings.Contains(params, `rel="next"`) {
+			return strings.Trim(strings.TrimSpace(target), "<>")
+		}
+	}
+	return ""
 }
 
 // rateLimit reports whether res is a rate-limit response. GitHub also sends 403

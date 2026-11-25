@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"slices"
+	"strings"
 	"sync/atomic"
 	"time"
 
@@ -74,10 +75,26 @@ func initProjects(mux *http.ServeMux, tmpl *template.Template) (err error) {
 	return nil
 }
 
+// githubUser's repos come from one paginated listing instead of a request
+// per repo.
+const githubUser = "nothub"
+
 func fetchStars(projects []Project) []Project {
 	log.Printf("fetching github stars for %v projects\n", len(projects))
 
+	stars := make(map[string]int)
+	repos, err := withRetry(githubUser+"'s repos", func() ([]github.RepoMeta, error) {
+		return github.FetchUserRepos(githubUser)
+	})
+	if err != nil {
+		slog.Warn("failed to list repos, fetching one by one", "user", githubUser, "err", err)
+	}
+	for _, r := range repos {
+		stars[strings.ToLower(r.FullName)] = r.StargazersCount
+	}
+
 	updated := slices.Clone(projects)
+	fetched := false
 	for i, proj := range updated {
 		u, err := url.Parse(proj.Url)
 		if err != nil {
@@ -89,40 +106,48 @@ func fetchStars(projects []Project) []Project {
 			continue
 		}
 
-		var meta *github.RepoMeta
-		backoff := []time.Duration{0, 5 * time.Second, 10 * time.Second, 20 * time.Second}
-		for attempt, wait := range backoff {
-			if wait > 0 {
-				time.Sleep(wait)
-			}
-			meta, err = github.FetchRepoMeta(u.Path)
-			if err == nil {
-				break
-			}
-			var rle github.RateLimitError
-			if errors.As(err, &rle) {
-				cap := 90 * time.Minute
-				dur := rle.RetryAfter
-				if dur > cap {
-					dur = cap
-				}
-				log.Printf("rate limited fetching %s; waiting %s\n", proj.Url, dur)
-				time.Sleep(dur)
-				meta, err = github.FetchRepoMeta(u.Path)
-				break
-			}
-			log.Printf("attempt %d for %s: %s\n", attempt+1, proj.Url, err)
+		if n, ok := stars[strings.ToLower(strings.Trim(u.Path, "/"))]; ok {
+			updated[i].Stars = n
+			continue
 		}
 
-		if meta != nil {
-			updated[i].Stars = meta.StargazersCount
-		} else {
-			slog.Warn("failed to fetch stars", "url", proj.Url)
-		}
-
-		if i < len(updated)-1 {
+		if fetched {
 			time.Sleep(30 * time.Second)
 		}
+		fetched = true
+
+		meta, err := withRetry(proj.Url, func() (*github.RepoMeta, error) {
+			return github.FetchRepoMeta(u.Path)
+		})
+		if err != nil {
+			slog.Warn("failed to fetch stars", "url", proj.Url, "err", err)
+			continue
+		}
+		updated[i].Stars = meta.StargazersCount
 	}
 	return updated
+}
+
+func withRetry[T any](what string, fetch func() (T, error)) (T, error) {
+	var res T
+	var err error
+	backoff := []time.Duration{0, 5 * time.Second, 10 * time.Second, 20 * time.Second}
+	for attempt, wait := range backoff {
+		if wait > 0 {
+			time.Sleep(wait)
+		}
+		res, err = fetch()
+		if err == nil {
+			return res, nil
+		}
+		var rle github.RateLimitError
+		if errors.As(err, &rle) {
+			dur := min(rle.RetryAfter, 90*time.Minute)
+			log.Printf("rate limited fetching %s; waiting %s\n", what, dur)
+			time.Sleep(dur)
+			return fetch()
+		}
+		log.Printf("attempt %d for %s: %s\n", attempt+1, what, err)
+	}
+	return res, err
 }
