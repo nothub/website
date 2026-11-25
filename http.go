@@ -16,6 +16,7 @@ func writeError(w http.ResponseWriter, r *http.Request, code int, tmpl *template
 	available := []contenttype.MediaType{
 		contenttype.NewMediaType("text/html"),
 	}
+	w.Header().Add("Vary", "Accept")
 	_, _, err := contenttype.GetAcceptableMediaType(r, available)
 	if err != nil {
 		http.Error(w, http.StatusText(code), code)

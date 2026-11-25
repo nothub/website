@@ -163,3 +163,14 @@ func TestPostsSortedNewestFirst(t *testing.T) {
 		}
 	}
 }
+
+func TestVaryAccept(t *testing.T) {
+	h := testHandler(t)
+	for _, path := range []string{"/posts", "/posts/guestfish", "/this-does-not-exist"} {
+		w := httptest.NewRecorder()
+		h.ServeHTTP(w, httptest.NewRequest("GET", path, nil))
+		if v := w.Header().Get("Vary"); v != "Accept" {
+			t.Errorf("GET %s Vary = %q, want Accept", path, v)
+		}
+	}
+}

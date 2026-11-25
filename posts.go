@@ -143,6 +143,7 @@ func initPosts(mux *http.ServeMux, tmpl *template.Template) (err error) {
 			contenttype.NewMediaType("application/rss+xml"),
 			contenttype.NewMediaType("application/atom+xml"),
 		}
+		w.Header().Add("Vary", "Accept")
 		accepted, _, _ := contenttype.GetAcceptableMediaType(r, available)
 		mt := accepted.Type + "/" + accepted.Subtype
 		if mt == "application/rss+xml" || mt == "application/atom+xml" {
@@ -171,6 +172,7 @@ func initPosts(mux *http.ServeMux, tmpl *template.Template) (err error) {
 			contenttype.NewMediaType("text/html"),
 			contenttype.NewMediaType("text/markdown"),
 		}
+		w.Header().Add("Vary", "Accept")
 		accepted, _, _ := contenttype.GetAcceptableMediaType(r, available)
 		if accepted.Type+"/"+accepted.Subtype == "text/markdown" {
 			raw, err := fs.ReadFile("posts/" + slug + "/index.md")
