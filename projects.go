@@ -7,6 +7,8 @@ import (
 	"log/slog"
 	"net/http"
 	"net/url"
+	"slices"
+	"sync/atomic"
 	"time"
 
 	"github.com/nothub/website/internal/github"
@@ -45,17 +47,26 @@ func initProjects(mux *http.ServeMux, tmpl *template.Template) (err error) {
 		}
 	}
 
-	go fetchStars(&projects)
+	// Requests read the list while a refresh runs, so each refresh builds a
+	// new slice and swaps it in whole instead of writing into the shared one.
+	var current atomic.Pointer[[]Project]
+	current.Store(&projects)
+	refresh := func() {
+		updated := fetchStars(*current.Load())
+		current.Store(&updated)
+	}
+
+	go refresh()
 
 	ticker := time.NewTicker(24 * time.Hour)
 	go func() {
 		for range ticker.C {
-			fetchStars(&projects)
+			refresh()
 		}
 	}()
 
 	mux.HandleFunc("GET /projects", func(w http.ResponseWriter, r *http.Request) {
-		if err := tmpl.ExecuteTemplate(w, "projects.gohtml", projects); err != nil {
+		if err := tmpl.ExecuteTemplate(w, "projects.gohtml", *current.Load()); err != nil {
 			slog.Warn("template error", "err", err)
 		}
 	})
@@ -63,10 +74,11 @@ func initProjects(mux *http.ServeMux, tmpl *template.Template) (err error) {
 	return nil
 }
 
-func fetchStars(projects *[]Project) {
-	log.Printf("fetching github stars for %v projects\n", len(*projects))
+func fetchStars(projects []Project) []Project {
+	log.Printf("fetching github stars for %v projects\n", len(projects))
 
-	for i, proj := range *projects {
+	updated := slices.Clone(projects)
+	for i, proj := range updated {
 		u, err := url.Parse(proj.Url)
 		if err != nil {
 			log.Printf("invalid project url %s: %s\n", proj.Url, err)
@@ -103,13 +115,14 @@ func fetchStars(projects *[]Project) {
 		}
 
 		if meta != nil {
-			(*projects)[i].Stars = meta.StargazersCount
+			updated[i].Stars = meta.StargazersCount
 		} else {
 			slog.Warn("failed to fetch stars", "url", proj.Url)
 		}
 
-		if i < len(*projects)-1 {
+		if i < len(updated)-1 {
 			time.Sleep(30 * time.Second)
 		}
 	}
+	return updated
 }
