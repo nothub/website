@@ -133,25 +133,17 @@ func main() {
 		}
 	}()
 
+	signal.Ignore(syscall.SIGHUP)
 	signals := make(chan os.Signal, 1)
-	signal.Notify(signals, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM)
-	for {
-		sig := <-signals
-		log.Printf("signal received: %s\n", sig.String())
-		switch sig {
-		case syscall.SIGHUP:
-			log.Fatalf("unhandled signal: %s\n", sig.String())
-		case syscall.SIGINT, syscall.SIGTERM:
-			log.Println("shutting down server...")
-			ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
-			err := srv.Shutdown(ctx)
-			cancel()
-			if err != nil {
-				log.Fatalf("server shutdown error: %s\n", err)
-			}
-			os.Exit(0)
-		default:
-			log.Printf("unhandled signal: %s\n", sig.String())
-		}
+	signal.Notify(signals, syscall.SIGINT, syscall.SIGTERM)
+	sig := <-signals
+	log.Printf("signal received: %s\n", sig.String())
+	log.Println("shutting down server...")
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	err := srv.Shutdown(ctx)
+	cancel()
+	if err != nil {
+		log.Fatalf("server shutdown error: %s\n", err)
 	}
+	os.Exit(0)
 }
