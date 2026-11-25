@@ -22,6 +22,9 @@ func TestTrailingSlash(t *testing.T) {
 		{"/about/", 301, "/about"},
 		{"/posts/foo/", 301, "/posts/foo"},
 		{"/posts/foo/bar.png", 200, ""},
+		{"//evil.com/", 301, "/evil.com"},
+		{"/%2fevil.com/", 301, "/evil.com"},
+		{"/about/?a=b", 301, "/about?a=b"},
 	}
 
 	for _, tt := range tests {
