@@ -8,7 +8,6 @@ import (
 	iofs "io/fs"
 	"log"
 	"log/slog"
-	"math/rand"
 	"net/http"
 	"os"
 	"os/signal"
@@ -22,7 +21,7 @@ import (
 //go:embed data/* jslinux/* posts/* static/* templates/*
 var fs embed.FS
 
-func buildHandler(tmpl *template.Template, logger *slog.Logger, clacksRand *rand.Rand, trustProxy bool) http.Handler {
+func buildHandler(tmpl *template.Template, logger *slog.Logger, trustProxy bool) http.Handler {
 	mux := http.NewServeMux()
 
 	if err := initPosts(mux, tmpl); err != nil {
@@ -80,7 +79,7 @@ func buildHandler(tmpl *template.Template, logger *slog.Logger, clacksRand *rand
 	// jslinux must be served at /jslinux/ (with trailing slash) so that
 	// relative URLs in its JS resolve correctly via window.location.pathname.
 	// Dispatch it before TrailingSlash so the slash is never stripped.
-	muxHandler := middleware.TrailingSlash(middleware.Clacks(clacksRand)(mux))
+	muxHandler := middleware.TrailingSlash(middleware.Clacks(mux))
 	inner := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/jslinux" {
 			http.Redirect(w, r, "/jslinux/", http.StatusMovedPermanently)
@@ -113,8 +112,7 @@ func main() {
 		}
 	}
 
-	clacksRand := rand.New(rand.NewSource(time.Now().UnixNano()))
-	handler := buildHandler(tmpl, slogger, clacksRand, optTrustProxy)
+	handler := buildHandler(tmpl, slogger, optTrustProxy)
 
 	srv := &http.Server{
 		Addr:    ":8080",

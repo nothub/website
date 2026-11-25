@@ -4,7 +4,6 @@ import (
 	"encoding/xml"
 	"html/template"
 	"log/slog"
-	"math/rand"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -15,8 +14,7 @@ import (
 func testHandler(t *testing.T) http.Handler {
 	t.Helper()
 	tmpl := template.Must(template.New("").ParseFS(fs, "templates/*.gohtml"))
-	rng := rand.New(rand.NewSource(0))
-	return buildHandler(tmpl, slog.Default(), rng, false)
+	return buildHandler(tmpl, slog.Default(), false)
 }
 
 func TestRootRedirect(t *testing.T) {
