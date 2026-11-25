@@ -141,12 +141,10 @@ func initPosts(mux *http.ServeMux, tmpl *template.Template) (err error) {
 		available := []contenttype.MediaType{
 			contenttype.NewMediaType("text/html"),
 			contenttype.NewMediaType("application/rss+xml"),
-			contenttype.NewMediaType("application/atom+xml"),
 		}
 		w.Header().Add("Vary", "Accept")
 		accepted, _, _ := contenttype.GetAcceptableMediaType(r, available)
-		mt := accepted.Type + "/" + accepted.Subtype
-		if mt == "application/rss+xml" || mt == "application/atom+xml" {
+		if accepted.Type+"/"+accepted.Subtype == "application/rss+xml" {
 			serveRSS(w, sorted)
 			return
 		}

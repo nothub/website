@@ -174,3 +174,14 @@ func TestVaryAccept(t *testing.T) {
 		}
 	}
 }
+
+func TestAtomNotOffered(t *testing.T) {
+	h := testHandler(t)
+	r := httptest.NewRequest("GET", "/posts", nil)
+	r.Header.Set("Accept", "application/atom+xml")
+	w := httptest.NewRecorder()
+	h.ServeHTTP(w, r)
+	if ct := w.Header().Get("Content-Type"); strings.Contains(ct, "rss") {
+		t.Errorf("Atom request got Content-Type %q", ct)
+	}
+}
